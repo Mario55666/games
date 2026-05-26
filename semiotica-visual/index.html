@@ -3,395 +3,236 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Misión Semiótica estilo Sherlock Holmes · Semana 14 · Semiótica Visual · Unidad 4 · Modelo IUTPC" />
-<title>Baker Street Visual Lab · Misión Semiótica</title>
+<meta name="description" content="Misión Semiótica estilo Sherlock Holmes · Circuito interactivo · Semana 14 · Semiótica Visual · Unidad 4 · Modelo IUTPC" />
+<title>Baker Street Visual Lab · Circuito de la Misión Semiótica</title>
 <style>
 /* ============================================================
-   BAKER STREET VISUAL LAB — Estética Web 2.0 (2000–2010)
-   Degradados suaves · botones glossy · sombras marcadas ·
-   bordes redondeados · iconografía brillante · colores intensos
+   BAKER STREET VISUAL LAB — Circuito secuencial gamificado
+   Estética Web 2.0 (2000–2010): degradados, glossy, sombras,
+   bordes redondeados, iconografía brillante, colores intensos.
    ============================================================ */
+:root{
+  --c-paper:#fdf6e3; --c-card:#fffdf6; --c-card-edge:#e4d4a8;
+  --c-navy:#16314a; --c-navy-2:#21557e; --c-teal:#1f8a99;
+  --c-amber:#f5a623; --c-amber-2:#ffcb52; --c-red:#d0342c; --c-red-2:#ef5b52;
+  --c-green:#3f9b46; --c-green-2:#6fd07a;
+  --c-text:#21303f; --c-text-soft:#50657a;
+  --c-shadow:rgba(20,40,70,.28); --c-glow:rgba(245,166,35,.55);
+  --grad-header:linear-gradient(180deg,#2a6896 0%,#16314a 55%,#0e2236 100%);
+  --grad-page:radial-gradient(circle at 20% -10%,#2c5d86 0%,#16314a 38%,#0c1c2c 100%);
+  --font-display:"Georgia","Times New Roman",serif;
+  --font-body:"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --radius:16px;
+}
+html[data-theme="dark"]{
+  --c-paper:#16222e; --c-card:#1b2937; --c-card-edge:#2c4055;
+  --c-text:#e7eef5; --c-text-soft:#9fb4c7; --c-shadow:rgba(0,0,0,.55);
+  --grad-page:radial-gradient(circle at 20% -10%,#16344e 0%,#0d1c2b 45%,#060e16 100%);
+  --grad-header:linear-gradient(180deg,#1b466b 0%,#0c2236 60%,#060e16 100%);
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:var(--font-body);color:var(--c-text);background:var(--grad-page) fixed;background-color:#0c1c2c;line-height:1.55;-webkit-font-smoothing:antialiased;}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:22px 22px;}
 
-:root {
-  --c-ink: #1b2a3a;
-  --c-paper: #fdf6e3;
-  --c-paper-2: #f3e7c9;
-  --c-navy: #16314a;
-  --c-navy-2: #21557e;
-  --c-teal: #1f8a99;
-  --c-amber: #f5a623;
-  --c-amber-2: #ffcb52;
-  --c-red: #d0342c;
-  --c-red-2: #ef5b52;
-  --c-green: #3f9b46;
-  --c-green-2: #6fd07a;
-  --c-text: #21303f;
-  --c-text-soft: #50657a;
-  --c-card: #fffdf6;
-  --c-card-edge: #e4d4a8;
-  --c-shadow: rgba(20, 40, 70, .28);
-  --c-glow: rgba(245,166,35,.55);
-  --grad-header: linear-gradient(180deg,#2a6896 0%,#16314a 55%,#0e2236 100%);
-  --grad-page: radial-gradient(circle at 20% -10%, #2c5d86 0%, #16314a 38%, #0c1c2c 100%);
-  --font-display: "Georgia","Times New Roman",serif;
-  --font-body: "Segoe UI","Helvetica Neue",Arial,sans-serif;
-  --radius: 16px;
-}
+/* HEADER */
+header.app-header{position:sticky;top:0;z-index:50;background:var(--grad-header);border-bottom:3px solid var(--c-amber);box-shadow:0 6px 18px var(--c-shadow),inset 0 1px 0 rgba(255,255,255,.18);color:#fff;}
+.header-inner{max-width:1180px;margin:0 auto;padding:10px 18px;display:grid;gap:8px;grid-template-columns:auto 1fr auto;align-items:center;}
+.brand{display:flex;align-items:center;gap:12px;min-width:0;}
+.brand .seal{width:52px;height:52px;flex:none;border-radius:50%;background:radial-gradient(circle at 35% 28%,#ffe6a8 0%,var(--c-amber) 42%,#b9760d 100%);box-shadow:inset 0 2px 4px rgba(255,255,255,.7),inset 0 -4px 8px rgba(0,0,0,.35),0 3px 8px rgba(0,0,0,.4);display:grid;place-items:center;font-size:26px;}
+.brand h1{font-family:var(--font-display);font-size:1.16rem;margin:0;line-height:1.05;text-shadow:0 1px 0 rgba(0,0,0,.45);}
+.brand h1 small{display:block;font-size:.66rem;font-weight:400;color:var(--c-amber-2);letter-spacing:.12em;text-transform:uppercase;}
+.header-stats{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end;}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-weight:700;font-size:.8rem;background:linear-gradient(180deg,rgba(255,255,255,.32),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 2px 4px rgba(0,0,0,.3);text-shadow:0 1px 0 rgba(0,0,0,.3);white-space:nowrap;}
+.pill.score{background:linear-gradient(180deg,#7fe0ef,#1f8a99);border-color:#bff3fb;}
+.pill.badges{background:linear-gradient(180deg,#ffd86b,#e0890d);border-color:#ffe9b0;}
+.pill.phase{background:linear-gradient(180deg,#ef7d76,#b3221b);border-color:#ffb6b1;}
+.theme-toggle{cursor:pointer;border:1px solid rgba(255,255,255,.4);background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,.04));color:#fff;width:40px;height:40px;border-radius:12px;font-size:1.1rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 2px 5px rgba(0,0,0,.35);}
+.theme-toggle:active{transform:translateY(1px);}
+.progress-wrap{grid-column:1/-1;height:15px;border-radius:999px;overflow:hidden;background:linear-gradient(180deg,#0a1828,#13283c);box-shadow:inset 0 2px 4px rgba(0,0,0,.6),0 1px 0 rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.15);position:relative;}
+.progress-bar{height:100%;width:0%;background:linear-gradient(180deg,#ffe07a 0%,var(--c-amber) 50%,#c9810c 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 -3px 6px rgba(0,0,0,.25);transition:width .5s cubic-bezier(.2,.9,.3,1);}
+.progress-label{position:absolute;inset:0;display:grid;place-items:center;font-size:.68rem;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.7);letter-spacing:.04em;}
 
-html[data-theme="dark"] {
-  --c-paper: #16222e;
-  --c-paper-2: #1d2c3a;
-  --c-card: #1b2937;
-  --c-card-edge: #2c4055;
-  --c-text: #e7eef5;
-  --c-text-soft: #9fb4c7;
-  --c-shadow: rgba(0,0,0,.55);
-  --grad-page: radial-gradient(circle at 20% -10%, #16344e 0%, #0d1c2b 45%, #060e16 100%);
-  --grad-header: linear-gradient(180deg,#1b466b 0%,#0c2236 60%,#060e16 100%);
-}
+/* CIRCUIT MAP */
+.circuit{position:sticky;top:96px;z-index:40;background:rgba(8,20,32,.82);backdrop-filter:blur(4px);border-bottom:1px solid rgba(255,255,255,.08);}
+.circuit-inner{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;gap:6px;align-items:center;overflow-x:auto;}
+.node{flex:none;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;opacity:.55;min-width:74px;}
+.node.reached{opacity:1;}
+.node .dot{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:1.1rem;background:linear-gradient(180deg,#3a546c,#1d3040);border:2px solid #55708a;box-shadow:inset 0 1px 0 rgba(255,255,255,.25);color:#cfe0ee;}
+.node.reached .dot{background:linear-gradient(180deg,#ffe07a,#e0890d);border-color:#ffe6a0;color:#3a2400;}
+.node.current .dot{box-shadow:0 0 0 3px var(--c-glow),inset 0 1px 0 rgba(255,255,255,.5);transform:scale(1.08);}
+.node.done .dot::after{content:"✓";position:absolute;}
+.node .lbl{font-size:.62rem;font-weight:700;color:#cfe0ee;text-align:center;line-height:1.1;}
+.node.reached .lbl{color:#fff;}
+.connector{flex:none;width:26px;height:3px;border-radius:3px;background:repeating-linear-gradient(90deg,#55708a 0 6px,transparent 6px 11px);align-self:center;margin-top:-14px;}
 
-* { box-sizing: border-box; }
+/* STEP VIEWPORT */
+main{max-width:880px;margin:0 auto;padding:22px 16px 110px;position:relative;z-index:1;}
+.step-card{background:var(--c-card);border:1px solid var(--c-card-edge);border-radius:var(--radius);box-shadow:0 10px 28px var(--c-shadow),inset 0 1px 0 rgba(255,255,255,.6);overflow:hidden;animation:stepIn .35s ease;}
+@keyframes stepIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+.step-top{padding:16px 20px;color:#fff;background:linear-gradient(135deg,var(--c-navy-2),var(--c-navy) 72%);position:relative;overflow:hidden;}
+.step-top::after{content:"";position:absolute;top:0;left:0;right:0;height:46%;background:linear-gradient(180deg,rgba(255,255,255,.22),transparent);pointer-events:none;}
+.step-kicker{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--c-amber-2);font-weight:800;}
+.step-top h2{font-family:var(--font-display);margin:4px 0 0;font-size:1.4rem;text-shadow:0 2px 3px rgba(0,0,0,.5);}
+.step-body{padding:20px;display:flex;flex-direction:column;gap:16px;}
 
-body {
-  margin: 0;
-  font-family: var(--font-body);
-  color: var(--c-text);
-  background: var(--grad-page) fixed;
-  background-color: #0c1c2c;
-  line-height: 1.55;
-  -webkit-font-smoothing: antialiased;
-}
+/* narrative */
+.story{font-size:1.02rem;color:var(--c-text);background:var(--c-paper);border-left:5px solid var(--c-amber);border-radius:10px;padding:14px 16px;box-shadow:inset 0 1px 0 #fff;}
+.story p{margin:0 0 10px;}
+.story p:last-child{margin:0;}
+.story .holmes{font-style:italic;color:var(--c-text-soft);}
+.brief-grid{display:grid;gap:10px;}
+.brief-grid .row{background:var(--c-paper);border:1px solid var(--c-card-edge);border-radius:10px;padding:10px 14px;}
+.brief-grid .row b{color:var(--c-navy);}
+html[data-theme="dark"] .brief-grid .row b{color:var(--c-amber-2);}
 
-/* faint dotted "evidence board" texture */
-body::before {
-  content: "";
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  background-image: radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);
-  background-size: 22px 22px;
-}
+/* question item */
+.qitem{border:1px solid var(--c-card-edge);border-radius:12px;padding:14px;background:linear-gradient(180deg,rgba(255,255,255,.5),transparent);}
+html[data-theme="dark"] .qitem{background:linear-gradient(180deg,rgba(255,255,255,.05),transparent);}
+.qhead{display:flex;gap:10px;align-items:center;margin-bottom:8px;}
+.q-icon{width:32px;height:32px;flex:none;border-radius:9px;display:grid;place-items:center;font-size:1rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 -3px 5px rgba(0,0,0,.25),0 2px 4px rgba(0,0,0,.25);}
+.q-icon.open{background:radial-gradient(circle at 35% 28%,#9be7ff,var(--c-teal) 70%);color:#063a42;}
+.q-icon.closed{background:radial-gradient(circle at 35% 28%,#ffb1ab,var(--c-red) 70%);color:#fff;}
+.q-tag{font-size:.66rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--c-text-soft);}
+.q-pts{margin-left:auto;font-size:.7rem;font-weight:800;color:#fff;padding:3px 9px;border-radius:999px;background:linear-gradient(180deg,#6fd07a,#2f7a3a);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 2px 4px rgba(0,0,0,.3);white-space:nowrap;}
+.q-text{font-weight:600;margin-bottom:8px;}
+.q-just{font-size:.74rem;color:var(--c-text-soft);font-style:italic;}
+textarea,input.open-input{width:100%;font:inherit;color:var(--c-text);padding:10px 12px;border-radius:12px;border:1px solid var(--c-card-edge);background:linear-gradient(180deg,#fbf5e4,#fffdf8);box-shadow:inset 0 2px 4px rgba(0,0,0,.12);resize:vertical;min-height:64px;}
+html[data-theme="dark"] textarea,html[data-theme="dark"] input.open-input{background:linear-gradient(180deg,#13202c,#1a2b3a);}
+input.open-input{min-height:0;}
+textarea:focus,input.open-input:focus{outline:none;border-color:var(--c-amber);box-shadow:inset 0 2px 4px rgba(0,0,0,.12),0 0 0 3px var(--c-glow);}
+.charmeter{font-size:.72rem;color:var(--c-text-soft);display:flex;justify-content:space-between;gap:8px;margin-top:6px;}
+.status{font-size:.78rem;font-weight:700;padding:6px 10px;border-radius:10px;display:none;align-items:center;gap:6px;margin-top:6px;}
+.status.ok{display:flex;color:#1d5e26;background:#dff5e1;border:1px solid #aadcb0;}
+.status.pending{display:flex;color:#8a5a00;background:#fdf0cf;border:1px solid #f0d68c;}
+html[data-theme="dark"] .status.ok{background:#13351a;color:#9fe6a9;border-color:#2c6b37;}
+html[data-theme="dark"] .status.pending{background:#3a2e0e;color:#ffd97a;border-color:#7a5e1c;}
+.options{display:flex;flex-direction:column;gap:8px;}
+.opt{display:flex;gap:10px;align-items:flex-start;cursor:pointer;padding:10px 12px;border-radius:12px;background:linear-gradient(180deg,#fff,#eef3f7);border:1px solid #cfdbe5;box-shadow:inset 0 1px 0 #fff,0 1px 3px rgba(0,0,0,.18);transition:transform .08s,box-shadow .15s;}
+html[data-theme="dark"] .opt{background:linear-gradient(180deg,#1f3041,#172533);border-color:#33485c;box-shadow:none;}
+.opt:hover{transform:translateY(-1px);}
+.opt input{margin-top:3px;accent-color:var(--c-teal);transform:scale(1.2);}
+.opt.correct{background:linear-gradient(180deg,#dff5e1,#bfe9c5);border-color:#74c47e;}
+.opt.wrong{background:linear-gradient(180deg,#fde2e0,#f6c2bd);border-color:#e08a83;}
+.opt .opt-letter{font-weight:800;color:var(--c-navy);}
+html[data-theme="dark"] .opt .opt-letter{color:var(--c-amber-2);}
+.feedback{display:none;margin-top:8px;font-size:.82rem;border-radius:12px;padding:10px 12px;background:linear-gradient(180deg,#eef7ff,#dbeeff);border:1px solid #acd2f0;color:#13405e;}
+html[data-theme="dark"] .feedback{background:#102739;border-color:#2b5274;color:#bfe0fb;}
+.feedback.show{display:block;}
 
-/* ===================== HEADER ===================== */
-header.app-header {
-  position: sticky; top: 0; z-index: 50;
-  background: var(--grad-header);
-  border-bottom: 3px solid var(--c-amber);
-  box-shadow: 0 6px 18px var(--c-shadow), inset 0 1px 0 rgba(255,255,255,.18);
-  color: #fff;
-}
-.header-inner {
-  max-width: 1280px; margin: 0 auto; padding: 10px 18px;
-  display: grid; gap: 8px;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-}
-.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.brand .seal {
-  width: 52px; height: 52px; flex: none;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 28%, #ffe6a8 0%, var(--c-amber) 42%, #b9760d 100%);
-  box-shadow: inset 0 2px 4px rgba(255,255,255,.7), inset 0 -4px 8px rgba(0,0,0,.35), 0 3px 8px rgba(0,0,0,.4);
-  display: grid; place-items: center; font-size: 26px;
-}
-.brand h1 {
-  font-family: var(--font-display); font-size: 1.18rem; margin: 0; line-height: 1.05;
-  text-shadow: 0 1px 0 rgba(0,0,0,.45);
-}
-.brand h1 small { display: block; font-size: .68rem; font-weight: 400; color: var(--c-amber-2); letter-spacing: .12em; text-transform: uppercase; }
+/* investigation / prompts */
+.invscene{background:var(--c-paper);border:1px dashed var(--c-card-edge);border-radius:12px;padding:14px;}
+.invscene .lead{font-weight:600;margin-bottom:10px;}
+.prompt-card{background:var(--c-card);border:1px solid var(--c-card-edge);border-radius:12px;padding:12px;margin-bottom:10px;box-shadow:0 3px 8px var(--c-shadow);}
+.prompt-card h4{margin:0 0 4px;font-size:.92rem;color:var(--c-navy);display:flex;align-items:center;gap:8px;}
+html[data-theme="dark"] .prompt-card h4{color:var(--c-amber-2);}
+.prompt-card .emphasis{font-size:.72rem;color:var(--c-text-soft);font-style:italic;margin-bottom:8px;}
+.prompt-text{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.8rem;background:linear-gradient(180deg,#0e2233,#14304a);color:#e9d9a8;border-radius:8px;padding:10px;white-space:pre-wrap;border:1px solid #0a1828;}
+.copy-row{display:flex;gap:8px;align-items:center;margin-top:8px;}
+.copy-ok{font-size:.74rem;font-weight:700;color:var(--c-green);display:none;}
+.copy-ok.show{display:inline;}
 
-.header-stats { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
-.pill {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 5px 12px; border-radius: 999px; font-weight: 700; font-size: .82rem;
-  background: linear-gradient(180deg, rgba(255,255,255,.32), rgba(255,255,255,.05));
-  border: 1px solid rgba(255,255,255,.35);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 2px 4px rgba(0,0,0,.3);
-  text-shadow: 0 1px 0 rgba(0,0,0,.3); white-space: nowrap;
-}
-.pill.score { background: linear-gradient(180deg,#7fe0ef,#1f8a99); border-color:#bff3fb; }
-.pill.badges { background: linear-gradient(180deg,#ffd86b,#e0890d); border-color:#ffe9b0; }
-.pill.phase { background: linear-gradient(180deg,#ef7d76,#b3221b); border-color:#ffb6b1; }
+/* games */
+.game-wrap{background:var(--c-paper);border:2px solid var(--c-amber);border-radius:14px;padding:14px;box-shadow:inset 0 1px 0 #fff,0 4px 12px var(--c-shadow);}
+.game-wrap .gtitle{font-family:var(--font-display);font-weight:bold;color:var(--c-navy);display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+html[data-theme="dark"] .game-wrap .gtitle{color:var(--c-amber-2);}
+.game-wrap .grules{font-size:.8rem;color:var(--c-text-soft);margin-bottom:12px;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{cursor:pointer;padding:9px 13px;border-radius:11px;font-weight:700;font-size:.84rem;background:linear-gradient(180deg,#fff,#dfeaf2);border:1px solid #b9cad8;color:var(--c-navy);box-shadow:inset 0 1px 0 #fff,0 2px 5px rgba(0,0,0,.25);transition:transform .1s;}
+html[data-theme="dark"] .chip{background:linear-gradient(180deg,#243748,#1b2b3a);color:#e7eef5;border-color:#33485c;}
+.chip.sel{outline:3px solid var(--c-glow);transform:translateY(-1px);}
+.chip.locked{background:linear-gradient(180deg,#dff5e1,#bfe9c5);border-color:#74c47e;color:#1d5e26;cursor:default;}
+.chip.order-num{background:linear-gradient(180deg,#ffe07a,#e0890d);border-color:#ffe6a0;color:#3a2400;}
+.chip.shake{animation:shake .4s;}
+@keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-6px);}40%,80%{transform:translateX(6px);}}
+.bins{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;}
+.bin{border:2px dashed var(--c-card-edge);border-radius:12px;padding:12px;min-height:90px;background:rgba(0,0,0,.03);}
+html[data-theme="dark"] .bin{background:rgba(255,255,255,.04);}
+.bin h5{margin:0 0 8px;font-size:.82rem;color:var(--c-navy);}
+html[data-theme="dark"] .bin h5{color:var(--c-amber-2);}
+.bin.flash{animation:shake .4s;border-color:var(--c-red);}
+.match-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.match-cols .col{display:flex;flex-direction:column;gap:8px;}
+.match-cols .col h5{margin:0 0 4px;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--c-text-soft);}
+.game-done{margin-top:12px;font-weight:800;color:var(--c-green);display:none;align-items:center;gap:8px;}
+.game-done.show{display:flex;}
+.game-msg{margin-top:8px;font-size:.82rem;min-height:1.2em;color:var(--c-text-soft);}
 
-.theme-toggle {
-  cursor: pointer; border: 1px solid rgba(255,255,255,.4); background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,.04));
-  color:#fff; width: 40px; height: 40px; border-radius: 12px; font-size: 1.1rem;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 2px 5px rgba(0,0,0,.35);
-}
-.theme-toggle:active { transform: translateY(1px); }
+/* hotspot svg */
+.poster{width:100%;max-width:360px;margin:0 auto;display:block;border-radius:10px;border:1px solid var(--c-card-edge);box-shadow:0 4px 10px var(--c-shadow);}
+.poster [data-hot]{cursor:pointer;transition:opacity .15s;}
+.poster [data-hot]:hover{opacity:.8;}
 
-.progress-wrap {
-  grid-column: 1 / -1;
-  height: 16px; border-radius: 999px; overflow: hidden;
-  background: linear-gradient(180deg,#0a1828,#13283c);
-  box-shadow: inset 0 2px 4px rgba(0,0,0,.6), 0 1px 0 rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.15);
-  position: relative;
-}
-.progress-bar {
-  height: 100%; width: 0%;
-  background: linear-gradient(180deg,#ffe07a 0%, var(--c-amber) 50%, #c9810c 100%);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.7), inset 0 -3px 6px rgba(0,0,0,.25);
-  transition: width .5s cubic-bezier(.2,.9,.3,1);
-}
-.progress-label {
-  position: absolute; inset: 0; display: grid; place-items: center;
-  font-size: .7rem; font-weight: 700; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.7); letter-spacing: .05em;
-}
+/* tables */
+.info-panel{background:var(--c-paper);border:1px solid var(--c-card-edge);border-radius:12px;padding:14px;}
+.info-panel h3{font-family:var(--font-display);margin:0 0 10px;color:var(--c-navy);}
+html[data-theme="dark"] .info-panel h3{color:var(--c-amber-2);}
+table.grid{width:100%;border-collapse:collapse;font-size:.84rem;}
+table.grid th,table.grid td{border:1px solid var(--c-card-edge);padding:8px 10px;text-align:left;vertical-align:top;}
+table.grid th{background:linear-gradient(180deg,#2a6896,#16314a);color:#fff;}
+table.grid tbody tr:nth-child(even) td{background:rgba(0,0,0,.04);}
+html[data-theme="dark"] table.grid tbody tr:nth-child(even) td{background:rgba(255,255,255,.04);}
+.checklist{display:flex;flex-direction:column;gap:8px;}
+.chk-item{display:flex;gap:10px;align-items:center;cursor:pointer;padding:10px 12px;border-radius:12px;background:linear-gradient(180deg,#fff,#eef3f7);border:1px solid #cfdbe5;}
+html[data-theme="dark"] .chk-item{background:linear-gradient(180deg,#1f3041,#172533);border-color:#33485c;}
+.chk-item input{transform:scale(1.3);accent-color:var(--c-green);}
+.chk-item.done{background:linear-gradient(180deg,#dff5e1,#bfe9c5);border-color:#74c47e;}
 
-/* phase nav (sticky chips) */
-.phase-nav {
-  position: sticky; top: 92px; z-index: 40;
-  max-width: 1280px; margin: 14px auto 0; padding: 0 14px;
-  display: flex; gap: 8px; overflow-x: auto; scrollbar-width: thin;
-}
-.phase-nav button {
-  flex: none; cursor: pointer; font-weight: 700; font-size: .8rem;
-  padding: 8px 14px; border-radius: 999px; color: var(--c-navy);
-  background: linear-gradient(180deg,#ffffff,#dfeaf2);
-  border: 1px solid #b9cad8;
-  box-shadow: inset 0 1px 0 #fff, 0 2px 5px rgba(0,0,0,.35);
-  white-space: nowrap;
-}
-.phase-nav button.active {
-  background: linear-gradient(180deg,#ffd96a,#e0890d); color:#3a2400; border-color:#ffe6a0;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 0 12px var(--c-glow);
-}
+/* buttons + nav */
+.btn{cursor:pointer;font:inherit;font-weight:800;color:#3a2400;padding:11px 20px;border-radius:13px;border:1px solid #ffe6a0;background:linear-gradient(180deg,#ffe07a 0%,var(--c-amber) 55%,#c9810c 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 4px 10px rgba(0,0,0,.4);text-shadow:0 1px 0 rgba(255,255,255,.4);}
+.btn:hover{filter:brightness(1.06);}
+.btn:active{transform:translateY(2px);}
+.btn:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(.5);transform:none;}
+.btn.solve{background:linear-gradient(180deg,#7fe0ef,#1f8a99);color:#053038;border-color:#bff3fb;}
+.btn.ghost{background:linear-gradient(180deg,#fff,#dfeaf2);color:var(--c-navy);border-color:#b9cad8;}
+.btn.small{padding:7px 13px;font-size:.8rem;border-radius:10px;}
+.navbar{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--grad-header);border-top:2px solid var(--c-amber);box-shadow:0 -6px 16px var(--c-shadow);}
+.navbar-inner{max-width:880px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px;}
+.navbar .hint{flex:1;color:#cfe0ee;font-size:.8rem;}
+.navbar .hint b{color:var(--c-amber-2);}
 
-/* ===================== LAYOUT ===================== */
-main { max-width: 1280px; margin: 0 auto; padding: 18px 14px 80px; position: relative; z-index: 1; }
+/* badges */
+.badge-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;}
+.badge{text-align:center;padding:12px 8px;border-radius:14px;background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.1));border:1px dashed var(--c-card-edge);opacity:.5;filter:grayscale(.8);transition:all .4s;}
+.badge.unlocked{opacity:1;filter:none;border-style:solid;border-color:var(--c-amber);background:linear-gradient(180deg,#fff7e2,#ffe9b8);box-shadow:0 0 16px var(--c-glow),inset 0 1px 0 #fff;}
+html[data-theme="dark"] .badge.unlocked{background:linear-gradient(180deg,#3a2e0e,#5a4514);}
+.badge .medal{width:54px;height:54px;margin:0 auto 8px;border-radius:50%;background:radial-gradient(circle at 35% 28%,#ffe6a8,var(--c-amber) 55%,#9c6709 100%);box-shadow:inset 0 2px 4px rgba(255,255,255,.8),inset 0 -5px 9px rgba(0,0,0,.4),0 3px 7px rgba(0,0,0,.4);display:grid;place-items:center;font-size:1.7rem;}
+.badge.unlocked .medal{animation:pop .5s;}
+@keyframes pop{0%{transform:scale(.4) rotate(-20deg);}70%{transform:scale(1.15);}100%{transform:scale(1);}}
+.badge .b-name{font-size:.76rem;font-weight:800;}
+.badge .b-status{font-size:.64rem;color:var(--c-text-soft);}
 
-.phase-section { scroll-margin-top: 150px; margin-bottom: 34px; }
+/* result overlay */
+.overlay{display:none;position:fixed;inset:0;z-index:100;background:rgba(6,14,22,.78);backdrop-filter:blur(3px);place-items:center;padding:18px;}
+.overlay.show{display:grid;}
+.result-card{max-width:540px;width:100%;background:var(--c-paper);border-radius:20px;border:2px solid var(--c-amber);box-shadow:0 18px 50px rgba(0,0,0,.6);padding:26px;text-align:center;animation:stepIn .4s ease;}
+.result-card .rank-seal{width:104px;height:104px;margin:0 auto 12px;border-radius:50%;background:radial-gradient(circle at 35% 28%,#ffe6a8,var(--c-amber) 52%,#9c6709 100%);box-shadow:inset 0 3px 6px rgba(255,255,255,.8),inset 0 -7px 12px rgba(0,0,0,.45),0 5px 12px rgba(0,0,0,.5);display:grid;place-items:center;font-size:2.9rem;}
+.result-card h2{font-family:var(--font-display);color:var(--c-navy);margin:6px 0;}
+html[data-theme="dark"] .result-card h2{color:var(--c-amber-2);}
+.result-score{font-size:2.6rem;font-weight:900;color:var(--c-teal);line-height:1;}
+.result-card .rank-name{font-size:1.3rem;font-weight:800;color:var(--c-red);margin:8px 0;}
+.result-card .rank-msg{color:var(--c-text-soft);font-size:.92rem;}
+.result-breakdown{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:14px 0;}
+.result-breakdown span{font-size:.76rem;font-weight:700;background:rgba(0,0,0,.06);padding:6px 12px;border-radius:999px;}
+html[data-theme="dark"] .result-breakdown span{background:rgba(255,255,255,.08);}
 
-.phase-banner {
-  border-radius: var(--radius);
-  padding: 18px 20px;
-  color: #fff;
-  background: linear-gradient(135deg, var(--c-navy-2), var(--c-navy) 70%);
-  box-shadow: 0 8px 22px var(--c-shadow), inset 0 1px 0 rgba(255,255,255,.22);
-  border: 1px solid rgba(255,255,255,.18);
-  position: relative; overflow: hidden;
-}
-.phase-banner::after { /* glossy sheen */
-  content:""; position:absolute; top:0; left:0; right:0; height:48%;
-  background: linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,0));
-  pointer-events:none;
-}
-.phase-banner .ph-top { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
-.phase-banner .ph-num {
-  width:54px; height:54px; flex:none; border-radius:14px; display:grid; place-items:center;
-  font-family: var(--font-display); font-size:1.6rem; font-weight:bold; color:#3a2400;
-  background: radial-gradient(circle at 35% 28%, #ffe6a8, var(--c-amber) 60%, #b9760d);
-  box-shadow: inset 0 2px 3px rgba(255,255,255,.7), inset 0 -3px 6px rgba(0,0,0,.3), 0 3px 7px rgba(0,0,0,.4);
-}
-.phase-banner h2 { font-family: var(--font-display); margin: 0; font-size: 1.45rem; text-shadow: 0 2px 3px rgba(0,0,0,.5); }
-.phase-banner .ph-time { font-size:.78rem; color: var(--c-amber-2); letter-spacing:.12em; text-transform:uppercase; font-weight:700; }
-.phase-banner p { margin: 10px 0 0; color: #d7e6f2; font-size: .95rem; }
-.phase-banner .ph-dyn { margin-top:10px; font-style: italic; color:#fff; background: rgba(0,0,0,.22); border-left:4px solid var(--c-amber); padding:8px 12px; border-radius:8px; }
+/* toast */
+.toast-wrap{position:fixed;right:16px;bottom:80px;z-index:120;display:flex;flex-direction:column;gap:10px;}
+.toast{background:linear-gradient(180deg,#fff7e2,#ffe9b8);color:#3a2400;border:1px solid var(--c-amber);border-radius:14px;padding:12px 16px;display:flex;gap:10px;align-items:center;font-weight:700;box-shadow:0 8px 22px rgba(0,0,0,.5);animation:slidein .4s ease;max-width:300px;}
+@keyframes slidein{from{transform:translateX(120%);}to{transform:none;}}
+.toast .t-medal{font-size:1.6rem;}
 
-.cards { margin-top: 16px; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
-
-.card {
-  background: var(--c-card);
-  border: 1px solid var(--c-card-edge);
-  border-radius: var(--radius);
-  box-shadow: 0 6px 16px var(--c-shadow), inset 0 1px 0 rgba(255,255,255,.6);
-  overflow: hidden;
-  display: flex; flex-direction: column;
+@media (max-width:768px){
+  .header-inner{grid-template-columns:1fr auto;}
+  .brand h1{font-size:1rem;}
+  .circuit{top:118px;}
+  .bins,.match-cols{grid-template-columns:1fr;}
 }
-.card-head {
-  padding: 12px 16px; display: flex; gap: 10px; align-items: center;
-  background: linear-gradient(180deg,#fff,rgba(0,0,0,0));
-  border-bottom: 1px dashed var(--c-card-edge);
-}
-html[data-theme="dark"] .card-head { background: linear-gradient(180deg,rgba(255,255,255,.06),rgba(0,0,0,0)); }
-.q-icon {
-  width: 34px; height: 34px; flex: none; border-radius: 9px; display: grid; place-items: center; font-size: 1.05rem;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.7), inset 0 -3px 5px rgba(0,0,0,.25), 0 2px 4px rgba(0,0,0,.25);
-}
-.q-icon.open  { background: radial-gradient(circle at 35% 28%, #9be7ff, var(--c-teal) 70%); color:#063a42; }
-.q-icon.closed{ background: radial-gradient(circle at 35% 28%, #ffb1ab, var(--c-red) 70%); color:#fff; }
-.q-tag { font-size:.66rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color: var(--c-text-soft); }
-.q-pts { margin-left:auto; font-size:.72rem; font-weight:800; color:#fff; padding:3px 9px; border-radius:999px;
-  background: linear-gradient(180deg,#6fd07a,#2f7a3a); box-shadow: inset 0 1px 0 rgba(255,255,255,.6),0 2px 4px rgba(0,0,0,.3); white-space:nowrap; }
-.card-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 10px; }
-.q-text { font-weight: 600; color: var(--c-text); }
-.q-just { font-size: .76rem; color: var(--c-text-soft); font-style: italic; }
-
-textarea, input.open-input {
-  width: 100%; font: inherit; color: var(--c-text);
-  padding: 10px 12px; border-radius: 12px;
-  border: 1px solid var(--c-card-edge);
-  background: linear-gradient(180deg,#fbf5e4, #fffdf8);
-  box-shadow: inset 0 2px 4px rgba(0,0,0,.12);
-  resize: vertical; min-height: 70px;
-}
-html[data-theme="dark"] textarea, html[data-theme="dark"] input.open-input { background: linear-gradient(180deg,#13202c,#1a2b3a); }
-input.open-input { min-height: 0; }
-textarea:focus, input.open-input:focus { outline: none; border-color: var(--c-amber); box-shadow: inset 0 2px 4px rgba(0,0,0,.12), 0 0 0 3px var(--c-glow); }
-
-.charmeter { font-size:.72rem; color: var(--c-text-soft); display:flex; justify-content:space-between; align-items:center; }
-.status {
-  font-size:.78rem; font-weight:700; padding:6px 10px; border-radius:10px; display:none; align-items:center; gap:6px;
-}
-.status.ok { display:flex; color:#1d5e26; background:#dff5e1; border:1px solid #aadcb0; }
-.status.pending { display:flex; color:#8a5a00; background:#fdf0cf; border:1px solid #f0d68c; }
-html[data-theme="dark"] .status.ok { background:#13351a; color:#9fe6a9; border-color:#2c6b37; }
-html[data-theme="dark"] .status.pending { background:#3a2e0e; color:#ffd97a; border-color:#7a5e1c; }
-
-/* closed-question options */
-.options { display: flex; flex-direction: column; gap: 8px; }
-.opt {
-  display: flex; gap: 10px; align-items: flex-start; cursor: pointer;
-  padding: 10px 12px; border-radius: 12px;
-  background: linear-gradient(180deg,#ffffff,#eef3f7);
-  border: 1px solid #cfdbe5;
-  box-shadow: inset 0 1px 0 #fff, 0 1px 3px rgba(0,0,0,.18);
-  transition: transform .08s, box-shadow .15s;
-}
-html[data-theme="dark"] .opt { background: linear-gradient(180deg,#1f3041,#172533); border-color:#33485c; box-shadow:none; }
-.opt:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,.22); }
-.opt input { margin-top: 3px; accent-color: var(--c-teal); transform: scale(1.2); }
-.opt.correct { background: linear-gradient(180deg,#dff5e1,#bfe9c5); border-color:#74c47e; }
-.opt.wrong   { background: linear-gradient(180deg,#fde2e0,#f6c2bd); border-color:#e08a83; }
-.opt.locked { cursor: default; }
-.opt .opt-letter { font-weight: 800; color: var(--c-navy); }
-html[data-theme="dark"] .opt .opt-letter { color: var(--c-amber-2); }
-
-.feedback {
-  display:none; margin-top:4px; font-size:.82rem; border-radius:12px; padding:10px 12px;
-  background: linear-gradient(180deg,#eef7ff,#dbeeff); border:1px solid #acd2f0; color:#13405e;
-}
-html[data-theme="dark"] .feedback { background:#102739; border-color:#2b5274; color:#bfe0fb; }
-.feedback.show { display:block; }
-.feedback b { color: var(--c-red); }
-html[data-theme="dark"] .feedback b { color: var(--c-red-2); }
-
-/* informational panels: ficha + rubric */
-.info-panel {
-  background: var(--c-paper); border:1px solid var(--c-card-edge); border-radius: var(--radius);
-  box-shadow: 0 6px 16px var(--c-shadow); padding: 16px; margin-top: 16px; grid-column: 1/-1;
-}
-.info-panel h3 { font-family: var(--font-display); margin: 0 0 10px; color: var(--c-navy); }
-html[data-theme="dark"] .info-panel h3 { color: var(--c-amber-2); }
-table.grid { width:100%; border-collapse: collapse; font-size:.85rem; }
-table.grid th, table.grid td { border:1px solid var(--c-card-edge); padding:8px 10px; text-align:left; vertical-align:top; }
-table.grid th { background: linear-gradient(180deg,#2a6896,#16314a); color:#fff; }
-table.grid tbody tr:nth-child(even) td { background: rgba(0,0,0,.04); }
-html[data-theme="dark"] table.grid tbody tr:nth-child(even) td { background: rgba(255,255,255,.04); }
-
-/* checklist */
-.checklist { display:flex; flex-direction:column; gap:8px; }
-.chk-item {
-  display:flex; gap:10px; align-items:center; cursor:pointer;
-  padding:10px 12px; border-radius:12px; background: linear-gradient(180deg,#fff,#eef3f7); border:1px solid #cfdbe5;
-  box-shadow: inset 0 1px 0 #fff;
-}
-html[data-theme="dark"] .chk-item { background: linear-gradient(180deg,#1f3041,#172533); border-color:#33485c; }
-.chk-item input { transform: scale(1.3); accent-color: var(--c-green); }
-.chk-item.done { background: linear-gradient(180deg,#dff5e1,#bfe9c5); border-color:#74c47e; }
-
-/* buttons */
-.btn {
-  cursor:pointer; font: inherit; font-weight:800; color:#3a2400;
-  padding: 12px 22px; border-radius: 14px; border:1px solid #ffe6a0;
-  background: linear-gradient(180deg,#ffe07a 0%, var(--c-amber) 55%, #c9810c 100%);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 4px 10px rgba(0,0,0,.4);
-  text-shadow: 0 1px 0 rgba(255,255,255,.4);
-}
-.btn:hover { filter: brightness(1.06); }
-.btn:active { transform: translateY(2px); box-shadow: inset 0 1px 0 rgba(255,255,255,.6),0 2px 5px rgba(0,0,0,.4); }
-.btn.solve { background: linear-gradient(180deg,#7fe0ef,#1f8a99); color:#053038; border-color:#bff3fb; }
-.btn.ghost { background: linear-gradient(180deg,#fff,#dfeaf2); color: var(--c-navy); border-color:#b9cad8; }
-
-/* ===================== BADGES ===================== */
-.badges-shelf {
-  margin-top: 22px; background: var(--c-paper); border:1px solid var(--c-card-edge);
-  border-radius: var(--radius); padding: 16px; box-shadow: 0 6px 16px var(--c-shadow);
-}
-.badges-shelf h3 { font-family: var(--font-display); margin:0 0 12px; color: var(--c-navy); display:flex; align-items:center; gap:8px; }
-html[data-theme="dark"] .badges-shelf h3 { color: var(--c-amber-2); }
-.badge-row { display:grid; grid-template-columns: repeat(auto-fill, minmax(120px,1fr)); gap:14px; }
-.badge {
-  text-align:center; padding:12px 8px; border-radius:14px;
-  background: linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.10));
-  border:1px dashed var(--c-card-edge); opacity:.5; filter: grayscale(.8);
-  transition: all .4s;
-}
-.badge.unlocked { opacity:1; filter:none; border-style:solid; border-color: var(--c-amber);
-  background: linear-gradient(180deg,#fff7e2,#ffe9b8); box-shadow: 0 0 16px var(--c-glow), inset 0 1px 0 #fff; }
-html[data-theme="dark"] .badge.unlocked { background: linear-gradient(180deg,#3a2e0e,#5a4514); }
-.badge .medal {
-  width:58px; height:58px; margin:0 auto 8px; border-radius:50%;
-  background: radial-gradient(circle at 35% 28%, #ffe6a8, var(--c-amber) 55%, #9c6709 100%);
-  box-shadow: inset 0 2px 4px rgba(255,255,255,.8), inset 0 -5px 9px rgba(0,0,0,.4), 0 3px 7px rgba(0,0,0,.4);
-  display:grid; place-items:center; font-size:1.8rem;
-}
-.badge.unlocked .medal { animation: pop .5s; }
-@keyframes pop { 0%{transform:scale(.4) rotate(-20deg);} 70%{transform:scale(1.15);} 100%{transform:scale(1);} }
-.badge .b-name { font-size:.78rem; font-weight:800; color: var(--c-text); }
-.badge .b-status { font-size:.66rem; color: var(--c-text-soft); }
-
-/* ===================== FINAL ===================== */
-.finale {
-  margin-top: 26px; text-align:center; background: var(--grad-header); color:#fff;
-  border-radius: var(--radius); padding: 26px 20px; border:2px solid var(--c-amber);
-  box-shadow: 0 10px 26px var(--c-shadow), inset 0 1px 0 rgba(255,255,255,.2);
-}
-.finale h2 { font-family: var(--font-display); margin:0 0 6px; text-shadow:0 2px 4px rgba(0,0,0,.5); }
-.finale p { color:#cfe0ee; margin: 4px 0 16px; }
-
-/* result modal */
-.overlay {
-  display:none; position: fixed; inset:0; z-index:100; background: rgba(6,14,22,.78);
-  backdrop-filter: blur(3px); place-items:center; padding: 18px;
-}
-.overlay.show { display:grid; }
-.result-card {
-  max-width: 540px; width:100%; background: var(--c-paper); border-radius: 20px;
-  border:2px solid var(--c-amber); box-shadow: 0 18px 50px rgba(0,0,0,.6);
-  padding: 26px; text-align:center; animation: rise .4s ease;
-}
-@keyframes rise { from{transform:translateY(24px); opacity:0;} to{transform:none; opacity:1;} }
-.result-card .rank-seal {
-  width:108px; height:108px; margin:0 auto 12px; border-radius:50%;
-  background: radial-gradient(circle at 35% 28%, #ffe6a8, var(--c-amber) 52%, #9c6709 100%);
-  box-shadow: inset 0 3px 6px rgba(255,255,255,.8), inset 0 -7px 12px rgba(0,0,0,.45), 0 5px 12px rgba(0,0,0,.5);
-  display:grid; place-items:center; font-size:3rem;
-}
-.result-card h2 { font-family: var(--font-display); color: var(--c-navy); margin:6px 0; }
-html[data-theme="dark"] .result-card h2 { color: var(--c-amber-2); }
-.result-score { font-size:2.6rem; font-weight:900; color: var(--c-teal); line-height:1; }
-.result-card .rank-name { font-size:1.3rem; font-weight:800; color: var(--c-red); margin:8px 0; }
-.result-card .rank-msg { color: var(--c-text-soft); font-size:.92rem; }
-.result-breakdown { display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin:14px 0; }
-.result-breakdown span { font-size:.78rem; font-weight:700; background: rgba(0,0,0,.06); padding:6px 12px; border-radius:999px; color: var(--c-text); }
-html[data-theme="dark"] .result-breakdown span { background: rgba(255,255,255,.08); }
-
-/* toast for badge unlocks */
-.toast-wrap { position: fixed; right: 16px; bottom: 16px; z-index:120; display:flex; flex-direction:column; gap:10px; }
-.toast {
-  background: linear-gradient(180deg,#fff7e2,#ffe9b8); color:#3a2400; border:1px solid var(--c-amber);
-  border-radius:14px; padding:12px 16px; display:flex; gap:10px; align-items:center; font-weight:700;
-  box-shadow: 0 8px 22px rgba(0,0,0,.5); animation: slidein .4s ease; max-width: 300px;
-}
-@keyframes slidein { from{transform:translateX(120%);} to{transform:none;} }
-.toast .t-medal { font-size:1.6rem; }
-
-footer.app-footer { text-align:center; color:#9fb4c7; font-size:.78rem; padding: 20px; position:relative; z-index:1; }
-
-/* ===================== RESPONSIVE ===================== */
-@media (max-width: 768px) {
-  .header-inner { grid-template-columns: 1fr auto; }
-  .brand h1 { font-size: 1rem; }
-  .phase-nav { top: 120px; }
-  .cards { grid-template-columns: 1fr; }
-  .phase-banner h2 { font-size: 1.2rem; }
-}
-@media (max-width: 375px) {
-  .header-inner { padding: 8px 10px; }
-  .brand .seal { width:42px; height:42px; font-size:20px; }
-  .pill { font-size:.72rem; padding:4px 9px; }
-  main { padding: 12px 8px 70px; }
-  .card-body, .card-head { padding-left:12px; padding-right:12px; }
+@media (max-width:375px){
+  .header-inner{padding:8px 10px;}
+  .brand .seal{width:42px;height:42px;font-size:20px;}
+  .pill{font-size:.7rem;padding:4px 9px;}
+  .step-body{padding:14px;}
+  .navbar-inner .hint{display:none;}
 }
 </style>
 </head>
@@ -400,623 +241,619 @@ footer.app-footer { text-align:center; color:#9fb4c7; font-size:.78rem; padding:
 <header class="app-header">
   <div class="header-inner">
     <div class="brand">
-      <div class="seal" aria-hidden="true">🔍</div>
-      <h1>Baker Street Visual Lab
-        <small>Misión Semiótica · Semana 14</small>
-      </h1>
+      <div class="seal">🔍</div>
+      <h1>Baker Street Visual Lab<small>Circuito · Misión Semiótica · Semana 14</small></h1>
     </div>
     <div class="header-stats">
-      <span class="pill phase" id="phasePill">🧭 Fase 1 · Inicio</span>
+      <span class="pill phase" id="phasePill">🧭 Fase 1</span>
       <span class="pill" id="timerPill">⏱️ 00:00</span>
       <span class="pill badges" id="badgePill">🏅 0/7</span>
       <span class="pill score" id="scorePill">🎯 0 pts</span>
     </div>
-    <button class="theme-toggle" id="themeToggle" title="Cambiar tema claro/oscuro" aria-label="Cambiar tema">🌙</button>
-    <div class="progress-wrap">
-      <div class="progress-bar" id="progressBar"></div>
-      <div class="progress-label" id="progressLabel">0% del caso resuelto</div>
-    </div>
+    <button class="theme-toggle" id="themeToggle" title="Tema claro/oscuro">🌙</button>
+    <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div><div class="progress-label" id="progressLabel">0% del circuito</div></div>
   </div>
 </header>
 
-<nav class="phase-nav" id="phaseNav" aria-label="Navegación por fases"></nav>
+<nav class="circuit" aria-label="Circuito de fases"><div class="circuit-inner" id="circuitMap"></div></nav>
 
-<main id="main"></main>
+<main><div id="stepView"></div></main>
 
-<div class="overlay" id="overlay">
-  <div class="result-card">
-    <div class="rank-seal" id="rankSeal">🕵️</div>
-    <h2>Archivo del caso cerrado</h2>
-    <div class="result-score"><span id="finalScore">0</span> pts</div>
-    <div class="rank-name" id="rankName">—</div>
-    <p class="rank-msg" id="rankMsg"></p>
-    <div class="result-breakdown" id="resultBreakdown"></div>
-    <p class="rank-msg" style="margin-top:6px;"><b>Dos estrellas y un deseo:</b> comparte dos fortalezas y una mejora con tu equipo.</p>
-    <div style="display:flex; gap:10px; justify-content:center; margin-top:16px; flex-wrap:wrap;">
-      <button class="btn ghost" id="closeOverlay">Volver al expediente</button>
-      <button class="btn" id="restartCase">Reiniciar caso</button>
-    </div>
+<div class="navbar"><div class="navbar-inner">
+  <button class="btn ghost" id="prevBtn">◀ Anterior</button>
+  <div class="hint" id="navHint"></div>
+  <button class="btn" id="nextBtn">Siguiente ▶</button>
+</div></div>
+
+<div class="overlay" id="overlay"><div class="result-card">
+  <div class="rank-seal" id="rankSeal">🕵️</div>
+  <h2>Archivo del caso cerrado</h2>
+  <div class="result-score"><span id="finalScore">0</span> pts</div>
+  <div class="rank-name" id="rankName">—</div>
+  <p class="rank-msg" id="rankMsg"></p>
+  <div class="result-breakdown" id="resultBreakdown"></div>
+  <p class="rank-msg" style="margin-top:6px;"><b>Dos estrellas y un deseo:</b> comparte con tu equipo dos fortalezas y una mejora.</p>
+  <div style="display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap;">
+    <button class="btn ghost" id="closeOverlay">Volver al expediente</button>
+    <button class="btn" id="restartCase">Reiniciar caso</button>
   </div>
-</div>
+</div></div>
 
 <div class="toast-wrap" id="toastWrap"></div>
 
-<footer class="app-footer">
-  Semiótica Visual · Unidad 4: Figuras Semióticas · Modelo IUTPC · La antropología visual en la imagen semiótica
-</footer>
-
 <script>
 /* =====================================================================
-   DATA — Guion técnico Semana 14 (estructura fiel al documento)
+   CONTENIDO (fiel al guion técnico Semana 14)
    ===================================================================== */
-const OPEN_PTS = {o1:5,o2:5,o3:4,o4:6,o5:6,o6:6,o7:8,o8:8,o9:8,o10:8,
-  o11:4,o12:8,o13:8,o14:8,o15:8,o16:8,o17:6,o18:6,o19:6,o20:6,o21:6};
-const MIN_LEN = 8;        // "más de 8 caracteres"
-const CLOSED_PTS = 6;
-const CHK_PTS = 1;
-const BADGE_PTS = 4;
+const MIN_LEN=8, CLOSED_PTS=6, CHK_PTS=1, BADGE_PTS=4, GAME_PTS=6;
+const OPEN_PTS={o1:5,o2:5,o3:4,o4:6,o5:6,o6:6,o7:8,o8:8,o9:8,o10:8,o11:4,o12:8,o13:8,o14:8,o15:8,o16:8,o17:6,o18:6,o19:6,o20:6,o21:6};
 
-const PHASES = [
-  {
-    id:"f1", num:"1", name:"Inicio", emoji:"🔎", time:"15 min",
-    title:"Escena del crimen visual",
-    objective:"Crear un clima positivo y conectar emocionalmente con el tema mediante la activación perceptiva.",
-    dynamic:'“El detective observa la escena”: se proyectan cuatro imágenes de culturas distintas (graffiti político de Lima, fotografía etnográfica amazónica, afiche de campaña social andina e ícono de marca global adaptado). Observación cronometrada de 5 s por imagen y construcción colectiva de un mapa de indicios.',
-    items:[
-      {t:"open", id:"o1", q:"¿Qué fue lo primero que captó tu atención en la imagen observada y por qué?", tag:"Respuesta libre", just:"Activa la percepción visual selectiva y la jerarquía atencional."},
-      {t:"open", id:"o2", q:"¿Qué viste después del primer punto de atención? Describe el recorrido visual que seguiste.", tag:"Respuesta libre", just:"Evidencia la jerarquía visual y la lectura composicional."},
-      {t:"open", id:"o3", q:"¿Con qué palabra describirías el impacto general de la pieza: serio, urgente, elegante, disruptivo u otra? Justifica brevemente.", tag:"Respuesta breve", just:"Conecta la percepción con los códigos de sentido y la retórica visual."},
-      {t:"closed", id:"c1", q:"¿La jerarquía visual de la pieza es clara?", correct:0,
-        opts:["Sí, se identifica con facilidad qué se ve primero, segundo y tercero.","No, todos los elementos compiten por la atención."],
-        fb:"La jerarquía visual ordena la lectura y permite reconocer el recorrido de atención; el diseñador la construye con tamaño, contraste, color y ubicación."},
-      {t:"closed", id:"c2", q:"¿Qué elemento suele funcionar como primer foco de atención?", correct:1,
-        opts:["Un elemento secundario sin contraste.","Un elemento con mayor tamaño, contraste, color o ubicación estratégica.","Un texto colocado al azar."],
-        fb:"Pista de Holmes: el primer foco nunca suele ser casual; responde a decisiones compositivas intencionales."}
-    ]
-  },
-  {
-    id:"f2", num:"2", name:"Utilidad", emoji:"📋", time:"15 min",
-    title:"Interrogatorio del cliente",
-    objective:"Evidenciar la relevancia profesional del tema, contextualizar la sesión y recoger saberes previos.",
-    dynamic:'“Misión de briefing”: una ONG solicita una campaña sobre identidad cultural y diversidad en Lima Metropolitana. El mensaje debe ser auténtico, visualmente potente y culturalmente pertinente; el presupuesto es limitado y las decisiones visuales deben ser precisas y justificadas.',
-    items:[
-      {t:"open", id:"o4", q:"¿Cómo usarías elementos visuales propios de una comunidad específica para que la campaña sea más auténtica y efectiva?", tag:"Respuesta libre", just:"Activa saberes previos sobre pertinencia cultural y conecta diseño con investigación."},
-      {t:"open", id:"o5", q:"¿Qué error visual podría cometer un diseñador si representa una cultura sin investigar su contexto?", tag:"Respuesta libre", just:"Desarrolla pensamiento crítico sobre apropiación cultural y uso irresponsable de signos."},
-      {t:"open", id:"o6", q:"¿Qué debería pensar, sentir y hacer la audiencia después de ver la campaña?", tag:"Respuesta libre", just:"Ancla el objetivo comunicacional de la práctica de diseño."},
-      {t:"closed", id:"c3", q:"¿Qué decisión sería más pertinente para iniciar el diseño de la campaña?", correct:1,
-        opts:["Usar cualquier símbolo vistoso aunque no pertenezca al contexto cultural.","Investigar la comunidad, sus códigos visuales y su contexto antes de diseñar.","Repetir una tendencia gráfica sin relación con la audiencia."],
-        fb:"La pertinencia cultural exige investigación contextual antes de cualquier decisión formal."},
-      {t:"closed", id:"c4", q:"¿Cuál de estas preguntas ayuda más a definir el objetivo comunicacional?", correct:1,
-        opts:["¿Qué tipografía se ve más bonita?","¿Qué queremos que la audiencia piense, sienta y haga?","¿Qué color está de moda esta semana?"],
-        fb:"El objetivo comunicacional define todas las decisiones formales, compositivas y semióticas de la campaña."}
-    ]
-  },
-  {
-    id:"f3", num:"3", name:"Transformación", emoji:"🧪", time:"25 min",
-    title:"Sala de evidencias semióticas",
-    objective:"Fomentar la construcción activa de significados mediante el análisis crítico y la resolución de pistas conceptuales.",
-    dynamic:'“Escape semiótico”: cada pista conceptual desbloquea la siguiente. Pista A — Antropología visual; Pista B — Niveles de análisis de la imagen (Barthes); Pista C — Nivel connotativo y narrativas culturales; más juegos de figuras retóricas visuales. Se otorgan insignias por categoría.',
-    items:[
-      {t:"head", txt:"Pista A — Antropología visual como disciplina"},
-      {t:"closed", id:"c5", q:"¿Qué estudia la antropología visual?", correct:0,
-        opts:["Las imágenes, la mirada y su significado en distintos contextos culturales.","Solo la composición estética sin contexto.","Únicamente la edición técnica de fotografías."],
-        fb:"La antropología visual estudia las imágenes en contextos sociales, culturales y comunicacionales, vinculando visualidad con significado."},
-      {t:"head", txt:"Pista B — Niveles de análisis de la imagen (Barthes)"},
-      {t:"open", id:"o7", q:"¿Por qué una misma imagen puede tener significados distintos según la comunidad que la interpreta?", tag:"Respuesta libre", just:"Desarrolla la comprensión de la semiosfera de Lotman y la relatividad cultural del signo."},
-      {t:"closed", id:"c6", q:"El nivel denotativo de una imagen responde principalmente a:", correct:0,
-        opts:["Lo que se ve literalmente.","El mito ideológico profundo.","La emoción personal sin observar la imagen."],
-        fb:"Holmes diría: primero describe el hecho con precisión; luego interpreta el sentido. La denotación es la evidencia directa."},
-      {t:"head", txt:"Pista C — Nivel connotativo y narrativas culturales"},
-      {t:"closed", id:"c7", q:"El nivel connotativo de una imagen permite identificar:", correct:1,
-        opts:["Solo medidas y tamaños formales.","Significados culturales, emocionales y simbólicos.","El nombre del software utilizado."],
-        fb:"En el nivel connotativo aparecen los valores culturales, emociones y representaciones que la imagen activa en la audiencia."},
-      {t:"open", id:"o8", q:"¿Qué narrativa cultural puede naturalizar una campaña visual? Describe un ejemplo.", tag:"Respuesta libre", just:"Trabaja el nivel mítico-ideológico de Barthes y la construcción de sentido cultural."},
-      {t:"head", txt:"Juegos de figuras retóricas visuales"},
-      {t:"closed", id:"c8", q:"Identifica la figura retórica más probable si una campaña representa al planeta como un pulmón humano.", correct:0,
-        opts:["Metáfora visual.","Elipsis.","Sinécdoque sin transformación."],
-        fb:"Caso resuelto. La metáfora sustituye un elemento por otro para generar semejanza de sentido entre dos realidades diferentes."},
-      {t:"closed", id:"c9", q:"Si una parte representa el todo en una imagen, hablamos de:", correct:1,
-        opts:["Hipérbole.","Sinécdoque.","Ironía tipográfica."],
-        fb:"Buena deducción. La sinécdoque establece una relación parte-todo o todo-parte en la imagen."},
-      {t:"open", id:"o9", q:"Describe un ejemplo propio de metáfora, metonimia o hipérbole visual en publicidad o campaña social.", tag:"Respuesta libre", just:"Transfiere el conocimiento teórico a ejemplos de la práctica profesional."},
-      {t:"open", id:"o10", q:"¿Qué colores, formas o símbolos podrían funcionar como códigos culturales en una campaña sobre diversidad en Lima?", tag:"Respuesta libre", just:"Conecta los elementos morfológicos de Villafañe con los códigos semióticos del contexto peruano."}
-    ]
-  },
-  {
-    id:"f4", num:"4", name:"Práctica", emoji:"🗂️", time:"25 min",
-    title:"Informe final del detective",
-    objective:"Permitir la aplicación autónoma del conocimiento, consolidando el aprendizaje situado y auténtico.",
-    dynamic:'“Misión final: arma el expediente”. Cada equipo completa la ficha de análisis semiótico-antropológico para dos piezas visuales de su campaña o asignadas en el aplicativo. La ficha funciona como el expediente del caso que será presentado al cliente.',
-    items:[
-      {t:"ficha"},
-      {t:"open", id:"o11", q:"¿Cuál es la pieza visual analizada? Nombre o descripción breve.", tag:"Ficha 1 · Respuesta breve", just:"Identifica la evidencia del caso."},
-      {t:"open", id:"o12", q:"¿Qué se ve literalmente en la imagen? (nivel denotativo)", tag:"Ficha 2 · Respuesta libre", just:"Entrena la observación objetiva antes de la interpretación cultural."},
-      {t:"open", id:"o13", q:"¿Qué significados culturales o emocionales evoca la imagen? (nivel connotativo)", tag:"Ficha 3 · Respuesta libre", just:"Desarrolla la lectura simbólica y cultural de la imagen."},
-      {t:"open", id:"o14", q:"¿Qué código cultural identificas y a qué comunidad, cosmovisión o contexto pertenece?", tag:"Ficha 4 · Respuesta libre", just:"Aplica la perspectiva de la antropología visual al análisis situado."},
-      {t:"open", id:"o15", q:"¿Qué figura retórica visual identificas? Nombra al menos una y justifica su uso.", tag:"Ficha 5 · Respuesta libre", just:"Transfiere el catálogo retórico al análisis de piezas reales."},
-      {t:"open", id:"o16", q:"¿Cómo contribuye esta decisión visual al mensaje de la campaña?", tag:"Ficha 6 · Respuesta libre", just:"Argumenta la pertinencia semiótica con coherencia comunicacional."},
-      {t:"closed", id:"c10", q:"¿Tu análisis vincula la imagen con la audiencia objetivo?", correct:0,
-        opts:["Sí, explico por qué la pieza es pertinente para esa audiencia.","No, solo describo la pieza sin contextualizarla."],
-        fb:"La pertinencia cultural y comunicacional es la evidencia central del logro de la sesión."},
-      {t:"closed", id:"c11", q:"¿La argumentación justifica decisiones visuales o solo las menciona?", correct:1,
-        opts:["Solo las menciona superficialmente.","Las justifica con relación al significado, la cultura y el objetivo comunicacional."],
-        fb:"Justificar es más potente que enumerar; el análisis semiótico requiere argumentación fundamentada."},
-      {t:"rubric"}
-    ]
-  },
-  {
-    id:"f5", num:"5", name:"Cierre", emoji:"🏆", time:"10 min",
-    title:"Archivo del caso",
-    objective:"Integrar y sintetizar el aprendizaje, promoviendo la reflexión metacognitiva.",
-    dynamic:'“Galería de expedientes cerrados”: cada equipo presenta en 2 minutos su análisis con la dinámica “Dos estrellas y un deseo”. Al finalizar, el aplicativo muestra el rango alcanzado y la insignia final desbloqueada.',
-    items:[
-      {t:"head", txt:"Retroalimentación entre pares — Dos estrellas y un deseo"},
-      {t:"open", id:"o17", q:"Dos estrellas: menciona dos fortalezas concretas de tu análisis o del trabajo del equipo.", tag:"Respuesta libre", just:"Promueve coevaluación formativa y pensamiento argumentativo."},
-      {t:"open", id:"o18", q:"Un deseo: ¿qué mejorarías en la propuesta visual o en la argumentación semiótica?", tag:"Respuesta libre", just:"Desarrolla pensamiento crítico constructivo y cultura de mejora continua."},
-      {t:"head", txt:"Metacognición"},
-      {t:"open", id:"o19", q:"¿Cómo cambió la perspectiva de la antropología visual tu manera de mirar las imágenes de tu propia campaña?", tag:"Respuesta libre", just:"Consolida la transferencia del aprendizaje y la identidad profesional del diseñador."},
-      {t:"open", id:"o20", q:"¿Qué figura retórica o código cultural detectaste que antes no habías notado en tu campaña o entorno?", tag:"Respuesta libre", just:"Refuerza la metacognición sobre el proceso de análisis."},
-      {t:"open", id:"o21", q:"Si revisaras un diseño anterior tuyo, ¿qué componente visual cambiarías ahora para hacerlo más persuasivo y culturalmente pertinente?", tag:"Respuesta libre", just:"Proyecta el aprendizaje hacia futuros proyectos."},
-      {t:"checklist"}
-    ]
-  }
-];
+const ITEMS={
+ o1:{q:"¿Qué fue lo primero que captó tu atención en la imagen observada y por qué?",tag:"Respuesta libre",just:"Activa la percepción visual selectiva y la jerarquía atencional."},
+ o2:{q:"¿Qué viste después del primer punto de atención? Describe el recorrido visual que seguiste.",tag:"Respuesta libre",just:"Evidencia la jerarquía visual y la lectura composicional."},
+ o3:{q:"¿Con qué palabra describirías el impacto general de la pieza (serio, urgente, elegante, disruptivo u otra)? Justifica.",tag:"Respuesta breve",just:"Conecta la percepción con los códigos de sentido y la retórica visual."},
+ o4:{q:"¿Cómo usarías elementos visuales propios de una comunidad específica para que la campaña sea más auténtica y efectiva?",tag:"Respuesta libre",just:"Activa saberes previos sobre pertinencia cultural."},
+ o5:{q:"¿Qué error visual podría cometer un diseñador si representa una cultura sin investigar su contexto?",tag:"Respuesta libre",just:"Pensamiento crítico sobre apropiación cultural."},
+ o6:{q:"¿Qué debería pensar, sentir y hacer la audiencia después de ver la campaña?",tag:"Respuesta libre",just:"Ancla el objetivo comunicacional."},
+ o7:{q:"¿Por qué una misma imagen puede tener significados distintos según la comunidad que la interpreta?",tag:"Respuesta libre",just:"Semiosfera de Lotman y relatividad cultural del signo."},
+ o8:{q:"¿Qué narrativa cultural puede naturalizar una campaña visual? Describe un ejemplo.",tag:"Respuesta libre",just:"Nivel mítico-ideológico de Barthes."},
+ o9:{q:"Describe un ejemplo propio de metáfora, metonimia o hipérbole visual en publicidad o campaña social.",tag:"Respuesta libre",just:"Transfiere la teoría a la práctica profesional."},
+ o10:{q:"¿Qué colores, formas o símbolos podrían funcionar como códigos culturales en una campaña sobre diversidad en Lima?",tag:"Respuesta libre",just:"Morfología de Villafañe + códigos del contexto peruano."},
+ o11:{q:"Ficha 1 · ¿Cuál es la pieza visual analizada? Nombre o descripción breve.",tag:"Ficha · Respuesta breve",just:"Identifica la evidencia del caso."},
+ o12:{q:"Ficha 2 · ¿Qué se ve literalmente en la imagen? (nivel denotativo)",tag:"Ficha · Respuesta libre",just:"Observación objetiva antes de interpretar."},
+ o13:{q:"Ficha 3 · ¿Qué significados culturales o emocionales evoca? (nivel connotativo)",tag:"Ficha · Respuesta libre",just:"Lectura simbólica y cultural."},
+ o14:{q:"Ficha 4 · ¿Qué código cultural identificas y a qué comunidad/cosmovisión/contexto pertenece?",tag:"Ficha · Respuesta libre",just:"Antropología visual aplicada al análisis situado."},
+ o15:{q:"Ficha 5 · ¿Qué figura retórica visual identificas? Nombra al menos una y justifícala.",tag:"Ficha · Respuesta libre",just:"Catálogo retórico aplicado a piezas reales."},
+ o16:{q:"Ficha 6 · ¿Cómo contribuye esta decisión visual al mensaje de la campaña?",tag:"Ficha · Respuesta libre",just:"Pertinencia semiótica con coherencia comunicacional."},
+ o17:{q:"Dos estrellas: menciona dos fortalezas concretas de tu análisis o del trabajo del equipo.",tag:"Coevaluación",just:"Coevaluación formativa y argumentación."},
+ o18:{q:"Un deseo: ¿qué mejorarías en la propuesta visual o en la argumentación semiótica?",tag:"Coevaluación",just:"Pensamiento crítico constructivo."},
+ o19:{q:"¿Cómo cambió la antropología visual tu manera de mirar las imágenes de tu propia campaña?",tag:"Metacognición",just:"Transferencia del aprendizaje."},
+ o20:{q:"¿Qué figura retórica o código cultural detectaste que antes no habías notado?",tag:"Metacognición",just:"Metacognición sobre el proceso de análisis."},
+ o21:{q:"Si revisaras un diseño anterior tuyo, ¿qué componente visual cambiarías para hacerlo más persuasivo y pertinente?",tag:"Metacognición",just:"Proyección hacia futuros proyectos."},
 
-const CHECKLIST_ITEMS = [
-  "Definí claramente el objetivo comunicacional.",
-  "Identifiqué a la audiencia objetivo.",
-  "Elegí colores, formas y tipografía de manera intencional.",
-  "Construí una jerarquía visual clara y justificada.",
-  "Justifiqué la pertinencia cultural de la pieza visual."
-];
+ c1:{q:"¿La jerarquía visual de la pieza es clara?",correct:0,opts:["Sí, se identifica con facilidad qué se ve primero, segundo y tercero.","No, todos los elementos compiten por la atención."],fb:"La jerarquía visual ordena la lectura; el diseñador la construye con tamaño, contraste, color y ubicación."},
+ c2:{q:"¿Qué elemento suele funcionar como primer foco de atención?",correct:1,opts:["Un elemento secundario sin contraste.","Un elemento con mayor tamaño, contraste, color o ubicación estratégica.","Un texto colocado al azar."],fb:"Pista de Holmes: el primer foco nunca es casual; responde a decisiones compositivas intencionales."},
+ c3:{q:"¿Qué decisión sería más pertinente para iniciar el diseño de la campaña?",correct:1,opts:["Usar cualquier símbolo vistoso aunque no pertenezca al contexto.","Investigar la comunidad, sus códigos visuales y su contexto antes de diseñar.","Repetir una tendencia gráfica sin relación con la audiencia."],fb:"La pertinencia cultural exige investigación contextual antes de cualquier decisión formal."},
+ c4:{q:"¿Cuál de estas preguntas ayuda más a definir el objetivo comunicacional?",correct:1,opts:["¿Qué tipografía se ve más bonita?","¿Qué queremos que la audiencia piense, sienta y haga?","¿Qué color está de moda esta semana?"],fb:"El objetivo comunicacional define todas las decisiones formales y semióticas."},
+ c5:{q:"¿Qué estudia la antropología visual?",correct:0,opts:["Las imágenes, la mirada y su significado en distintos contextos culturales.","Solo la composición estética sin contexto.","Únicamente la edición técnica de fotografías."],fb:"Estudia las imágenes en contextos sociales y culturales, vinculando visualidad con significado."},
+ c6:{q:"El nivel denotativo de una imagen responde principalmente a:",correct:0,opts:["Lo que se ve literalmente.","El mito ideológico profundo.","La emoción personal sin observar la imagen."],fb:"La denotación es la evidencia directa: primero describe el hecho, luego interpreta."},
+ c7:{q:"El nivel connotativo de una imagen permite identificar:",correct:1,opts:["Solo medidas y tamaños formales.","Significados culturales, emocionales y simbólicos.","El nombre del software utilizado."],fb:"En la connotación aparecen valores culturales, emociones y representaciones."},
+ c8:{q:"¿Qué figura retórica es más probable si una campaña representa al planeta como un pulmón humano?",correct:0,opts:["Metáfora visual.","Elipsis.","Sinécdoque sin transformación."],fb:"La metáfora sustituye un elemento por otro para generar semejanza de sentido."},
+ c9:{q:"Si una parte representa el todo en una imagen, hablamos de:",correct:1,opts:["Hipérbole.","Sinécdoque.","Ironía tipográfica."],fb:"La sinécdoque establece una relación parte-todo o todo-parte."},
+ c10:{q:"¿Tu análisis vincula la imagen con la audiencia objetivo?",correct:0,opts:["Sí, explico por qué la pieza es pertinente para esa audiencia.","No, solo describo la pieza sin contextualizarla."],fb:"La pertinencia cultural y comunicacional es la evidencia central del logro."},
+ c11:{q:"¿La argumentación justifica decisiones visuales o solo las menciona?",correct:1,opts:["Solo las menciona superficialmente.","Las justifica con relación al significado, la cultura y el objetivo comunicacional."],fb:"Justificar es más potente que enumerar; el análisis exige argumentación fundamentada."}
+};
 
-const FICHA_ROWS = [
-  ["Pieza visual","¿Cuál es la pieza analizada? Describe brevemente."],
-  ["Nivel denotativo","¿Qué se ve literalmente en la imagen?"],
-  ["Nivel connotativo","¿Qué significados culturales o emocionales evoca?"],
-  ["Código cultural","¿A qué comunidad, cosmovisión o contexto pertenece el signo identificado?"],
-  ["Figura retórica","¿Qué figura retórica visual identificas? Justifica al menos una."],
-  ["Pertinencia cultural","¿Cómo contribuye esta decisión visual al mensaje de la campaña?"]
-];
+/* MINIJUEGOS */
+const GAMES={
+ g_focus:{
+   title:"🎯 Reto: Encuentra el foco visual",
+   rules:"Haz clic en el elemento que funciona como PRIMER foco de atención (mayor tamaño y contraste). Recibirás pista inmediata.",
+   type:"hotspot"
+ },
+ g_barthes:{
+   title:"🧪 Reto: Denotación vs. Connotación",
+   rules:"Selecciona cada indicio y colócalo en su nivel correcto. Si fallas, el indicio rebota: vuelve a intentarlo.",
+   type:"sort",
+   bins:["Denotativo · lo que se ve","Connotativo · lo que significa"],
+   items:[
+     {t:"Un cóndor con las alas extendidas",bin:0},
+     {t:"Libertad y cosmovisión andina",bin:1},
+     {t:"Una bandera roja y blanca",bin:0},
+     {t:"Orgullo e identidad nacional",bin:1},
+     {t:"Manos de distintos tonos de piel unidas",bin:0},
+     {t:"Diversidad e inclusión cultural",bin:1}
+   ]
+ },
+ g_figuras:{
+   title:"🎭 Reto: Empareja figuras retóricas",
+   rules:"Selecciona una figura y luego su definición correcta. El par correcto se bloquea en verde.",
+   type:"match",
+   pairs:[
+     {a:"Metáfora",b:"Sustituye un elemento por otro por semejanza (el planeta como un pulmón)."},
+     {a:"Sinécdoque",b:"Una parte representa el todo (una mano por toda la comunidad)."},
+     {a:"Metonimia",b:"Sustitución por contigüidad o cercanía (una corona por la realeza)."},
+     {a:"Hipérbole",b:"Exageración intencional para enfatizar una idea."}
+   ]
+ },
+ g_secuencia:{
+   title:"🧭 Reto: Ordena el recorrido del análisis",
+   rules:"Haz clic en los pasos en el ORDEN correcto del proceso semiótico. Si te equivocas, el paso vibra.",
+   type:"order",
+   steps:["Observar","Describir","Interpretar","Relacionar","Argumentar","Reflexionar"]
+ }
+};
+const GAME_IDS=Object.keys(GAMES);
 
-const RUBRIC_ROWS = [
-  ["Nivel denotativo y connotativo","Identifica correctamente qué se ve y qué significa en términos culturales","2 pts"],
-  ["Figura retórica visual","Nombra y explica con precisión la figura retórica empleada","2 pts"],
-  ["Contexto cultural","Relaciona los signos identificados con una comunidad, cosmovisión o audiencia","3 pts"],
-  ["Coherencia argumentativa","Justifica la pertinencia visual y semiótica de la campaña","3 pts"]
-];
+/* ESTACIONES DE INVESTIGACIÓN + PROMPTS DE IMAGEN */
+const INVEST={
+ inv1:{
+   lead:"🔬 La escena del crimen visual. Genera (con tu herramienta de IA preferida: DALL·E, Midjourney, Firefly, etc.) las cuatro piezas que tu agencia debe interrogar. Cada prompt enfatiza el rasgo a analizar. Obsérvalas 5 segundos cada una antes de responder.",
+   prompts:[
+     {h:"Pista 1 · Graffiti político de Lima",e:"Énfasis: jerarquía visual y connotación de denuncia.",p:"Fotografía documental de un graffiti político en un muro urbano de Lima, Perú. Colores intensos rojo y negro, mensaje de protesta social, estética callejera, alto contraste, una figura central dominante que ordena la lectura. Luz de día, realismo. Resaltar el código cultural urbano-limeño y la fuerte carga connotativa de denuncia."},
+     {h:"Pista 2 · Fotografía etnográfica amazónica",e:"Énfasis: contexto cultural y nivel denotativo.",p:"Fotografía etnográfica de una comunidad amazónica peruana en su entorno natural, vestimenta y pintura corporal tradicionales, luz natural cálida, composición respetuosa y documental, foco nítido en los rostros. Resaltar la riqueza del código cultural y los detalles denotativos del contexto."},
+     {h:"Pista 3 · Afiche de campaña social andina",e:"Énfasis: figura retórica y pertinencia cultural.",p:"Afiche de campaña social de estilo andino contemporáneo, iconografía inspirada en textiles y geometría inca, paleta de colores tierra y ocres vibrantes, tipografía clara y jerárquica, un símbolo central que funciona como metáfora visual de unidad comunitaria. Resaltar la pertinencia cultural y la figura retórica."},
+     {h:"Pista 4 · Ícono de marca global adaptado",e:"Énfasis: tensión entre código global y local.",p:"Logotipo de una marca global reconocible reinterpretado con elementos visuales latinoamericanos (patrones, colores y motivos locales), estilo flat brillante, fondo limpio. Resaltar la tensión semiótica entre el código visual global y la adaptación al contexto cultural local."}
+   ]
+ },
+ inv2:{
+   lead:"📋 Briefing del cliente. La ONG necesita una imagen-concepto para una campaña sobre identidad cultural y diversidad en Lima. Genera una propuesta pertinente y, para contraste, una versión problemática. Úsalas como evidencia en tu análisis.",
+   prompts:[
+     {h:"Propuesta pertinente",e:"Énfasis: autenticidad y código cultural investigado.",p:"Imagen-concepto para campaña de una ONG sobre identidad cultural y diversidad en Lima Metropolitana: personas reales de distintas culturas peruanas (costa, sierra, amazonía y migrantes urbanos) en un espacio público limeño, luz natural, estética auténtica y respetuosa, jerarquía visual clara, paleta cálida e inclusiva. Resaltar la pertinencia cultural y el código visual investigado."},
+     {h:"Contraejemplo para analizar",e:"Énfasis: apropiación cultural y uso irresponsable del signo.",p:"Cartel publicitario que usa símbolos culturales andinos de forma decorativa, descontextualizada y estereotipada, colores saturados sin relación con el significado original, mezcla arbitraria de íconos. Resaltar el error de apropiación cultural para discutir el uso irresponsable de los signos."}
+   ]
+ },
+ inv3:{
+   lead:"🧪 Laboratorio de figuras retóricas. Visualiza las figuras para fijar el análisis. Genera estas imágenes y úsalas para justificar tus respuestas sobre metáfora y sinécdoque.",
+   prompts:[
+     {h:"Metáfora visual",e:"Énfasis: semejanza de sentido entre dos realidades.",p:"Ilustración conceptual donde el planeta Tierra se representa como un pulmón humano formado por bosques y venas verdes, fondo oscuro dramático, estilo editorial de campaña ambiental, alto impacto visual. Resaltar la metáfora visual como sustitución por semejanza."},
+     {h:"Sinécdoque visual",e:"Énfasis: la parte representa el todo.",p:"Ilustración minimalista de una sola mano abierta y diversa que representa a toda una comunidad, fondo limpio, símbolo de unidad, composición centrada. Resaltar la sinécdoque visual: la parte (la mano) que representa el todo (la comunidad)."}
+   ]
+ },
+ inv4:{
+   lead:"🗂️ Piezas del expediente. Para la ficha final, analiza dos piezas: pueden ser de tu propia campaña o generadas aquí. Estos prompts producen piezas con rasgos claros para los seis campos de la ficha.",
+   prompts:[
+     {h:"Pieza A · Campaña de diversidad",e:"Énfasis: denotación, connotación, figura y código.",p:"Pieza gráfica de campaña social peruana sobre diversidad cultural: composición con jerarquía clara, un elemento central que actúe como metáfora o sinécdoque, paleta cultural reconocible, espacio para titular. Generar con detalles suficientes para describir nivel denotativo, connotativo, código cultural y figura retórica."},
+     {h:"Pieza B · Comparación global/local",e:"Énfasis: pertinencia cultural y argumentación.",p:"Pieza gráfica que adapta una tendencia visual global a un contexto cultural latinoamericano específico, con decisiones de color, forma y símbolo justificables. Generar de modo que se pueda argumentar la pertinencia cultural y la coherencia comunicacional de cada decisión visual."}
+   ]
+ }
+};
 
-const BADGES = [
-  {id:"ojo", name:"Ojo de Detective", icon:"👁️", cond:s=>done(s,["o1","o2","o3"]) && answered(s,["c1","c2"])},
-  {id:"briefing", name:"Briefing Resuelto", icon:"📂", cond:s=>done(s,["o4","o5","o6"]) && answered(s,["c3","c4"])},
-  {id:"observador", name:"Observador Cultural", icon:"🌎", cond:s=>answered(s,["c5"])},
-  {id:"interprete", name:"Intérprete Semiótico", icon:"🧩", cond:s=>done(s,["o7","o8"]) && answered(s,["c6","c7"])},
-  {id:"retorico", name:"Retórico Visual", icon:"🎭", cond:s=>done(s,["o9","o10"]) && answered(s,["c8","c9"])},
-  {id:"expediente", name:"Expediente Armado", icon:"🗃️", cond:s=>done(s,["o11","o12","o13","o14","o15","o16"]) && answered(s,["c10","c11"])},
-  {id:"caso", name:"Caso Cerrado", icon:"🕵️", cond:s=>done(s,["o17","o18","o19","o20","o21"]) && (s.chk||[]).length===CHECKLIST_ITEMS.length}
-];
+const FICHA_ROWS=[["Pieza visual","¿Cuál es la pieza analizada? Describe brevemente."],["Nivel denotativo","¿Qué se ve literalmente en la imagen?"],["Nivel connotativo","¿Qué significados culturales o emocionales evoca?"],["Código cultural","¿A qué comunidad, cosmovisión o contexto pertenece el signo?"],["Figura retórica","¿Qué figura retórica visual identificas? Justifica al menos una."],["Pertinencia cultural","¿Cómo contribuye esta decisión visual al mensaje de la campaña?"]];
+const RUBRIC_ROWS=[["Nivel denotativo y connotativo","Identifica qué se ve y qué significa culturalmente","2 pts"],["Figura retórica visual","Nombra y explica con precisión la figura empleada","2 pts"],["Contexto cultural","Relaciona los signos con una comunidad o audiencia","3 pts"],["Coherencia argumentativa","Justifica la pertinencia visual y semiótica","3 pts"]];
+const CHECKLIST_ITEMS=["Definí claramente el objetivo comunicacional.","Identifiqué a la audiencia objetivo.","Elegí colores, formas y tipografía de manera intencional.","Construí una jerarquía visual clara y justificada.","Justifiqué la pertinencia cultural de la pieza visual."];
 
-const RANKS = [
-  {min:140, name:"Sherlock de la Semiótica", icon:"🕵️", msg:"Deducción impecable: dominas la lectura denotativa, connotativa y mítica de la imagen. Caso magistralmente cerrado."},
-  {min:100, name:"Inspector de Códigos Culturales", icon:"🎖️", msg:"Sólido análisis cultural y retórico. Afinando la argumentación, alcanzarás el rango Sherlock."},
-  {min:70,  name:"Analista Visual en Progreso", icon:"🔍", msg:"Buen avance en la observación e interpretación. Profundiza la justificación semiótica y la pertinencia cultural."},
-  {min:0,   name:"Aprendiz de Baker Street", icon:"🧭", msg:"Empezaste a entrenar tu mirada de detective. Completa más pistas y fichas para consolidar el análisis."}
-];
-
-/* helpers used by badge conditions */
-function done(s, ids){ return ids.every(id => (s.open[id]||"").trim().length >= MIN_LEN); }
-function answered(s, ids){ return ids.every(id => s.closed[id] !== undefined); }
+const PHASE_META={1:{name:"Inicio",icon:"🔎"},2:{name:"Utilidad",icon:"📋"},3:{name:"Transformación",icon:"🧪"},4:{name:"Práctica",icon:"🗂️"},5:{name:"Cierre",icon:"🏆"}};
 
 /* =====================================================================
-   STATE + PERSISTENCE
+   CIRCUITO SECUENCIAL — lista ordenada de pasos
    ===================================================================== */
-const STORE_KEY = "bakerstreet_visual_lab_v1";
-let state = loadState();
+const STEPS=[
+ // FASE 1
+ {phase:1,kind:"story",title:"El encargo llega a Baker Street",html:
+   "<p>Londres amanece entre niebla, pero el caso viene de lejos: <b>Lima Metropolitana</b>. Una ONG ha tocado la puerta de la agencia <b>Baker Street Visual Lab</b>. Necesita una campaña visual culturalmente pertinente y el tiempo apremia.</p>"+
+   "<p>Tu equipo de <b>detectives visuales</b> debe reunir pistas, interrogar imágenes, descifrar signos y entregar un informe semiótico que cierre el caso.</p>"+
+   "<p class='holmes'>“Usted ve, pero no observa. La distinción es clara.” — Sherlock Holmes. Hoy aprenderás a <b>observar</b>.</p>"},
+ {phase:1,kind:"brief",title:"Fase 1 · Escena del crimen visual",time:"15 min",
+   objective:"Crear un clima positivo y conectar emocionalmente con el tema mediante la activación perceptiva.",
+   dynamic:"“El detective observa la escena”: cuatro imágenes de culturas distintas, observación cronometrada de 5 s y mapa de indicios."},
+ {phase:1,kind:"invest",inv:"inv1"},
+ {phase:1,kind:"game",game:"g_focus"},
+ {phase:1,kind:"station",title:"Primeras impresiones del detective",items:["o1","o2","o3"]},
+ {phase:1,kind:"station",title:"Deducción: jerarquía visual",items:["c1","c2"]},
+ // FASE 2
+ {phase:2,kind:"story",title:"Interrogatorio del cliente",html:
+   "<p>El cliente entra a la sala. Su encargo es exigente: el mensaje debe ser <b>auténtico, visualmente potente y culturalmente pertinente</b> para una audiencia urbana diversa. El presupuesto es limitado; cada decisión visual debe justificarse.</p>"+
+   "<p class='holmes'>“Es un error capital teorizar antes de tener datos.” Antes de diseñar, hay que investigar.</p>"},
+ {phase:2,kind:"brief",title:"Fase 2 · Interrogatorio del cliente",time:"15 min",
+   objective:"Evidenciar la relevancia profesional, contextualizar y recoger saberes previos.",
+   dynamic:"“Misión de briefing”: tarjetas de decisión para elegir la estrategia visual más pertinente."},
+ {phase:2,kind:"invest",inv:"inv2"},
+ {phase:2,kind:"station",title:"Saberes del detective",items:["o4","o5","o6"]},
+ {phase:2,kind:"station",title:"Decisiones del briefing",items:["c3","c4"]},
+ // FASE 3
+ {phase:3,kind:"story",title:"La sala de evidencias semióticas",html:
+   "<p>Bajas a la <b>sala de evidencias</b>. Es un escape semiótico: cada pista conceptual desbloquea la siguiente. Hay tres categorías de insignia esperándote: <b>Observador cultural</b>, <b>Intérprete semiótico</b> y <b>Retórico visual</b>.</p>"+
+   "<p class='holmes'>“Cuando eliminas lo imposible, lo que queda, por improbable que sea, es la verdad.”</p>"},
+ {phase:3,kind:"brief",title:"Fase 3 · Sala de evidencias semióticas",time:"25 min",
+   objective:"Construir significados mediante análisis crítico y resolución de pistas conceptuales.",
+   dynamic:"Pistas A (antropología visual), B (niveles de Barthes), C (connotación) + juegos de figuras retóricas."},
+ {phase:3,kind:"station",title:"Pista A · Antropología visual",items:["c5"]},
+ {phase:3,kind:"game",game:"g_barthes"},
+ {phase:3,kind:"station",title:"Pista B · Niveles de Barthes",items:["o7","c6"]},
+ {phase:3,kind:"station",title:"Pista C · Connotación y narrativa",items:["c7","o8"]},
+ {phase:3,kind:"game",game:"g_figuras"},
+ {phase:3,kind:"station",title:"Juegos de figuras retóricas",items:["c8","c9"]},
+ {phase:3,kind:"station",title:"Transfiere lo aprendido",items:["o9","o10"]},
+ {phase:3,kind:"game",game:"g_secuencia"},
+ {phase:3,kind:"invest",inv:"inv3"},
+ // FASE 4
+ {phase:4,kind:"story",title:"Informe final del detective",html:
+   "<p>Es hora de <b>armar el expediente</b>. Tu equipo completará la ficha de análisis semiótico-antropológico de dos piezas: la evidencia que presentarás ante el cliente.</p>"+
+   "<p class='holmes'>“El mundo está lleno de cosas evidentes que nadie observa.” Ordena tus pruebas.</p>"},
+ {phase:4,kind:"brief",title:"Fase 4 · Informe final del detective",time:"25 min",
+   objective:"Aplicación autónoma del conocimiento, consolidando el aprendizaje situado.",
+   dynamic:"“Misión final: arma el expediente” con la ficha de análisis como expediente del caso."},
+ {phase:4,kind:"ficha"},
+ {phase:4,kind:"invest",inv:"inv4"},
+ {phase:4,kind:"station",title:"Expediente · Ficha de análisis",items:["o11","o12","o13","o14","o15","o16"]},
+ {phase:4,kind:"station",title:"Validación del análisis",items:["c10","c11"]},
+ {phase:4,kind:"rubric"},
+ // FASE 5
+ {phase:5,kind:"story",title:"Archivo del caso",html:
+   "<p>Galería de expedientes cerrados. Cada equipo presenta en 2 minutos. Aplicamos <b>“Dos estrellas y un deseo”</b> y reflexionamos sobre lo aprendido.</p>"+
+   "<p class='holmes'>“Caso resuelto. Pero el buen detective siempre revisa su propio método.”</p>"},
+ {phase:5,kind:"station",title:"Dos estrellas y un deseo",items:["o17","o18"]},
+ {phase:5,kind:"station",title:"Metacognición del detective",items:["o19","o20","o21"]},
+ {phase:5,kind:"checklist"},
+ {phase:5,kind:"result"}
+];
 
-function blankState(){ return { open:{}, closed:{}, chk:[], badges:[], theme:null }; }
-function loadState(){
-  try { const r = JSON.parse(localStorage.getItem(STORE_KEY)); if(r) return Object.assign(blankState(), r); }
-  catch(e){}
-  return blankState();
-}
-function saveState(){ try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch(e){} }
+const BADGES=[
+ {id:"ojo",name:"Ojo de Detective",icon:"👁️",cond:s=>done(s,["o1","o2","o3"])&&ans(s,["c1","c2"])},
+ {id:"briefing",name:"Briefing Resuelto",icon:"📂",cond:s=>done(s,["o4","o5","o6"])&&ans(s,["c3","c4"])},
+ {id:"observador",name:"Observador Cultural",icon:"🌎",cond:s=>ans(s,["c5"])&&!!s.games.g_barthes},
+ {id:"interprete",name:"Intérprete Semiótico",icon:"🧩",cond:s=>done(s,["o7","o8"])&&ans(s,["c6","c7"])},
+ {id:"retorico",name:"Retórico Visual",icon:"🎭",cond:s=>done(s,["o9","o10"])&&ans(s,["c8","c9"])&&!!s.games.g_figuras},
+ {id:"expediente",name:"Expediente Armado",icon:"🗃️",cond:s=>done(s,["o11","o12","o13","o14","o15","o16"])&&ans(s,["c10","c11"])},
+ {id:"caso",name:"Caso Cerrado",icon:"🕵️",cond:s=>done(s,["o17","o18","o19","o20","o21"])&&(s.chk||[]).length===CHECKLIST_ITEMS.length}
+];
+const RANKS=[
+ {min:140,name:"Sherlock de la Semiótica",icon:"🕵️",msg:"Deducción impecable: dominas la lectura denotativa, connotativa y mítica de la imagen."},
+ {min:100,name:"Inspector de Códigos Culturales",icon:"🎖️",msg:"Sólido análisis cultural y retórico. Afina la argumentación para llegar a Sherlock."},
+ {min:70,name:"Analista Visual en Progreso",icon:"🔍",msg:"Buen avance en observación e interpretación. Profundiza la justificación semiótica."},
+ {min:0,name:"Aprendiz de Baker Street",icon:"🧭",msg:"Empezaste a entrenar tu mirada. Completa más pistas, juegos y fichas."}
+];
+
+function done(s,ids){return ids.every(id=>(s.open[id]||"").trim().length>=MIN_LEN);}
+function ans(s,ids){return ids.every(id=>s.closed[id]!==undefined);}
 
 /* =====================================================================
-   SCORING
+   ESTADO + PERSISTENCIA
    ===================================================================== */
-function totalItems(){
-  let openCount=0, closedCount=0;
-  PHASES.forEach(p=>p.items.forEach(it=>{ if(it.t==="open") openCount++; if(it.t==="closed") closedCount++; }));
-  return openCount + closedCount + CHECKLIST_ITEMS.length;
-}
-const TOTAL_ITEMS = totalItems();
+const STORE="bakerstreet_circuit_v2";
+function blank(){return{step:0,maxStep:0,open:{},closed:{},chk:[],games:{},badges:[],theme:null};}
+let state=load();
+function load(){try{const r=JSON.parse(localStorage.getItem(STORE));if(r)return Object.assign(blank(),r);}catch(e){}return blank();}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){}}
+
+const TOTAL_ITEMS=Object.keys(OPEN_PTS).length + Object.keys(ITEMS).filter(k=>k[0]==="c").length + GAME_IDS.length + CHECKLIST_ITEMS.length;
 
 function computeScore(){
-  let pts=0, completed=0;
-  // open
-  for(const id in OPEN_PTS){
-    const v=(state.open[id]||"").trim();
-    if(v.length>=MIN_LEN){ pts+=OPEN_PTS[id]; completed++; }
-  }
-  // closed
-  PHASES.forEach(p=>p.items.forEach(it=>{
-    if(it.t==="closed" && state.closed[it.id]!==undefined){
-      completed++;
-      if(state.closed[it.id]===it.correct) pts+=CLOSED_PTS;
-    }
-  }));
-  // checklist
-  pts += (state.chk||[]).length * CHK_PTS;
-  completed += (state.chk||[]).length;
-  // badges
-  pts += (state.badges||[]).length * BADGE_PTS;
-  return {pts, completed};
+ let pts=0,done=0;
+ for(const id in OPEN_PTS){const v=(state.open[id]||"").trim();if(v.length>=MIN_LEN){pts+=OPEN_PTS[id];done++;}}
+ for(const id in ITEMS){if(id[0]==="c"&&state.closed[id]!==undefined){done++;if(state.closed[id]===ITEMS[id].correct)pts+=CLOSED_PTS;}}
+ GAME_IDS.forEach(g=>{if(state.games[g]){pts+=GAME_PTS;done++;}});
+ pts+=(state.chk||[]).length*CHK_PTS;done+=(state.chk||[]).length;
+ pts+=(state.badges||[]).length*BADGE_PTS;
+ return{pts,done};
+}
+
+/* =====================================================================
+   GATING: ¿puede avanzar?
+   ===================================================================== */
+function canAdvance(step){
+ if(step.kind==="station"){
+   return step.items.every(id=>{
+     if(id[0]==="o")return (state.open[id]||"").trim().length>=MIN_LEN;
+     if(id[0]==="c")return state.closed[id]!==undefined;
+     return true;
+   });
+ }
+ if(step.kind==="game")return !!state.games[step.game];
+ return true; // story/brief/invest/ficha/rubric/result
+}
+function advanceHint(step){
+ if(step.kind==="station"){
+   const pend=step.items.filter(id=>{if(id[0]==="o")return (state.open[id]||"").trim().length<MIN_LEN;if(id[0]==="c")return state.closed[id]===undefined;return false;});
+   if(pend.length) return `Completa <b>${pend.length}</b> actividad(es) para continuar.`;
+   return "Estación resuelta. ¡Avanza, detective!";
+ }
+ if(step.kind==="game") return state.games[step.game]?"Reto superado. ¡Continúa!":"Resuelve el reto para desbloquear el siguiente paso.";
+ if(step.kind==="result") return "Pulsa <b>Resolver el caso</b> para ver tu rango.";
+ return "Lee la pista y pulsa <b>Siguiente</b>.";
 }
 
 /* =====================================================================
    RENDER
    ===================================================================== */
-const main = document.getElementById("main");
-const phaseNav = document.getElementById("phaseNav");
+const stepView=document.getElementById("stepView");
+const circuitMap=document.getElementById("circuitMap");
 
-function render(){
-  // phase nav
-  phaseNav.innerHTML = PHASES.map((p,i)=>
-    `<button data-target="${p.id}">${p.emoji} F${p.num} · ${p.name}</button>`).join("") +
-    `<button data-target="finale">🏁 Cerrar caso</button>`;
+function phaseFirstStep(ph){return STEPS.findIndex(s=>s.phase===ph);}
+function phaseDone(ph){return STEPS.every((s,i)=>s.phase!==ph||canAdvance(s)||i>state.maxStep);}
 
-  // sections
-  main.innerHTML = PHASES.map(renderPhase).join("") + renderBadgesShelf() + renderFinale();
-
-  wireEvents();
-  refreshAllStatuses();
-  updateHud();
+function renderCircuit(){
+ const cur=STEPS[state.step].phase;
+ let html="";
+ [1,2,3,4,5].forEach((ph,idx)=>{
+   const reached=state.maxStep>=phaseFirstStep(ph);
+   const isDone=reached && STEPS.filter(s=>s.phase===ph).every(s=>canAdvance(s));
+   html+=`<div class="node ${reached?'reached':''} ${cur===ph?'current':''}" data-ph="${ph}">
+     <div class="dot">${isDone?'✓':PHASE_META[ph].icon}</div>
+     <div class="lbl">F${ph}<br>${PHASE_META[ph].name}</div></div>`;
+   if(idx<4)html+=`<div class="connector"></div>`;
+ });
+ circuitMap.innerHTML=html;
+ circuitMap.querySelectorAll(".node").forEach(n=>n.addEventListener("click",()=>{
+   const ph=+n.dataset.ph, target=phaseFirstStep(ph);
+   if(target<=state.maxStep){goTo(target);}
+ }));
 }
 
-function renderPhase(p){
-  const body = p.items.map(it=>renderItem(p,it)).join("");
-  return `
-  <section class="phase-section" id="${p.id}" data-phase="${p.num}" data-name="${p.name}">
-    <div class="phase-banner">
-      <div class="ph-top">
-        <div class="ph-num">${p.num}</div>
-        <div>
-          <div class="ph-time">Fase ${p.num} · ${p.time}</div>
-          <h2>${p.emoji} ${p.title}</h2>
-        </div>
-      </div>
-      <p><b>Objetivo:</b> ${p.objective}</p>
-      <div class="ph-dyn">${p.dynamic}</div>
-    </div>
-    <div class="cards">${body}</div>
-  </section>`;
+function openItemHTML(id){
+ const it=ITEMS[id],pts=OPEN_PTS[id],multiline=!it.tag.includes("breve");
+ const field=multiline
+   ?`<textarea class="open-input answer" data-id="${id}" placeholder="Escribe tu deducción (mín. ${MIN_LEN} caracteres)…"></textarea>`
+   :`<input type="text" class="open-input answer" data-id="${id}" placeholder="Respuesta breve (mín. ${MIN_LEN})…" />`;
+ return `<div class="qitem"><div class="qhead"><div class="q-icon open">✍️</div><span class="q-tag">${it.tag}</span><span class="q-pts">${pts} pts</span></div>
+   <div class="q-text">${it.q}</div>${field}
+   <div class="charmeter"><span data-meter="${id}">0 caracteres</span><span class="q-just">${it.just}</span></div>
+   <div class="status" data-status="${id}"></div></div>`;
+}
+function closedItemHTML(id){
+ const it=ITEMS[id];
+ const opts=it.opts.map((o,i)=>`<label class="opt" data-opt="${id}-${i}"><input type="radio" name="${id}" value="${i}"><span><span class="opt-letter">${String.fromCharCode(65+i)})</span> ${o}</span></label>`).join("");
+ return `<div class="qitem"><div class="qhead"><div class="q-icon closed">❓</div><span class="q-tag">Pregunta cerrada</span><span class="q-pts">${CLOSED_PTS} pts</span></div>
+   <div class="q-text">${it.q}</div><div class="options" data-closed="${id}">${opts}</div>
+   <div class="feedback" data-fb="${id}"><b>Retroalimentación: </b>${it.fb}</div></div>`;
 }
 
-function renderItem(p, it){
-  if(it.t==="head") return `<div class="info-panel" style="padding:12px 16px;"><h3 style="margin:0;">🔗 ${it.txt}</h3></div>`;
-  if(it.t==="ficha") return renderFicha();
-  if(it.t==="rubric") return renderRubric();
-  if(it.t==="checklist") return renderChecklist();
-  if(it.t==="open") return renderOpen(it);
-  if(it.t==="closed") return renderClosed(it);
-  return "";
+function renderStep(){
+ const i=state.step, step=STEPS[i];
+ const meta=PHASE_META[step.phase];
+ let inner="";
+ if(step.kind==="story"){
+   inner=`<div class="story">${step.html}</div>`;
+ }else if(step.kind==="brief"){
+   inner=`<div class="brief-grid">
+     <div class="row"><b>⏱️ Duración:</b> ${step.time}</div>
+     <div class="row"><b>🎯 Objetivo:</b> ${step.objective}</div>
+     <div class="row"><b>🎮 Dinámica:</b> ${step.dynamic}</div></div>`;
+ }else if(step.kind==="invest"){
+   const v=INVEST[step.inv];
+   inner=`<div class="invscene"><div class="lead">${v.lead}</div>`+
+     v.prompts.map((p,idx)=>`<div class="prompt-card"><h4>🖼️ ${p.h}</h4><div class="emphasis">${p.e}</div>
+       <div class="prompt-text" data-prompt="${step.inv}-${idx}">${p.p}</div>
+       <div class="copy-row"><button class="btn small ghost copy-btn" data-copy="${step.inv}-${idx}">📋 Copiar prompt</button><span class="copy-ok" data-ok="${step.inv}-${idx}">¡Copiado!</span></div></div>`).join("")+
+     `</div>`;
+ }else if(step.kind==="game"){
+   inner=renderGame(step.game);
+ }else if(step.kind==="station"){
+   inner=step.items.map(id=>id[0]==="o"?openItemHTML(id):closedItemHTML(id)).join("");
+ }else if(step.kind==="ficha"){
+   inner=`<div class="info-panel"><h3>🗂️ Ficha de análisis semiótico-antropológico</h3><table class="grid"><tbody>`+
+     FICHA_ROWS.map(r=>`<tr><th style="width:34%;">${r[0]}</th><td>${r[1]}</td></tr>`).join("")+`</tbody></table>
+     <p class="q-just" style="margin-top:8px;">En el siguiente paso responderás cada campo como evidencia del expediente.</p></div>`;
+ }else if(step.kind==="rubric"){
+   inner=`<div class="info-panel"><h3>📐 Rúbrica de evaluación integrada</h3><table class="grid"><thead><tr><th>Criterio</th><th>Desempeño esperado</th><th>Puntaje</th></tr></thead><tbody>`+
+     RUBRIC_ROWS.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td style="text-align:center;font-weight:800;">${r[2]}</td></tr>`).join("")+`</tbody></table></div>`;
+ }else if(step.kind==="checklist"){
+   inner=`<div class="info-panel"><h3>✅ Checklist final del caso <span class="q-just">(1 pt por ítem)</span></h3><div class="checklist">`+
+     CHECKLIST_ITEMS.map((t,idx)=>`<label class="chk-item" data-chk="${idx}"><input type="checkbox" value="${idx}"> <span>${t}</span></label>`).join("")+`</div></div>`;
+ }else if(step.kind==="result"){
+   inner=`<div class="info-panel" style="text-align:center;"><h3>🏁 Cierre del caso</h3>
+     <p>Tu equipo terminó el recorrido. Pulsa el botón para calcular tu puntaje, rango e insignia final.</p>
+     <button class="btn" id="evaluateBtn" style="margin-top:8px;">🔎 Resolver el caso y ver mi rango</button></div>
+     <div class="info-panel" style="margin-top:14px;"><h3>🏅 Sala de insignias</h3><div class="badge-row" id="badgeRow"></div></div>`;
+ }
+ const title=step.title || (step.kind==="invest"?"Estación de investigación":step.kind==="game"?GAMES[step.game].title:step.kind==="ficha"?"Expediente":step.kind==="rubric"?"Rúbrica":step.kind==="checklist"?"Checklist final":step.kind==="result"?"Cierre del caso":"");
+ stepView.innerHTML=`<div class="step-card"><div class="step-top">
+   <div class="step-kicker">${meta.icon} Fase ${step.phase} · ${meta.name} · Paso ${i+1} de ${STEPS.length}</div>
+   <h2>${title}</h2></div><div class="step-body">${inner}</div></div>`;
+
+ wireStep(step);
+ refreshStepStatuses(step);
+ if(step.kind==="result") renderBadgeRow();
+ updateNav();
 }
 
-function renderOpen(it){
-  const pts = OPEN_PTS[it.id];
-  const multiline = it.tag.includes("breve") ? false : true;
-  const field = multiline
-    ? `<textarea class="open-input answer" data-id="${it.id}" placeholder="Escribe tu deducción (mín. ${MIN_LEN} caracteres)…"></textarea>`
-    : `<input type="text" class="open-input answer" data-id="${it.id}" placeholder="Respuesta breve (mín. ${MIN_LEN} caracteres)…" />`;
-  return `
-  <div class="card">
-    <div class="card-head">
-      <div class="q-icon open">✍️</div>
-      <span class="q-tag">${it.tag}</span>
-      <span class="q-pts">${pts} pts</span>
-    </div>
-    <div class="card-body">
-      <div class="q-text">${it.q}</div>
-      ${field}
-      <div class="charmeter"><span data-meter="${it.id}">0 caracteres</span><span class="q-just">${it.just}</span></div>
-      <div class="status" data-status="${it.id}"></div>
-    </div>
-  </div>`;
+function renderBadgeRow(){
+ const row=document.getElementById("badgeRow"); if(!row)return;
+ row.innerHTML=BADGES.map(b=>`<div class="badge ${state.badges.includes(b.id)?'unlocked':''}"><div class="medal">${b.icon}</div><div class="b-name">${b.name}</div><div class="b-status">${state.badges.includes(b.id)?'¡Desbloqueada! +'+BADGE_PTS:'Bloqueada'}</div></div>`).join("");
 }
 
-function renderClosed(it){
-  const opts = it.opts.map((o,idx)=>{
-    const letter = String.fromCharCode(65+idx);
-    return `<label class="opt" data-opt="${it.id}-${idx}">
-        <input type="radio" name="${it.id}" value="${idx}" />
-        <span><span class="opt-letter">${letter})</span> ${o}</span>
-      </label>`;
-  }).join("");
-  return `
-  <div class="card">
-    <div class="card-head">
-      <div class="q-icon closed">❓</div>
-      <span class="q-tag">Pregunta cerrada</span>
-      <span class="q-pts">${CLOSED_PTS} pts</span>
-    </div>
-    <div class="card-body">
-      <div class="q-text">${it.q}</div>
-      <div class="options" data-closed="${it.id}">${opts}</div>
-      <div class="feedback" data-fb="${it.id}"><b>Retroalimentación: </b>${it.fb}</div>
-    </div>
-  </div>`;
+/* ---------- GAMES render ---------- */
+function renderGame(gid){
+ const g=GAMES[gid],solved=!!state.games[gid];
+ let body="";
+ if(g.type==="hotspot"){
+   body=`<svg class="poster" viewBox="0 0 320 220" data-game="${gid}">
+     <rect x="0" y="0" width="320" height="220" rx="8" fill="#1f4d70"/>
+     <rect data-hot="logo" x="14" y="14" width="40" height="20" rx="4" fill="#9fb4c7"/>
+     <rect data-hot="focus" x="34" y="60" width="252" height="62" rx="6" fill="#ffcb52"/>
+     <text x="160" y="98" text-anchor="middle" font-family="Georgia" font-size="26" font-weight="bold" fill="#3a2400" pointer-events="none">DIVERSIDAD</text>
+     <rect data-hot="text" x="40" y="140" width="240" height="9" rx="3" fill="#cfe0ee"/>
+     <rect data-hot="text" x="40" y="156" width="200" height="9" rx="3" fill="#cfe0ee"/>
+     <rect data-hot="text" x="40" y="172" width="170" height="9" rx="3" fill="#cfe0ee"/>
+     <circle data-hot="icon" cx="280" cy="190" r="16" fill="#6fd07a"/>
+   </svg>`;
+ }else if(g.type==="sort"){
+   body=`<div class="chips" data-pool="${gid}">${g.items.map((it,idx)=>`<div class="chip" data-item="${idx}">${it.t}</div>`).join("")}</div>
+     <div class="bins">${g.bins.map((b,bi)=>`<div class="bin" data-bin="${bi}"><h5>${b}</h5><div class="bin-drop" data-drop="${bi}"></div></div>`).join("")}</div>`;
+ }else if(g.type==="match"){
+   const left=g.pairs.map((p,idx)=>`<div class="chip" data-term="${idx}">${p.a}</div>`).join("");
+   const order=shuffle(g.pairs.map((_,idx)=>idx));
+   const right=order.map(idx=>`<div class="chip" data-def="${idx}">${g.pairs[idx].b}</div>`).join("");
+   body=`<div class="match-cols"><div class="col"><h5>Figura</h5>${left}</div><div class="col"><h5>Definición</h5>${right}</div></div>`;
+ }else if(g.type==="order"){
+   const order=shuffle(g.steps.map((_,idx)=>idx));
+   body=`<div class="chips" data-order="${gid}">${order.map(idx=>`<div class="chip" data-step="${idx}">${g.steps[idx]}</div>`).join("")}</div>`;
+ }
+ return `<div class="game-wrap" data-gamewrap="${gid}"><div class="gtitle">${g.title}</div><div class="grules">${g.rules}</div>
+   ${body}<div class="game-msg" data-gmsg="${gid}"></div>
+   <div class="game-done ${solved?'show':''}" data-gdone="${gid}">✅ ¡Reto superado! +${GAME_PTS} pts</div></div>`;
 }
 
-function renderFicha(){
-  const rows = FICHA_ROWS.map(r=>`<tr><th style="width:34%;">${r[0]}</th><td>${r[1]}</td></tr>`).join("");
-  return `<div class="info-panel"><h3>🗂️ Ficha de análisis semiótico-antropológico</h3>
-    <table class="grid"><tbody>${rows}</tbody></table></div>`;
-}
-function renderRubric(){
-  const rows = RUBRIC_ROWS.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td style="text-align:center;font-weight:800;">${r[2]}</td></tr>`).join("");
-  return `<div class="info-panel"><h3>📐 Rúbrica de evaluación integrada</h3>
-    <table class="grid"><thead><tr><th>Criterio</th><th>Desempeño esperado</th><th>Puntaje</th></tr></thead><tbody>${rows}</tbody></table></div>`;
-}
-function renderChecklist(){
-  const items = CHECKLIST_ITEMS.map((t,idx)=>
-    `<label class="chk-item" data-chk="${idx}"><input type="checkbox" value="${idx}" /> <span>${t}</span></label>`).join("");
-  return `<div class="info-panel"><h3>✅ Checklist final del caso <span class="q-just">(1 pt por ítem)</span></h3>
-    <div class="checklist">${items}</div></div>`;
-}
-
-function renderBadgesShelf(){
-  const cells = BADGES.map(b=>`
-    <div class="badge" data-badge="${b.id}">
-      <div class="medal">${b.icon}</div>
-      <div class="b-name">${b.name}</div>
-      <div class="b-status">Bloqueada</div>
-    </div>`).join("");
-  return `<div class="badges-shelf"><h3>🏅 Sala de insignias <span class="q-just">(+${BADGE_PTS} pts cada una)</span></h3>
-    <div class="badge-row">${cells}</div></div>`;
-}
-
-function renderFinale(){
-  return `<section class="finale" id="finale">
-    <h2>🏁 Cierre del caso — Archivo del expediente</h2>
-    <p>Cuando tu equipo termine el análisis, presiona el botón para calcular tu puntaje, rango e insignia final.</p>
-    <button class="btn" id="evaluateBtn">🔎 Resolver el caso y ver mi rango</button>
-  </section>`;
-}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 
 /* =====================================================================
-   EVENTS
+   WIRING
    ===================================================================== */
-function wireEvents(){
-  // open inputs
-  document.querySelectorAll(".answer").forEach(el=>{
-    el.value = state.open[el.dataset.id] || "";
-    el.addEventListener("input", ()=>{
-      state.open[el.dataset.id] = el.value;
-      updateOpenStatus(el.dataset.id);
-      onAnyChange();
-    });
-  });
-  // closed
-  document.querySelectorAll('[data-closed]').forEach(group=>{
-    const id = group.dataset.closed;
-    group.querySelectorAll('input[type=radio]').forEach(radio=>{
-      radio.addEventListener("change", ()=>{
-        state.closed[id] = parseInt(radio.value,10);
-        revealClosed(id);
-        onAnyChange();
-      });
-    });
-  });
-  // checklist
-  document.querySelectorAll('[data-chk]').forEach(label=>{
-    const idx = parseInt(label.dataset.chk,10);
-    const cb = label.querySelector("input");
-    cb.addEventListener("change", ()=>{
-      const set = new Set(state.chk||[]);
-      if(cb.checked) set.add(idx); else set.delete(idx);
-      state.chk = Array.from(set).sort((a,b)=>a-b);
-      onAnyChange();
-    });
-  });
-  // phase nav
-  phaseNav.querySelectorAll("button").forEach(b=>{
-    b.addEventListener("click", ()=>{
-      const t = document.getElementById(b.dataset.target);
-      if(t) t.scrollIntoView({behavior:"smooth", block:"start"});
-    });
-  });
-  document.getElementById("evaluateBtn").addEventListener("click", evaluateCase);
+function wireStep(step){
+ // open
+ stepView.querySelectorAll(".answer").forEach(el=>{
+   el.value=state.open[el.dataset.id]||"";
+   el.addEventListener("input",()=>{state.open[el.dataset.id]=el.value;updateOpenStatus(el.dataset.id);onChange();});
+ });
+ // closed
+ stepView.querySelectorAll("[data-closed]").forEach(grp=>{
+   const id=grp.dataset.closed;
+   grp.querySelectorAll("input[type=radio]").forEach(r=>r.addEventListener("change",()=>{state.closed[id]=+r.value;revealClosed(id);onChange();}));
+ });
+ // checklist
+ stepView.querySelectorAll("[data-chk]").forEach(lbl=>{
+   const idx=+lbl.dataset.chk,cb=lbl.querySelector("input");
+   cb.addEventListener("change",()=>{const set=new Set(state.chk||[]);cb.checked?set.add(idx):set.delete(idx);state.chk=[...set].sort((a,b)=>a-b);onChange();});
+ });
+ // copy prompts
+ stepView.querySelectorAll(".copy-btn").forEach(btn=>btn.addEventListener("click",()=>{
+   const key=btn.dataset.copy,txt=stepView.querySelector(`[data-prompt="${key}"]`).textContent;
+   copyText(txt);const ok=stepView.querySelector(`[data-ok="${key}"]`);ok.classList.add("show");setTimeout(()=>ok.classList.remove("show"),1600);
+ }));
+ // games
+ if(step.kind==="game")wireGame(step.game);
+ // result
+ const ev=document.getElementById("evaluateBtn");if(ev)ev.addEventListener("click",evaluateCase);
 }
 
-function onAnyChange(){
-  evaluateBadges();
-  updateHud();
-  saveState();
+function wireGame(gid){
+ const g=GAMES[gid],solved=!!state.games[gid];
+ const wrap=stepView.querySelector(`[data-gamewrap="${gid}"]`);
+ const msg=stepView.querySelector(`[data-gmsg="${gid}"]`);
+ const finish=()=>{state.games[gid]=true;stepView.querySelector(`[data-gdone="${gid}"]`).classList.add("show");onChange();};
+
+ if(g.type==="hotspot"){
+   const svg=wrap.querySelector("svg");
+   if(solved){msg.textContent="✔️ Identificaste el foco principal: el bloque de mayor tamaño y contraste.";return;}
+   svg.querySelectorAll("[data-hot]").forEach(el=>el.addEventListener("click",()=>{
+     if(el.dataset.hot==="focus"){el.setAttribute("stroke","#3f9b46");el.setAttribute("stroke-width","4");msg.textContent="✔️ ¡Correcto! El titular grande y contrastado es el primer foco de atención.";finish();}
+     else{el.classList.add("shake");setTimeout(()=>el.classList.remove("shake"),400);msg.textContent="✏️ Ese no domina la lectura. Busca el de mayor tamaño y contraste.";}
+   }));
+ }
+ else if(g.type==="sort"){
+   if(solved){msg.textContent="✔️ Clasificación correcta entre denotación y connotación.";wrap.querySelectorAll(".chip").forEach(c=>c.classList.add("locked"));return;}
+   let sel=null,placed=0;const total=g.items.length;
+   wrap.querySelectorAll(".chip[data-item]").forEach(c=>c.addEventListener("click",()=>{
+     if(c.classList.contains("locked"))return;
+     wrap.querySelectorAll(".chip").forEach(x=>x.classList.remove("sel"));c.classList.add("sel");sel=c;msg.textContent="Ahora elige el nivel correcto.";
+   }));
+   wrap.querySelectorAll(".bin").forEach(bin=>bin.addEventListener("click",()=>{
+     if(!sel)return;const idx=+sel.dataset.item,correct=g.items[idx].bin,bi=+bin.dataset.bin;
+     if(bi===correct){sel.classList.remove("sel");sel.classList.add("locked");bin.querySelector(".bin-drop").appendChild(sel);placed++;msg.textContent="✔️ Bien clasificado.";sel=null;if(placed===total){msg.textContent="✔️ ¡Todos los indicios clasificados!";finish();}}
+     else{bin.classList.add("flash");setTimeout(()=>bin.classList.remove("flash"),400);msg.textContent="✖️ Ese indicio no pertenece a ese nivel. Inténtalo de nuevo.";}
+   }));
+ }
+ else if(g.type==="match"){
+   if(solved){msg.textContent="✔️ Todas las figuras emparejadas con su definición.";wrap.querySelectorAll(".chip").forEach(c=>c.classList.add("locked"));return;}
+   let selTerm=null,matched=0;const total=g.pairs.length;
+   wrap.querySelectorAll(".chip[data-term]").forEach(c=>c.addEventListener("click",()=>{
+     if(c.classList.contains("locked"))return;
+     wrap.querySelectorAll(".chip[data-term]").forEach(x=>x.classList.remove("sel"));c.classList.add("sel");selTerm=c;msg.textContent="Elige su definición.";
+   }));
+   wrap.querySelectorAll(".chip[data-def]").forEach(c=>c.addEventListener("click",()=>{
+     if(c.classList.contains("locked")||!selTerm)return;
+     if(+c.dataset.def===+selTerm.dataset.term){c.classList.add("locked");selTerm.classList.remove("sel");selTerm.classList.add("locked");matched++;msg.textContent="✔️ ¡Par correcto!";selTerm=null;if(matched===total){msg.textContent="✔️ ¡Todas las figuras emparejadas!";finish();}}
+     else{c.classList.add("shake");setTimeout(()=>c.classList.remove("shake"),400);msg.textContent="✖️ No corresponde. Revisa la definición.";}
+   }));
+ }
+ else if(g.type==="order"){
+   if(solved){msg.textContent="✔️ Secuencia correcta: Observar → Describir → Interpretar → Relacionar → Argumentar → Reflexionar.";wrap.querySelectorAll(".chip").forEach(c=>c.classList.add("locked"));return;}
+   let next=0;const total=g.steps.length;
+   wrap.querySelectorAll(".chip[data-step]").forEach(c=>c.addEventListener("click",()=>{
+     if(c.classList.contains("locked"))return;
+     if(+c.dataset.step===next){c.classList.add("locked","order-num");c.textContent=(next+1)+". "+g.steps[next];next++;msg.textContent="✔️ Paso correcto.";if(next===total){msg.textContent="✔️ ¡Recorrido completo!";finish();}}
+     else{c.classList.add("shake");setTimeout(()=>c.classList.remove("shake"),400);msg.textContent="✖️ Ese no es el siguiente paso. Recuerda: primero observar, al final reflexionar.";}
+   }));
+ }
 }
 
-/* =====================================================================
-   STATUS REFRESH
-   ===================================================================== */
-function refreshAllStatuses(){
-  for(const id in OPEN_PTS) updateOpenStatus(id);
-  PHASES.forEach(p=>p.items.forEach(it=>{ if(it.t==="closed" && state.closed[it.id]!==undefined) restoreClosed(it.id); }));
-  (state.chk||[]).forEach(idx=>{
-    const lbl = document.querySelector(`[data-chk="${idx}"]`);
-    if(lbl){ lbl.querySelector("input").checked = true; lbl.classList.add("done"); }
-  });
-  (state.badges||[]).forEach(markBadge);
+function copyText(t){
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).catch(()=>fallbackCopy(t));}
+ else fallbackCopy(t);
 }
+function fallbackCopy(t){const ta=document.createElement("textarea");ta.value=t;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);}
 
+/* ---------- status refresh ---------- */
+function refreshStepStatuses(step){
+ if(step.kind==="station"){
+   step.items.forEach(id=>{
+     if(id[0]==="o")updateOpenStatus(id);
+     else if(state.closed[id]!==undefined)revealClosed(id);
+   });
+ }
+ if(step.kind==="checklist"){(state.chk||[]).forEach(idx=>{const l=stepView.querySelector(`[data-chk="${idx}"]`);if(l){l.querySelector("input").checked=true;l.classList.add("done");}});}
+}
 function updateOpenStatus(id){
-  const v = (state.open[id]||"").trim();
-  const meter = document.querySelector(`[data-meter="${id}"]`);
-  const status = document.querySelector(`[data-status="${id}"]`);
-  if(meter) meter.textContent = `${v.length} caracteres`;
-  if(!status) return;
-  status.className = "status";
-  if(v.length===0){ status.textContent=""; }
-  else if(v.length>=MIN_LEN){ status.classList.add("ok"); status.textContent=`✔️ Respuesta registrada · +${OPEN_PTS[id]} pts`; }
-  else { status.classList.add("pending"); status.textContent=`✏️ Faltan ${MIN_LEN - v.length} caracteres para puntuar`; }
+ const v=(state.open[id]||"").trim();
+ const m=stepView.querySelector(`[data-meter="${id}"]`),st=stepView.querySelector(`[data-status="${id}"]`);
+ if(m)m.textContent=`${v.length} caracteres`;
+ if(!st)return;st.className="status";
+ if(v.length===0)st.textContent="";
+ else if(v.length>=MIN_LEN){st.classList.add("ok");st.textContent=`✔️ Respuesta registrada · +${OPEN_PTS[id]} pts`;}
+ else{st.classList.add("pending");st.textContent=`✏️ Faltan ${MIN_LEN-v.length} caracteres para puntuar`;}
 }
-
 function revealClosed(id){
-  const it = findItem(id);
-  const group = document.querySelector(`[data-closed="${id}"]`);
-  const chosen = state.closed[id];
-  group.querySelectorAll(".opt").forEach((opt,idx)=>{
-    opt.classList.remove("correct","wrong");
-    const radio = opt.querySelector("input");
-    if(idx===it.correct) opt.classList.add("correct");
-    else if(idx===chosen) opt.classList.add("wrong");
-    radio.checked = (idx===chosen);
-  });
-  document.querySelector(`[data-fb="${id}"]`).classList.add("show");
+ const it=ITEMS[id],grp=stepView.querySelector(`[data-closed="${id}"]`);if(!grp)return;
+ const chosen=state.closed[id];
+ grp.querySelectorAll(".opt").forEach((opt,idx)=>{opt.classList.remove("correct","wrong");const r=opt.querySelector("input");if(idx===it.correct)opt.classList.add("correct");else if(idx===chosen)opt.classList.add("wrong");r.checked=(idx===chosen);});
+ stepView.querySelector(`[data-fb="${id}"]`).classList.add("show");
 }
-function restoreClosed(id){ revealClosed(id); }
 
-/* =====================================================================
-   BADGES
-   ===================================================================== */
+/* ---------- change handler ---------- */
+function onChange(){evaluateBadges();updateHud();updateNav();renderCircuit();save();}
+
 function evaluateBadges(){
-  BADGES.forEach(b=>{
-    if(!state.badges.includes(b.id) && b.cond(state)){
-      state.badges.push(b.id);
-      markBadge(b.id);
-      toastBadge(b);
-    }
-  });
-}
-function markBadge(id){
-  const el = document.querySelector(`[data-badge="${id}"]`);
-  if(el && !el.classList.contains("unlocked")){
-    el.classList.add("unlocked");
-    el.querySelector(".b-status").textContent = "¡Desbloqueada! +"+BADGE_PTS;
-  }
+ BADGES.forEach(b=>{if(!state.badges.includes(b.id)&&b.cond(state)){state.badges.push(b.id);toastBadge(b);const row=document.getElementById("badgeRow");if(row)renderBadgeRow();}});
 }
 function toastBadge(b){
-  const wrap = document.getElementById("toastWrap");
-  const t = document.createElement("div");
-  t.className = "toast";
-  t.innerHTML = `<span class="t-medal">${b.icon}</span><span>Insignia desbloqueada<br><b>${b.name}</b> · +${BADGE_PTS} pts</span>`;
-  wrap.appendChild(t);
-  setTimeout(()=>{ t.style.opacity="0"; t.style.transition="opacity .4s"; setTimeout(()=>t.remove(),400); }, 3600);
+ const w=document.getElementById("toastWrap"),t=document.createElement("div");t.className="toast";
+ t.innerHTML=`<span class="t-medal">${b.icon}</span><span>Insignia desbloqueada<br><b>${b.name}</b> · +${BADGE_PTS} pts</span>`;
+ w.appendChild(t);setTimeout(()=>{t.style.opacity="0";t.style.transition="opacity .4s";setTimeout(()=>t.remove(),400);},3600);
 }
 
-/* =====================================================================
-   HUD (header)
-   ===================================================================== */
+/* ---------- HUD + NAV ---------- */
 function updateHud(){
-  const {pts, completed} = computeScore();
-  document.getElementById("scorePill").textContent = `🎯 ${pts} pts`;
-  document.getElementById("badgePill").textContent = `🏅 ${state.badges.length}/${BADGES.length}`;
-  const pctRaw = Math.round((completed/TOTAL_ITEMS)*100);
-  const pct = Math.min(100, pctRaw);
-  const bar = document.getElementById("progressBar");
-  bar.style.width = pct+"%";
-  document.getElementById("progressLabel").textContent = `${pct}% del caso resuelto · ${pts} pts`;
+ const{pts,done}=computeScore();
+ document.getElementById("scorePill").textContent=`🎯 ${pts} pts`;
+ document.getElementById("badgePill").textContent=`🏅 ${state.badges.length}/${BADGES.length}`;
+ document.getElementById("phasePill").textContent=`🧭 Fase ${STEPS[state.step].phase}`;
+ const pct=Math.min(100,Math.round((done/TOTAL_ITEMS)*100));
+ document.getElementById("progressBar").style.width=pct+"%";
+ document.getElementById("progressLabel").textContent=`${pct}% del circuito · ${pts} pts`;
 }
-
-function findItem(id){
-  for(const p of PHASES) for(const it of p.items) if(it.id===id) return it;
-  return null;
+const prevBtn=document.getElementById("prevBtn"),nextBtn=document.getElementById("nextBtn"),navHint=document.getElementById("navHint");
+function updateNav(){
+ const step=STEPS[state.step],last=state.step===STEPS.length-1;
+ prevBtn.disabled=state.step===0;
+ nextBtn.style.display=last?"none":"inline-block";
+ nextBtn.disabled=!canAdvance(step);
+ navHint.innerHTML=advanceHint(step);
 }
+function goTo(i){
+ state.step=Math.max(0,Math.min(STEPS.length-1,i));
+ state.maxStep=Math.max(state.maxStep,state.step);
+ save();renderStep();renderCircuit();updateHud();window.scrollTo({top:0,behavior:"smooth"});
+}
+prevBtn.addEventListener("click",()=>goTo(state.step-1));
+nextBtn.addEventListener("click",()=>{if(canAdvance(STEPS[state.step]))goTo(state.step+1);});
 
-/* =====================================================================
-   FINAL EVALUATION
-   ===================================================================== */
+/* ---------- final ---------- */
 function evaluateCase(){
-  evaluateBadges();
-  const {pts} = computeScore();
-  const rank = RANKS.find(r=>pts>=r.min);
-  document.getElementById("finalScore").textContent = pts;
-  document.getElementById("rankName").textContent = rank.name;
-  document.getElementById("rankMsg").textContent = rank.msg;
-  document.getElementById("rankSeal").textContent = rank.icon;
-
-  const openDone = Object.keys(OPEN_PTS).filter(id=>(state.open[id]||"").trim().length>=MIN_LEN).length;
-  let closedCorrect=0, closedAns=0;
-  PHASES.forEach(p=>p.items.forEach(it=>{ if(it.t==="closed" && state.closed[it.id]!==undefined){ closedAns++; if(state.closed[it.id]===it.correct) closedCorrect++; }}));
-  document.getElementById("resultBreakdown").innerHTML =
-    `<span>✍️ Abiertas: ${openDone}/21</span>
-     <span>❓ Cerradas correctas: ${closedCorrect}/${closedAns||0}</span>
-     <span>✅ Checklist: ${(state.chk||[]).length}/5</span>
-     <span>🏅 Insignias: ${state.badges.length}/${BADGES.length}</span>`;
-  document.getElementById("overlay").classList.add("show");
-  saveState();
+ evaluateBadges();const{pts}=computeScore();const rank=RANKS.find(r=>pts>=r.min);
+ document.getElementById("finalScore").textContent=pts;
+ document.getElementById("rankName").textContent=rank.name;
+ document.getElementById("rankMsg").textContent=rank.msg;
+ document.getElementById("rankSeal").textContent=rank.icon;
+ const openDone=Object.keys(OPEN_PTS).filter(id=>(state.open[id]||"").trim().length>=MIN_LEN).length;
+ let cc=0,ca=0;for(const id in ITEMS){if(id[0]==="c"&&state.closed[id]!==undefined){ca++;if(state.closed[id]===ITEMS[id].correct)cc++;}}
+ const gs=GAME_IDS.filter(g=>state.games[g]).length;
+ document.getElementById("resultBreakdown").innerHTML=`<span>✍️ Abiertas: ${openDone}/21</span><span>❓ Cerradas: ${cc}/${ca||0}</span><span>🎮 Retos: ${gs}/${GAME_IDS.length}</span><span>✅ Checklist: ${(state.chk||[]).length}/5</span><span>🏅 Insignias: ${state.badges.length}/${BADGES.length}</span>`;
+ document.getElementById("overlay").classList.add("show");save();
 }
-
-document.getElementById("closeOverlay").addEventListener("click", ()=>document.getElementById("overlay").classList.remove("show"));
-document.getElementById("overlay").addEventListener("click", e=>{ if(e.target.id==="overlay") e.target.classList.remove("show"); });
-document.getElementById("restartCase").addEventListener("click", ()=>{
-  if(confirm("¿Reiniciar el caso? Se borrarán todas las respuestas y puntajes de este equipo.")){
-    const theme = state.theme;
-    state = blankState(); state.theme = theme;
-    saveState();
-    document.getElementById("overlay").classList.remove("show");
-    render(); applyTheme();
-    window.scrollTo({top:0, behavior:"smooth"});
-  }
+document.getElementById("closeOverlay").addEventListener("click",()=>document.getElementById("overlay").classList.remove("show"));
+document.getElementById("overlay").addEventListener("click",e=>{if(e.target.id==="overlay")e.target.classList.remove("show");});
+document.getElementById("restartCase").addEventListener("click",()=>{
+ if(confirm("¿Reiniciar el caso? Se borrarán todas las respuestas, retos y puntajes.")){
+   const theme=state.theme;state=blank();state.theme=theme;save();
+   document.getElementById("overlay").classList.remove("show");
+   renderStep();renderCircuit();updateHud();applyTheme();window.scrollTo({top:0,behavior:"smooth"});
+ }
 });
 
-/* =====================================================================
-   THEME
-   ===================================================================== */
-const themeToggle = document.getElementById("themeToggle");
+/* ---------- theme ---------- */
+const themeToggle=document.getElementById("themeToggle");
 function applyTheme(){
-  let theme = state.theme;
-  if(!theme){
-    theme = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark":"light";
-  }
-  document.documentElement.setAttribute("data-theme", theme);
-  themeToggle.textContent = theme==="dark" ? "☀️" : "🌙";
+ let t=state.theme||((window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light");
+ document.documentElement.setAttribute("data-theme",t);themeToggle.textContent=t==="dark"?"☀️":"🌙";
 }
-themeToggle.addEventListener("click", ()=>{
-  const cur = document.documentElement.getAttribute("data-theme");
-  state.theme = cur==="dark" ? "light":"dark";
-  applyTheme(); saveState();
-});
+themeToggle.addEventListener("click",()=>{const cur=document.documentElement.getAttribute("data-theme");state.theme=cur==="dark"?"light":"dark";applyTheme();save();});
 
-/* =====================================================================
-   PHASE OBSERVER (scroll → header phase indicator)
-   ===================================================================== */
-function setupObserver(){
-  const phasePill = document.getElementById("phasePill");
-  const nav = phaseNav;
-  const obs = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        const num = e.target.dataset.phase, name = e.target.dataset.name;
-        if(num){
-          phasePill.textContent = `🧭 Fase ${num} · ${name}`;
-          nav.querySelectorAll("button").forEach(b=>b.classList.toggle("active", b.dataset.target===e.target.id));
-        }
-      }
-    });
-  }, {rootMargin:"-45% 0px -50% 0px", threshold:0});
-  document.querySelectorAll(".phase-section").forEach(s=>obs.observe(s));
-}
+/* ---------- timer ---------- */
+function startTimer(){const pill=document.getElementById("timerPill");let s=0;setInterval(()=>{s++;pill.textContent=`⏱️ ${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;},1000);}
 
-/* =====================================================================
-   TIMER (total elapsed)
-   ===================================================================== */
-function startTimer(){
-  const pill = document.getElementById("timerPill");
-  let secs = 0;
-  setInterval(()=>{
-    secs++;
-    const m = String(Math.floor(secs/60)).padStart(2,"0");
-    const s = String(secs%60).padStart(2,"0");
-    pill.textContent = `⏱️ ${m}:${s}`;
-  }, 1000);
-}
-
-/* =====================================================================
-   INIT
-   ===================================================================== */
-applyTheme();
-render();
-setupObserver();
-startTimer();
+/* ---------- init ---------- */
+applyTheme();renderStep();renderCircuit();updateHud();startTimer();
 </script>
 </body>
 </html>
