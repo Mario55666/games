@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#3b0a0a" />
+<meta name="description" content="Anagramas Semióticos: juego educativo con refuerzo del aprendizaje (pistas, datos y analogías)." />
+<title>Anagramas Semióticos · Colección Misión Semiótica</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --burdeos:#5c1a1a; --burdeos-claro:#7a2424; --oro:#c8a24a; --oro-claro:#e6c878;
+    --pergamino:#efe3c8; --verde:#3f6f4a; --rojo:#8c2f2f; --sombra:rgba(0,0,0,.55);
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; min-height:100vh; color:var(--pergamino);
+    font-family:'EB Garamond',Georgia,serif;
+    background:radial-gradient(ellipse at top,#2a1d14 0%,#160f0a 55%,#0b0705 100%) fixed;
+  }
+  body::before{ content:""; position:fixed; inset:0; pointer-events:none; opacity:.05; z-index:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .wrap{ position:relative; z-index:1; max-width:760px; margin:0 auto; padding:1.2rem; }
+  h1,h2,h3,.deco{ font-family:'Cinzel',serif; letter-spacing:.5px; }
+  .display{ font-family:'Cinzel Decorative',serif; }
+  .oro{ color:var(--oro-claro); }
+  a{ color:var(--oro-claro); }
+  .marco{ position:relative; background:linear-gradient(180deg,rgba(40,28,18,.94),rgba(20,14,9,.96));
+    border:2px solid var(--oro); border-radius:8px; padding:clamp(16px,4vw,32px);
+    box-shadow:0 0 0 6px rgba(0,0,0,.45),0 18px 50px var(--sombra),inset 0 0 40px rgba(0,0,0,.5); }
+  .esq{ position:absolute; width:24px; height:24px; border-color:var(--oro-claro); opacity:.85; }
+  .esq.tl{ top:6px;left:6px;border-top:2px solid;border-left:2px solid; }
+  .esq.tr{ top:6px;right:6px;border-top:2px solid;border-right:2px solid; }
+  .esq.bl{ bottom:6px;left:6px;border-bottom:2px solid;border-left:2px solid; }
+  .esq.br{ bottom:6px;right:6px;border-bottom:2px solid;border-right:2px solid; }
+  .filete{ height:2px;border:0;background:linear-gradient(90deg,transparent,var(--oro),transparent);margin:1rem auto;max-width:320px; }
+  .sello{ display:inline-flex;align-items:center;gap:.4rem;border:1px solid var(--oro);color:var(--oro-claro);
+    background:rgba(92,26,26,.35);border-radius:30px;padding:.25rem .8rem;font-family:'Cinzel',serif;font-size:.8rem; }
+  .hud{ display:flex; gap:.6rem; flex-wrap:wrap; justify-content:center; margin-bottom:1rem; }
+  .btn{ font-family:'Cinzel',serif; border-radius:6px; padding:.55rem 1.1rem; cursor:pointer; letter-spacing:.5px; border:1px solid var(--oro); }
+  .btn-oro{ background:linear-gradient(180deg,var(--oro-claro),var(--oro)); color:#2a1c08; font-weight:600; }
+  .btn-burdeos{ background:linear-gradient(180deg,var(--burdeos-claro),var(--burdeos)); color:var(--pergamino); }
+  .btn-fan{ background:transparent; color:var(--oro-claro); }
+  .btn:hover{ filter:brightness(1.08); }
+  .btn:disabled{ opacity:.45; cursor:not-allowed; }
+
+  .fichas{ display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center; margin:1.2rem 0; }
+  .ficha{ width:clamp(38px,9vw,52px); height:clamp(46px,11vw,62px); display:flex; align-items:center; justify-content:center;
+    font-family:'Cinzel',serif; font-size:clamp(1.2rem,5vw,1.8rem); color:var(--oro-claro);
+    background:repeating-linear-gradient(45deg,rgba(92,26,26,.9) 0 8px,rgba(60,16,16,.9) 8px 16px),var(--burdeos);
+    border:2px solid var(--oro); border-radius:8px; box-shadow:0 6px 14px var(--sombra); animation:caer .4s ease backwards; }
+  @keyframes caer{ from{ transform:translateY(-14px) rotate(-6deg); opacity:0; } }
+
+  input.resp{ width:100%; text-align:center; font-family:'Cinzel',serif; font-size:1.25rem; letter-spacing:3px; text-transform:uppercase;
+    background:rgba(15,11,7,.85); color:var(--pergamino); border:1px solid var(--oro); border-radius:6px; padding:.7rem; }
+  input.resp:focus{ outline:none; box-shadow:0 0 0 .2rem rgba(200,162,74,.25); }
+
+  .panel{ background:rgba(20,14,9,.6); border:1px solid rgba(200,162,74,.4); border-radius:8px; padding:1rem; margin-top:1rem; }
+  .refuerzo{ border-left:4px solid var(--rojo); animation:aparecer .4s ease; }
+  @keyframes aparecer{ from{ opacity:0; transform:translateY(10px); } }
+  .refuerzo .item{ margin:.5rem 0; }
+  .refuerzo .et{ font-family:'Cinzel',serif; font-size:.78rem; text-transform:uppercase; letter-spacing:1px; color:var(--oro-claro); display:block; }
+  .ok-msg{ border-left:4px solid var(--verde); }
+
+  .opcion{ display:block; width:100%; text-align:left; margin:.4rem 0; background:rgba(15,11,7,.7);
+    border:1px solid rgba(200,162,74,.35); color:var(--pergamino); border-radius:6px; padding:.6rem .8rem;
+    font-family:'EB Garamond',serif; cursor:pointer; transition:.15s; }
+  .opcion:hover{ border-color:var(--oro); background:rgba(92,26,26,.3); }
+  .opcion.correcta{ border-color:var(--verde); background:rgba(63,111,74,.35); }
+  .opcion.incorrecta{ border-color:var(--rojo); background:rgba(140,47,47,.3); }
+  .opcion .letra{ font-family:'Cinzel',serif; color:var(--oro-claro); margin-right:.5rem; }
+
+  .barra{ height:9px; background:rgba(0,0,0,.4); border:1px solid rgba(200,162,74,.35); border-radius:6px; overflow:hidden; }
+  .barra > div{ height:100%; background:linear-gradient(90deg,var(--oro),var(--oro-claro)); width:0; transition:width .4s; }
+
+  .footer{ text-align:center; font-family:'Cinzel',serif; font-size:.8rem; color:var(--oro-claro); padding:1.4rem 0; opacity:.85; }
+  .nav-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
+  .nav-top a{ text-decoration:none; font-family:'Cinzel',serif; font-size:.85rem; }
+  .toast{ position:fixed; bottom:18px; left:50%; transform:translateX(-50%); z-index:50; background:rgba(20,14,9,.95);
+    border:1px solid var(--oro); color:var(--oro-claro); padding:.6rem 1rem; border-radius:8px; font-family:'Cinzel',serif; font-size:.85rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav-top">
+    <a href="juegos.html">‹ Volver al gabinete de juegos</a>
+    <span class="sello"><i>❦</i> Anagramas Semióticos</span>
+  </div>
+
+  <div class="marco">
+    <span class="esq tl"></span><span class="esq tr"></span><span class="esq bl"></span><span class="esq br"></span>
+
+    <div class="text-center" style="text-align:center">
+      <h1 class="display oro" style="font-size:clamp(1.5rem,6vw,2.3rem); margin:.2rem 0">Anagramas Semióticos</h1>
+      <p style="margin:.2rem 0 0">Descifra el término oculto. Si fallas, el caso te dará <strong class="oro">pistas, datos y analogías</strong> para reforzar tu deducción.</p>
+      <hr class="filete" />
+    </div>
+
+    <div class="hud">
+      <span class="sello"><i>⚜</i> <span id="hudPts">0</span> pts</span>
+      <span class="sello"><i>◆</i> <span id="hudIdx">1</span>/<span id="hudTot">0</span></span>
+      <span class="sello"><i>★</i> <span id="hudRacha">0</span> en racha</span>
+    </div>
+    <div class="barra"><div id="barra"></div></div>
+
+    <!-- Zona de juego -->
+    <div id="zonaJuego" style="margin-top:1.2rem">
+      <p class="oro" id="pistaCorta" style="text-align:center; min-height:1.4em; font-style:italic"></p>
+      <div class="fichas" id="fichas"></div>
+      <input class="resp" id="resp" maxlength="20" autocomplete="off" placeholder="escribe el término…" />
+      <div style="display:flex; gap:.5rem; flex-wrap:wrap; justify-content:center; margin-top:.9rem">
+        <button class="btn btn-oro" id="btnResolver">Resolver</button>
+        <button class="btn btn-fan" id="btnPista">Revelar una letra (−5)</button>
+        <button class="btn btn-fan" id="btnMezclar">Mezclar fichas</button>
+      </div>
+
+      <!-- Refuerzo (aparece tras un error) -->
+      <div class="panel refuerzo" id="refuerzo" style="display:none">
+        <h3 class="oro" style="margin:.1rem 0 .6rem">🔎 Refuerzo del aprendizaje</h3>
+        <div class="item"><span class="et">Pista</span><span id="rPista"></span></div>
+        <div class="item"><span class="et">Dato</span><span id="rDato"></span></div>
+        <div class="item"><span class="et">Elemento analógico</span><span id="rAnalogia"></span></div>
+        <hr class="filete" />
+        <div class="item"><span class="et">Pregunta de refuerzo</span><span id="rPregunta"></span></div>
+        <div id="rOpciones"></div>
+        <p id="rFb" style="min-height:1.2em; margin:.4rem 0 0"></p>
+      </div>
+
+      <!-- Acierto -->
+      <div class="panel ok-msg" id="acierto" style="display:none">
+        <h3 class="oro" style="margin:.1rem 0 .4rem">✔ ¡Correcto!</h3>
+        <p id="aDef" style="margin:.2rem 0"></p>
+        <button class="btn btn-burdeos" id="btnSiguiente">Siguiente término ›</button>
+      </div>
+    </div>
+
+    <!-- Fin -->
+    <div id="zonaFin" style="display:none; text-align:center">
+      <hr class="filete" />
+      <div class="display oro" id="rangoFin" style="font-size:clamp(1.4rem,5vw,2.2rem)">—</div>
+      <p><span class="sello"><i>⚜</i> <span id="ptsFin">0</span> puntos · <span id="aciertosFin">0</span> aciertos</span></p>
+      <p id="msgFin" style="max-width:520px; margin:.6rem auto"></p>
+      <div style="display:flex; gap:.5rem; justify-content:center; flex-wrap:wrap">
+        <button class="btn btn-oro" id="btnReiniciar">Jugar de nuevo</button>
+        <a class="btn btn-fan" href="juegos.html" style="text-decoration:none">Volver al gabinete</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Mg. Mario Quiroz Martinez — Curso de Semiótica de la Imagen 2026</div>
+</div>
+
+<script>
+/* ===== Banco de términos semióticos con refuerzo ===== */
+const TERMINOS = [
+  { palabra:"SIGNO", pista:"Unidad básica que une una forma con un sentido.",
+    def:"Para Saussure, el signo une un significante (imagen acústica) y un significado (concepto).",
+    dato:"Saussure llamó 'arbitraria' a la relación entre significante y significado: no hay vínculo natural entre la palabra 'árbol' y el objeto.",
+    analogia:"Como una moneda de dos caras: forma y sentido son inseparables.",
+    refuerzo:{ q:"¿Qué dos componentes une un signo?", ops:["Significante y significado","Dos sonidos distintos","Una imagen y su color"], correcta:0 } },
+  { palabra:"ICONO", pista:"Signo que se parece a aquello que representa.",
+    def:"El ícono (Peirce) mantiene una relación de semejanza con su objeto.",
+    dato:"Una fotografía o un mapa son íconos porque comparten rasgos visibles con lo que representan.",
+    analogia:"Como un retrato: se parece a la persona retratada.",
+    refuerzo:{ q:"¿En qué se basa el ícono según Peirce?", ops:["En la semejanza con el objeto","En una convención social","En la causa y efecto"], correcta:0 } },
+  { palabra:"INDICE", pista:"Signo que señala su objeto por contigüidad o causa.",
+    def:"El índice (Peirce) tiene una conexión física o causal con su objeto.",
+    dato:"El humo es índice del fuego; una huella, índice de quien pasó.",
+    analogia:"Como una veleta que apunta hacia donde sopla el viento.",
+    refuerzo:{ q:"El humo respecto al fuego es un…", ops:["Índice","Ícono","Símbolo"], correcta:0 } },
+  { palabra:"SIMBOLO", pista:"Signo cuya relación con el objeto es por convención.",
+    def:"El símbolo (Peirce) se vincula con su objeto por acuerdo cultural, no por semejanza ni causa.",
+    dato:"Las palabras, las banderas y los semáforos son símbolos: su sentido es aprendido.",
+    analogia:"Como la luz roja del semáforo: nada en el rojo 'es' detenerse; lo acordamos.",
+    refuerzo:{ q:"La relación símbolo-objeto es…", ops:["Convencional (acuerdo cultural)","De semejanza","De causa física"], correcta:0 } },
+  { palabra:"DENOTACION", pista:"El primer nivel: lo que la imagen muestra literalmente.",
+    def:"La denotación es el significado literal y descriptivo de un signo.",
+    dato:"Ante una rosa roja, la denotación es simplemente: una flor de color rojo.",
+    analogia:"Como leer la etiqueta de un producto: dice lo que es, sin adornos.",
+    refuerzo:{ q:"La denotación corresponde a…", ops:["El sentido literal","Las asociaciones culturales","La ideología oculta"], correcta:0 } },
+  { palabra:"CONNOTACION", pista:"Segundo nivel: las asociaciones culturales que evoca.",
+    def:"La connotación son los significados culturales y emocionales asociados a un signo.",
+    dato:"La rosa roja connota amor o pasión: significados añadidos por la cultura.",
+    analogia:"Como el aroma que deja un perfume: no se ve, pero acompaña al objeto.",
+    refuerzo:{ q:"La connotación añade…", ops:["Significados culturales y emotivos","Solo la descripción física","El nombre del autor"], correcta:0 } },
+  { palabra:"MITO", pista:"Sentido que naturaliza una ideología (Barthes).",
+    def:"Para Barthes, el mito convierte la cultura y la ideología en algo que parece natural y evidente.",
+    dato:"Barthes analizó cómo una publicidad puede hacer pasar valores ideológicos por 'sentido común'.",
+    analogia:"Como un disfraz tan bien hecho que olvidamos que hay alguien debajo.",
+    refuerzo:{ q:"El mito (Barthes) hace que la ideología parezca…", ops:["Natural y evidente","Falsa y absurda","Técnica y compleja"], correcta:0 } },
+  { palabra:"CODIGO", pista:"Sistema de reglas que permite interpretar los signos.",
+    def:"El código es el conjunto de convenciones compartidas que da sentido a los mensajes.",
+    dato:"Sin compartir el código (idioma, cultura), emisor y receptor no se entienden.",
+    analogia:"Como las reglas de un juego: sin conocerlas, las jugadas no significan nada.",
+    refuerzo:{ q:"Un código sirve para…", ops:["Interpretar los signos compartidos","Ocultar los mensajes","Crear ruido"], correcta:0 } },
+  { palabra:"METAFORA", pista:"Figura: decir algo mediante otra cosa por semejanza.",
+    def:"La metáfora traslada el sentido de un término a otro por una relación de semejanza.",
+    dato:"En lo visual, mostrar un cerebro como engranajes es una metáfora de 'pensar = maquinaria'.",
+    analogia:"Como llamar 'león' a una persona valiente.",
+    refuerzo:{ q:"La metáfora se basa en una relación de…", ops:["Semejanza","Parte-todo","Causa-efecto"], correcta:0 } },
+  { palabra:"METONIMIA", pista:"Figura: la parte por el todo (o causa por efecto).",
+    def:"La metonimia sustituye un término por otro con el que tiene contigüidad (parte/todo, causa/efecto).",
+    dato:"Mostrar solo una mano artesana para hablar de toda una comunidad es metonimia.",
+    analogia:"Como decir 'leer a Cervantes' para referirse a leer sus obras.",
+    refuerzo:{ q:"Mostrar una corona para referirse al rey es…", ops:["Metonimia","Metáfora","Hipérbole"], correcta:0 } },
+  { palabra:"RETORICA", pista:"Arte de persuadir; también aplica a la imagen.",
+    def:"La retórica visual estudia los recursos con que las imágenes persuaden al espectador.",
+    dato:"Barthes habló de la 'retórica de la imagen' al analizar la publicidad.",
+    analogia:"Como el maquillaje de un discurso: realza para convencer.",
+    refuerzo:{ q:"La retórica visual busca principalmente…", ops:["Persuadir al espectador","Describir sin intención","Medir colores"], correcta:0 } },
+  { palabra:"PARADIGMA", pista:"Eje de selección: opciones que podrían sustituirse.",
+    def:"El paradigma es el conjunto de signos entre los que se elige uno (eje vertical, de selección).",
+    dato:"Elegir 'rojo' en vez de 'azul' para un afiche es una elección paradigmática.",
+    analogia:"Como el menú de un restaurante: eliges un plato entre varios posibles.",
+    refuerzo:{ q:"El paradigma es el eje de…", ops:["Selección (sustitución)","Combinación (secuencia)","Repetición"], correcta:0 } },
+  { palabra:"SINTAGMA", pista:"Eje de combinación: cómo se ordenan los signos.",
+    def:"El sintagma es la combinación de signos en una secuencia (eje horizontal, de combinación).",
+    dato:"El orden de los elementos en una composición visual es su dimensión sintagmática.",
+    analogia:"Como armar un plato con los ingredientes elegidos: el cómo se combinan.",
+    refuerzo:{ q:"El sintagma es el eje de…", ops:["Combinación (secuencia)","Selección (sustitución)","Negación"], correcta:0 } }
+];
+
+/* ===== Estado ===== */
+const $=(s)=>document.querySelector(s);
+let orden=[], idx=0, pts=0, racha=0, aciertos=0, resuelto=false, refuerzoResuelto=true, letrasReveladas=0;
+
+function mezclarArr(a){ return a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(p=>p[1]); }
+function scramble(palabra){
+  let arr=palabra.split("");
+  let mezclado;
+  do{ mezclado=mezclarArr(arr); }while(mezclado.join("")===palabra && palabra.length>1);
+  return mezclado;
+}
+function toast(msg){ const t=document.createElement("div"); t.className="toast"; t.textContent=msg; document.body.appendChild(t);
+  setTimeout(()=>{ t.style.transition="opacity .4s"; t.style.opacity="0"; setTimeout(()=>t.remove(),400); },1800); }
+
+function rango(p){ if(p>=180)return "Maestro Semiólogo"; if(p>=120)return "Inspector del Signo"; if(p>=60)return "Sabueso"; if(p>=20)return "Aprendiz"; return "Novato"; }
+
+function iniciar(){
+  orden=mezclarArr([...Array(TERMINOS.length).keys()]);
+  idx=0; pts=0; racha=0; aciertos=0;
+  $("#hudTot").textContent=orden.length;
+  $("#zonaFin").style.display="none"; $("#zonaJuego").style.display="block";
+  actualizarHud(); mostrarTermino();
+}
+
+function actualizarHud(){
+  $("#hudPts").textContent=pts; $("#hudIdx").textContent=Math.min(idx+1,orden.length);
+  $("#hudRacha").textContent=racha; $("#barra").style.width=(idx/orden.length*100)+"%";
+}
+
+function termActual(){ return TERMINOS[orden[idx]]; }
+
+function mostrarTermino(){
+  resuelto=false; refuerzoResuelto=true; letrasReveladas=0;
+  const t=termActual();
+  $("#pistaCorta").textContent="«"+t.pista+"»";
+  $("#refuerzo").style.display="none"; $("#acierto").style.display="none";
+  $("#resp").value=""; $("#resp").disabled=false; $("#btnResolver").disabled=false; $("#btnPista").disabled=false;
+  pintarFichas(scramble(t.palabra));
+  $("#resp").focus();
+  actualizarHud();
+}
+
+function pintarFichas(arr){
+  const cont=$("#fichas"); cont.innerHTML="";
+  arr.forEach((l,i)=>{ const f=document.createElement("div"); f.className="ficha"; f.textContent=l;
+    f.style.animationDelay=(i*0.05)+"s"; cont.appendChild(f); });
+}
+
+function normaliza(s){ return s.toUpperCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^A-Z]/g,""); }
+
+function resolver(){
+  if(resuelto) return;
+  const t=termActual();
+  const intento=normaliza($("#resp").value);
+  if(!intento){ toast("Escribe tu respuesta."); return; }
+  if(intento===t.palabra){
+    resuelto=true;
+    const ganado=Math.max(5, 20 - letrasReveladas*5);
+    pts+=ganado; aciertos++; racha++;
+    $("#aDef").innerHTML="<strong class='oro'>"+t.palabra+"</strong>: "+t.def;
+    $("#acierto").style.display="block"; $("#refuerzo").style.display="none";
+    $("#resp").disabled=true; $("#btnResolver").disabled=true; $("#btnPista").disabled=true;
+    toast("+"+ganado+" pts");
+    actualizarHud();
+  } else {
+    racha=0;
+    mostrarRefuerzo(t);
+  }
+}
+
+function mostrarRefuerzo(t){
+  $("#rPista").textContent=t.pista;
+  $("#rDato").textContent=t.dato;
+  $("#rAnalogia").textContent=t.analogia;
+  $("#rPregunta").textContent=t.refuerzo.q;
+  $("#rFb").textContent=""; $("#rFb").style.color="";
+  refuerzoResuelto=false;
+  const cont=$("#rOpciones"); cont.innerHTML="";
+  const letras=["A","B","C","D"];
+  t.refuerzo.ops.forEach((op,i)=>{
+    const b=document.createElement("button"); b.className="opcion";
+    b.innerHTML="<span class='letra'>"+letras[i]+".</span>"+op;
+    b.onclick=()=>{
+      if(refuerzoResuelto) return;
+      if(i===t.refuerzo.correcta){
+        b.classList.add("correcta"); refuerzoResuelto=true;
+        $("#rFb").textContent="¡Bien! Ahora intenta de nuevo el anagrama con esta idea en mente.";
+        $("#rFb").style.color="var(--oro-claro)";
+        pts+=5; actualizarHud(); toast("+5 pts por reforzar");
+        $("#resp").focus();
+      } else {
+        b.classList.add("incorrecta");
+        $("#rFb").textContent="Aún no. Relee el dato y la analogía: contienen la clave.";
+        $("#rFb").style.color="#e9a3a3";
+        setTimeout(()=>b.classList.remove("incorrecta"),1000);
+      }
+    };
+    cont.appendChild(b);
+  });
+  $("#refuerzo").style.display="block";
+  $("#acierto").style.display="none";
+}
+
+function revelarLetra(){
+  if(resuelto) return;
+  const t=termActual();
+  const actual=normaliza($("#resp").value);
+  let prefijo=t.palabra.slice(0,letrasReveladas+1);
+  letrasReveladas++;
+  $("#resp").value=prefijo;
+  pts=Math.max(0,pts-5); actualizarHud();
+  $("#resp").focus();
+  if(letrasReveladas>=t.palabra.length){ $("#btnPista").disabled=true; }
+}
+
+function siguiente(){
+  idx++;
+  if(idx>=orden.length){ finalizar(); return; }
+  mostrarTermino();
+}
+
+function finalizar(){
+  $("#zonaJuego").style.display="none"; $("#zonaFin").style.display="block";
+  $("#barra").style.width="100%";
+  $("#ptsFin").textContent=pts; $("#aciertosFin").textContent=aciertos+"/"+orden.length;
+  $("#rangoFin").textContent=rango(pts);
+  let msg;
+  if(aciertos===orden.length) msg="¡Caso cerrado con honores! Dominas el vocabulario semiótico.";
+  else if(aciertos>=orden.length*0.6) msg="Buen trabajo, detective. Repasa los términos donde necesitaste refuerzo.";
+  else msg="Cada error reforzado es aprendizaje. Vuelve a jugar para afianzar los conceptos.";
+  $("#msgFin").textContent=msg;
+}
+
+/* ===== Eventos ===== */
+$("#btnResolver").onclick=resolver;
+$("#btnPista").onclick=revelarLetra;
+$("#btnMezclar").onclick=()=>{ if(!resuelto) pintarFichas(scramble(termActual().palabra)); };
+$("#btnSiguiente").onclick=siguiente;
+$("#btnReiniciar").onclick=iniciar;
+$("#resp").addEventListener("keydown",(e)=>{ if(e.key==="Enter") resolver(); });
+
+iniciar();
+</script>
+</body>
+</html>

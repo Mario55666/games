@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#3b0a0a" />
+<meta name="description" content="Gabinete de Juegos Semióticos: colección educativa con refuerzo del aprendizaje, estilo victoriano." />
+<title>Gabinete de Juegos Semióticos</title>
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="icon-192.png" />
+<link rel="icon" type="image/png" href="icon-192.png" />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root{ --burdeos:#5c1a1a; --burdeos-claro:#7a2424; --oro:#c8a24a; --oro-claro:#e6c878; --pergamino:#efe3c8; --sombra:rgba(0,0,0,.55); }
+  *{ box-sizing:border-box; }
+  body{ margin:0; min-height:100vh; color:var(--pergamino); font-family:'EB Garamond',Georgia,serif;
+    background:radial-gradient(ellipse at top,#2a1d14 0%,#160f0a 55%,#0b0705 100%) fixed; }
+  body::before{ content:""; position:fixed; inset:0; pointer-events:none; opacity:.05; z-index:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .wrap{ position:relative; z-index:1; max-width:980px; margin:0 auto; padding:1.6rem 1.2rem; }
+  h1,h2,h3,.deco{ font-family:'Cinzel',serif; letter-spacing:.5px; }
+  .display{ font-family:'Cinzel Decorative',serif; }
+  .oro{ color:var(--oro-claro); }
+  .filete{ height:2px;border:0;background:linear-gradient(90deg,transparent,var(--oro),transparent);margin:1rem auto;max-width:360px; }
+  .sello{ display:inline-flex;align-items:center;gap:.4rem;border:1px solid var(--oro);color:var(--oro-claro);
+    background:rgba(92,26,26,.35);border-radius:30px;padding:.25rem .9rem;font-family:'Cinzel',serif;font-size:.8rem; }
+  .grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.2rem; margin-top:1.6rem; }
+  .carta{ position:relative; display:flex; flex-direction:column; text-decoration:none; color:inherit;
+    background:linear-gradient(180deg,rgba(40,28,18,.94),rgba(20,14,9,.96)); border:2px solid var(--oro); border-radius:10px;
+    padding:1.3rem; box-shadow:0 0 0 5px rgba(0,0,0,.4),0 14px 36px var(--sombra),inset 0 0 30px rgba(0,0,0,.4);
+    transition:transform .25s ease, box-shadow .25s ease; overflow:hidden; }
+  .carta.jugable:hover{ transform:translateY(-6px); box-shadow:0 0 0 5px rgba(0,0,0,.4),0 22px 48px var(--sombra),0 0 24px rgba(200,162,74,.35); }
+  .carta .icono{ font-size:2.6rem; }
+  .carta h3{ margin:.5rem 0 .3rem; color:var(--oro-claro); }
+  .carta p{ margin:0 0 1rem; font-size:.95rem; opacity:.92; flex:1; }
+  .badge{ position:absolute; top:10px; right:10px; font-family:'Cinzel',serif; font-size:.65rem; letter-spacing:1px;
+    padding:.2rem .55rem; border-radius:20px; border:1px solid var(--oro); }
+  .badge.listo{ color:#bfe6c5; border-color:#3f6f4a; background:rgba(63,111,74,.3); }
+  .badge.pronto{ color:#d9c8a3; border-color:rgba(200,162,74,.5); background:rgba(0,0,0,.3); }
+  .btn{ font-family:'Cinzel',serif; border-radius:6px; padding:.55rem 1rem; border:1px solid var(--oro);
+    background:linear-gradient(180deg,var(--oro-claro),var(--oro)); color:#2a1c08; font-weight:600; text-align:center; }
+  .carta.proximo{ opacity:.62; }
+  .carta.proximo .btn{ background:transparent; color:var(--oro-claro); cursor:not-allowed; }
+  .et-refuerzo{ display:inline-block; margin-top:.4rem; font-size:.78rem; color:#bfe6c5; }
+  .footer{ text-align:center; font-family:'Cinzel',serif; font-size:.82rem; color:var(--oro-claro); padding:2rem 0 1rem; opacity:.85; }
+  .intro{ max-width:620px; margin:0 auto; text-align:center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="text-align:center">
+    <div class="sello">⚜ Colección Misión Semiótica</div>
+    <h1 class="display oro" style="font-size:clamp(1.8rem,7vw,3rem); margin:.5rem 0">Gabinete de Juegos</h1>
+    <hr class="filete" />
+    <p class="intro">Una colección de juegos educativos al estilo detective victoriano. En todos, <strong class="oro">cada error genera refuerzo del aprendizaje</strong>: pistas, datos y elementos analógicos que te guían hacia la deducción correcta.</p>
+  </div>
+
+  <div class="grid">
+    <!-- PWA principal -->
+    <a class="carta jugable" href="index.html">
+      <span class="badge listo">DISPONIBLE</span>
+      <div class="icono">🔍</div>
+      <h3>Misión Semiótica</h3>
+      <p>La experiencia principal: investigación visual en 5 fases (IUTPC) con juego de cartas, análisis semiótico e informe imprimible.</p>
+      <span class="btn">Iniciar caso</span>
+    </a>
+
+    <!-- Anagramas -->
+    <a class="carta jugable" href="anagramas.html">
+      <span class="badge listo">DISPONIBLE</span>
+      <div class="icono">🔤</div>
+      <h3>Anagramas Semióticos</h3>
+      <p>Descifra términos clave de la semiótica. Cada fallo despliega pista, dato y analogía, más una pregunta de refuerzo.</p>
+      <span class="et-refuerzo">✦ Refuerzo del aprendizaje activo</span>
+      <span class="btn" style="margin-top:.7rem">Jugar</span>
+    </a>
+
+    <!-- Buscaminas (próximo) -->
+    <div class="carta proximo">
+      <span class="badge pronto">EN CONSTRUCCIÓN</span>
+      <div class="icono">💣</div>
+      <h3>Campo de Indicios</h3>
+      <p>Un buscaminas de deducción (inspirado en <em>Pop, Pop, Win!</em>): revela celdas evitando trampas, con refuerzo conceptual ante cada error.</p>
+      <span class="btn">Próximamente</span>
+    </div>
+
+    <!-- Shooter (próximo) -->
+    <div class="carta proximo">
+      <span class="badge pronto">EN CONSTRUCCIÓN</span>
+      <div class="icono">🚀</div>
+      <h3>Cazador de Signos</h3>
+      <p>Un shooter vertical (inspirado en <em>Drakonas</em>): dispara al signo correcto según la consigna; fallar activa una pista analógica.</p>
+      <span class="btn">Próximamente</span>
+    </div>
+  </div>
+
+  <div class="footer">Mg. Mario Quiroz Martinez — Curso de Semiótica de la Imagen 2026</div>
+</div>
+</body>
+</html>
