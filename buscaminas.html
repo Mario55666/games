@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#3b0a0a" />
+<meta name="description" content="Campo de Indicios: buscaminas de deducción semiótica con refuerzo del aprendizaje." />
+<title>Campo de Indicios · Colección Misión Semiótica</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root{ --burdeos:#5c1a1a; --burdeos-claro:#7a2424; --oro:#c8a24a; --oro-claro:#e6c878; --pergamino:#efe3c8; --verde:#3f6f4a; --rojo:#8c2f2f; --sombra:rgba(0,0,0,.55); }
+  *{ box-sizing:border-box; }
+  body{ margin:0; min-height:100vh; color:var(--pergamino); font-family:'EB Garamond',Georgia,serif;
+    background:radial-gradient(ellipse at top,#2a1d14 0%,#160f0a 55%,#0b0705 100%) fixed; }
+  body::before{ content:""; position:fixed; inset:0; pointer-events:none; opacity:.05; z-index:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .wrap{ position:relative; z-index:1; max-width:680px; margin:0 auto; padding:1.2rem; }
+  h1,h2,h3,.deco{ font-family:'Cinzel',serif; letter-spacing:.5px; }
+  .display{ font-family:'Cinzel Decorative',serif; }
+  .oro{ color:var(--oro-claro); }
+  a{ color:var(--oro-claro); }
+  .nav-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
+  .nav-top a{ text-decoration:none; font-family:'Cinzel',serif; font-size:.85rem; }
+  .marco{ position:relative; background:linear-gradient(180deg,rgba(40,28,18,.94),rgba(20,14,9,.96));
+    border:2px solid var(--oro); border-radius:8px; padding:clamp(14px,3.5vw,28px);
+    box-shadow:0 0 0 6px rgba(0,0,0,.45),0 18px 50px var(--sombra),inset 0 0 40px rgba(0,0,0,.5); }
+  .esq{ position:absolute; width:22px; height:22px; border-color:var(--oro-claro); opacity:.85; }
+  .esq.tl{ top:6px;left:6px;border-top:2px solid;border-left:2px solid; } .esq.tr{ top:6px;right:6px;border-top:2px solid;border-right:2px solid; }
+  .esq.bl{ bottom:6px;left:6px;border-bottom:2px solid;border-left:2px solid; } .esq.br{ bottom:6px;right:6px;border-bottom:2px solid;border-right:2px solid; }
+  .filete{ height:2px;border:0;background:linear-gradient(90deg,transparent,var(--oro),transparent);margin:.9rem auto;max-width:300px; }
+  .sello{ display:inline-flex;align-items:center;gap:.35rem;border:1px solid var(--oro);color:var(--oro-claro);
+    background:rgba(92,26,26,.35);border-radius:30px;padding:.22rem .7rem;font-family:'Cinzel',serif;font-size:.78rem; }
+  .hud{ display:flex; gap:.5rem; flex-wrap:wrap; justify-content:center; margin:.8rem 0; }
+  .btn{ font-family:'Cinzel',serif; border-radius:6px; padding:.5rem 1rem; cursor:pointer; letter-spacing:.5px; border:1px solid var(--oro); }
+  .btn-oro{ background:linear-gradient(180deg,var(--oro-claro),var(--oro)); color:#2a1c08; font-weight:600; }
+  .btn-burdeos{ background:linear-gradient(180deg,var(--burdeos-claro),var(--burdeos)); color:var(--pergamino); }
+  .btn-fan{ background:transparent; color:var(--oro-claro); }
+  .btn:hover{ filter:brightness(1.08); } .btn:disabled{ opacity:.45; cursor:not-allowed; }
+
+  .tablero{ display:grid; gap:4px; justify-content:center; margin:1rem auto; touch-action:manipulation; user-select:none; }
+  .celda{ aspect-ratio:1; display:flex; align-items:center; justify-content:center; cursor:pointer;
+    font-family:'Cinzel',serif; font-weight:700; font-size:clamp(.8rem,3.5vw,1.1rem); border-radius:5px;
+    background:repeating-linear-gradient(45deg,rgba(92,26,26,.85) 0 7px,rgba(60,16,16,.85) 7px 14px),var(--burdeos);
+    border:1px solid var(--oro); color:var(--oro-claro); transition:transform .08s; }
+  .celda:active{ transform:scale(.94); }
+  .celda.revelada{ background:rgba(20,14,9,.75); border-color:rgba(200,162,74,.35); cursor:default; }
+  .celda.bandera{ background:rgba(92,26,26,.5); }
+  .celda.mina{ background:rgba(140,47,47,.6); border-color:var(--rojo); }
+  .c1{ color:#9ec5e6; } .c2{ color:#bfe6c5; } .c3{ color:#e9a3a3; } .c4{ color:#c8a2e6; }
+  .c5{ color:#e6c878; } .c6{ color:#9ee6df; } .c7{ color:#e6b0d0; } .c8{ color:#d9c8a3; }
+
+  .panel{ background:rgba(20,14,9,.6); border:1px solid rgba(200,162,74,.4); border-radius:8px; padding:1rem; margin-top:1rem; animation:ap .35s ease; }
+  @keyframes ap{ from{ opacity:0; transform:translateY(10px);} }
+  .refuerzo{ border-left:4px solid var(--rojo); }
+  .et{ font-family:'Cinzel',serif; font-size:.76rem; text-transform:uppercase; letter-spacing:1px; color:var(--oro-claro); display:block; }
+  .item{ margin:.45rem 0; }
+  .opcion{ display:block; width:100%; text-align:left; margin:.35rem 0; background:rgba(15,11,7,.7);
+    border:1px solid rgba(200,162,74,.35); color:var(--pergamino); border-radius:6px; padding:.55rem .8rem; cursor:pointer; font-family:'EB Garamond',serif; }
+  .opcion:hover{ border-color:var(--oro); background:rgba(92,26,26,.3); }
+  .opcion.correcta{ border-color:var(--verde); background:rgba(63,111,74,.35); }
+  .opcion.incorrecta{ border-color:var(--rojo); background:rgba(140,47,47,.3); }
+  .opcion .letra{ font-family:'Cinzel',serif; color:var(--oro-claro); margin-right:.5rem; }
+  .footer{ text-align:center; font-family:'Cinzel',serif; font-size:.8rem; color:var(--oro-claro); padding:1.4rem 0; opacity:.85; }
+  .ayuda{ font-size:.85rem; opacity:.85; text-align:center; }
+  .toast{ position:fixed; bottom:18px; left:50%; transform:translateX(-50%); z-index:60; background:rgba(20,14,9,.95);
+    border:1px solid var(--oro); color:var(--oro-claro); padding:.55rem 1rem; border-radius:8px; font-family:'Cinzel',serif; font-size:.82rem; }
+  .modo-bandera{ outline:2px solid var(--oro-claro); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav-top">
+    <a href="juegos.html">‹ Volver al gabinete</a>
+    <span class="sello">💣 Campo de Indicios</span>
+  </div>
+
+  <div class="marco">
+    <span class="esq tl"></span><span class="esq tr"></span><span class="esq bl"></span><span class="esq br"></span>
+    <div style="text-align:center">
+      <h1 class="display oro" style="font-size:clamp(1.4rem,6vw,2.2rem); margin:.2rem 0">Campo de Indicios</h1>
+      <p class="ayuda" style="margin:.2rem auto; max-width:520px">Revela las celdas seguras y deduce dónde hay <strong>falsos indicios</strong> (las trampas). Cada número indica cuántas trampas hay alrededor. Si pisas una trampa, deberás <strong class="oro">reforzar el concepto</strong> para neutralizarla.</p>
+      <hr class="filete" />
+    </div>
+
+    <div class="hud">
+      <span class="sello">⚜ <span id="hudPts">0</span> pts</span>
+      <span class="sello">❤ <span id="hudVidas">3</span> vidas</span>
+      <span class="sello">⚑ <span id="hudMinas">0</span> trampas</span>
+    </div>
+    <div style="text-align:center; margin-bottom:.4rem">
+      <button class="btn btn-fan" id="btnModo">🚩 Modo bandera: OFF</button>
+      <span class="ayuda" style="display:block; margin-top:.3rem">Toca para revelar · mantén pulsado (o activa Modo bandera) para marcar una trampa</span>
+    </div>
+
+    <div class="tablero" id="tablero"></div>
+
+    <!-- Refuerzo -->
+    <div class="panel refuerzo" id="refuerzo" style="display:none">
+      <h3 class="oro" style="margin:.1rem 0 .5rem">⚠ ¡Falso indicio! Refuerza para neutralizarlo</h3>
+      <div class="item"><span class="et">Pista</span><span id="rPista"></span></div>
+      <div class="item"><span class="et">Dato</span><span id="rDato"></span></div>
+      <div class="item"><span class="et">Elemento analógico</span><span id="rAnalogia"></span></div>
+      <hr class="filete" />
+      <div class="item"><span class="et">Pregunta de refuerzo</span><span id="rPregunta"></span></div>
+      <div id="rOpciones"></div>
+      <p id="rFb" style="min-height:1.1em; margin:.4rem 0 0"></p>
+    </div>
+
+    <!-- Fin -->
+    <div class="panel" id="zonaFin" style="display:none; text-align:center">
+      <div class="display oro" id="rangoFin" style="font-size:clamp(1.3rem,5vw,2rem)">—</div>
+      <p id="msgFin" style="max-width:480px; margin:.5rem auto"></p>
+      <button class="btn btn-oro" id="btnReiniciar">Jugar de nuevo</button>
+      <a class="btn btn-fan" href="juegos.html" style="text-decoration:none">Gabinete</a>
+    </div>
+  </div>
+
+  <div class="footer">Mg. Mario Quiroz Martinez — Curso de Semiótica de la Imagen 2026</div>
+</div>
+
+<script>
+/* ===== Refuerzos (errores conceptuales frecuentes) ===== */
+const REFUERZOS=[
+  { pista:"La denotación NO interpreta, solo describe.", dato:"Confundir denotación con connotación es el error más común: la primera es literal, la segunda es cultural.",
+    analogia:"La denotación es la foto; la connotación, el recuerdo que despierta.",
+    q:"'La imagen transmite nostalgia' es una afirmación…", ops:["Connotativa","Denotativa","Sin sentido"], correcta:0 },
+  { pista:"El ícono se basa en semejanza; el símbolo, en convención.", dato:"Una bandera es símbolo (convención), no ícono, aunque sea visual.",
+    analogia:"Un retrato (ícono) se parece; una palabra (símbolo) se acuerda.",
+    q:"Una señal de tránsito con una flecha es principalmente…", ops:["Símbolo (convención)","Ícono (semejanza)","Índice (causa)"], correcta:0 },
+  { pista:"El índice tiene conexión física o causal con su objeto.", dato:"La fiebre es índice de infección; no se parece a ella ni es convencional.",
+    analogia:"Como las nubes oscuras que anuncian lluvia.",
+    q:"Las huellas en el barro son, respecto a quien pasó, un…", ops:["Índice","Símbolo","Ícono"], correcta:0 },
+  { pista:"El mito naturaliza la ideología; no es una mentira evidente.", dato:"Barthes: el mito hace que lo cultural parezca natural y obvio.",
+    analogia:"Como decir 'siempre ha sido así' para no cuestionar algo aprendido.",
+    q:"El mito (Barthes) opera haciendo que la ideología parezca…", ops:["Natural y evidente","Una ficción absurda","Un dato técnico"], correcta:0 },
+  { pista:"Metonimia = parte por el todo; metáfora = semejanza.", dato:"Mostrar una mano artesana por toda la comunidad es metonimia, no metáfora.",
+    analogia:"'La corona' por el rey: parte/atributo por el todo.",
+    q:"Usar 'las canas' para referirse a la vejez es…", ops:["Metonimia","Metáfora","Hipérbole"], correcta:0 },
+  { pista:"El significante es la forma; el significado, el concepto.", dato:"La palabra escrita 'mar' es significante; la idea de mar, significado.",
+    analogia:"Significante = envoltorio; significado = contenido.",
+    q:"La imagen acústica o forma del signo es el…", ops:["Significante","Significado","Referente"], correcta:0 },
+  { pista:"El paradigma es selección; el sintagma, combinación.", dato:"Elegir el color (paradigma) vs. ordenar los elementos (sintagma).",
+    analogia:"Paradigma = menú de opciones; sintagma = el plato ya armado.",
+    q:"Decidir entre tipografías para un afiche es una operación…", ops:["Paradigmática (selección)","Sintagmática (combinación)","Indéxica"], correcta:0 }
+];
+
+/* ===== Config y estado ===== */
+const N=8, MINAS=10;
+const $=(s)=>document.querySelector(s);
+let grid=[], vidas=3, pts=0, banderas=0, modoBandera=false, primerClic=true, jugando=true, celdaPendiente=null, refResuelto=true;
+
+function toast(m){ const t=document.createElement("div"); t.className="toast"; t.textContent=m; document.body.appendChild(t);
+  setTimeout(()=>{ t.style.transition="opacity .4s"; t.style.opacity="0"; setTimeout(()=>t.remove(),400);},1600); }
+
+function nuevaCelda(){ return { mina:false, rev:false, bandera:false, n:0 }; }
+
+function iniciar(){
+  grid=[]; vidas=3; pts=0; banderas=0; modoBandera=false; primerClic=true; jugando=true; celdaPendiente=null; refResuelto=true;
+  for(let r=0;r<N;r++){ const fila=[]; for(let c=0;c<N;c++) fila.push(nuevaCelda()); grid.push(fila); }
+  $("#refuerzo").style.display="none"; $("#zonaFin").style.display="none";
+  $("#btnModo").classList.remove("modo-bandera"); $("#btnModo").textContent="🚩 Modo bandera: OFF";
+  actualizarHud(); render();
+}
+
+function colocarMinas(sr,sc){
+  let puestas=0;
+  while(puestas<MINAS){
+    const r=Math.floor(Math.random()*N), c=Math.floor(Math.random()*N);
+    if(grid[r][c].mina) continue;
+    if(Math.abs(r-sr)<=1 && Math.abs(c-sc)<=1) continue; // zona segura inicial
+    grid[r][c].mina=true; puestas++;
+  }
+  for(let r=0;r<N;r++) for(let c=0;c<N;c++){
+    if(grid[r][c].mina) continue;
+    let n=0; vecinos(r,c).forEach(([vr,vc])=>{ if(grid[vr][vc].mina) n++; });
+    grid[r][c].n=n;
+  }
+}
+function vecinos(r,c){ const v=[]; for(let dr=-1;dr<=1;dr++) for(let dc=-1;dc<=1;dc++){ if(!dr&&!dc) continue;
+  const nr=r+dr, nc=c+dc; if(nr>=0&&nr<N&&nc>=0&&nc<N) v.push([nr,nc]); } return v; }
+
+function actualizarHud(){ $("#hudPts").textContent=pts; $("#hudVidas").textContent=vidas; $("#hudMinas").textContent=MINAS-banderas; }
+
+function render(){
+  const t=$("#tablero"); t.style.gridTemplateColumns="repeat("+N+",1fr)"; t.innerHTML="";
+  for(let r=0;r<N;r++) for(let c=0;c<N;c++){
+    const cel=grid[r][c]; const d=document.createElement("div"); d.className="celda"; d.dataset.r=r; d.dataset.c=c;
+    if(cel.rev){
+      d.classList.add("revelada");
+      if(cel.mina){ d.classList.add("mina"); d.textContent="✸"; }
+      else if(cel.n>0){ d.textContent=cel.n; d.classList.add("c"+cel.n); }
+    } else if(cel.bandera){ d.classList.add("bandera"); d.textContent="⚑"; }
+    t.appendChild(d);
+  }
+}
+
+function revelar(r,c){
+  const cel=grid[r][c];
+  if(cel.rev||cel.bandera||!jugando) return;
+  if(primerClic){ colocarMinas(r,c); primerClic=false; }
+  if(cel.mina){ pisarMina(r,c); return; }
+  flood(r,c);
+  pts+=2; actualizarHud(); render(); verificarVictoria();
+}
+function flood(r,c){
+  const cel=grid[r][c]; if(cel.rev||cel.bandera||cel.mina) return;
+  cel.rev=true;
+  if(cel.n===0) vecinos(r,c).forEach(([vr,vc])=>flood(vr,vc));
+}
+function alternarBandera(r,c){
+  const cel=grid[r][c]; if(cel.rev||!jugando) return;
+  cel.bandera=!cel.bandera; banderas+=cel.bandera?1:-1;
+  actualizarHud(); render(); verificarVictoria();
+}
+
+function pisarMina(r,c){
+  jugando=false; celdaPendiente=[r,c];
+  const ref=REFUERZOS[Math.floor(Math.random()*REFUERZOS.length)];
+  $("#rPista").textContent=ref.pista; $("#rDato").textContent=ref.dato; $("#rAnalogia").textContent=ref.analogia;
+  $("#rPregunta").textContent=ref.q; $("#rFb").textContent=""; refResuelto=false;
+  const cont=$("#rOpciones"); cont.innerHTML=""; const L=["A","B","C","D"];
+  ref.ops.forEach((op,i)=>{
+    const b=document.createElement("button"); b.className="opcion"; b.innerHTML="<span class='letra'>"+L[i]+".</span>"+op;
+    b.onclick=()=>{
+      if(refResuelto) return;
+      if(i===ref.correcta){
+        b.classList.add("correcta"); refResuelto=true; pts+=5;
+        $("#rFb").textContent="Concepto reforzado. Trampa neutralizada (marcada con bandera)."; $("#rFb").style.color="var(--oro-claro)";
+        neutralizar();
+      } else {
+        b.classList.add("incorrecta"); $("#rFb").textContent="Aún no. Relee el dato y la analogía."; $("#rFb").style.color="#e9a3a3";
+        setTimeout(()=>b.classList.remove("incorrecta"),900);
+      }
+    };
+    cont.appendChild(b);
+  });
+  $("#refuerzo").style.display="block";
+  $("#refuerzo").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+function neutralizar(){
+  const [r,c]=celdaPendiente;
+  grid[r][c].bandera=true; banderas++;
+  vidas--; actualizarHud(); render();
+  setTimeout(()=>{
+    $("#refuerzo").style.display="none";
+    if(vidas<=0){ finalizar(false); } else { jugando=true; verificarVictoria(); }
+  },1100);
+}
+
+function verificarVictoria(){
+  if(!jugando) return;
+  let okReveladas=true;
+  for(let r=0;r<N;r++) for(let c=0;c<N;c++){ const cel=grid[r][c]; if(!cel.mina && !cel.rev) okReveladas=false; }
+  if(okReveladas) finalizar(true);
+}
+
+function finalizar(gano){
+  jugando=false;
+  for(let r=0;r<N;r++) for(let c=0;c<N;c++){ if(grid[r][c].mina) grid[r][c].rev=true; }
+  render();
+  if(gano) pts+=20;
+  actualizarHud();
+  $("#rangoFin").textContent=gano?"¡Caso resuelto!":"Caso sin cerrar";
+  $("#msgFin").textContent=gano
+    ? "Despejaste el campo de indicios con "+pts+" puntos. Tu deducción semiótica fue certera."
+    : "Se agotaron las vidas, pero cada trampa reforzó un concepto. Vuelve a intentarlo.";
+  $("#zonaFin").style.display="block";
+}
+
+/* ===== Interacción (clic + pulsación larga táctil) ===== */
+let pressTimer=null, longPress=false;
+const tablero=$("#tablero");
+tablero.addEventListener("contextmenu",(e)=>e.preventDefault());
+tablero.addEventListener("pointerdown",(e)=>{
+  const cel=e.target.closest(".celda"); if(!cel||!jugando) return;
+  longPress=false;
+  pressTimer=setTimeout(()=>{ longPress=true; alternarBandera(+cel.dataset.r,+cel.dataset.c); },420);
+});
+tablero.addEventListener("pointerup",(e)=>{
+  clearTimeout(pressTimer);
+  const cel=e.target.closest(".celda"); if(!cel||!jugando) return;
+  if(longPress) return;
+  const r=+cel.dataset.r, c=+cel.dataset.c;
+  if(modoBandera) alternarBandera(r,c); else revelar(r,c);
+});
+tablero.addEventListener("pointerleave",()=>clearTimeout(pressTimer));
+
+$("#btnModo").onclick=()=>{
+  modoBandera=!modoBandera;
+  $("#btnModo").textContent="🚩 Modo bandera: "+(modoBandera?"ON":"OFF");
+  $("#btnModo").classList.toggle("modo-bandera",modoBandera);
+};
+$("#btnReiniciar").onclick=iniciar;
+
+iniciar();
+</script>
+</body>
+</html>
