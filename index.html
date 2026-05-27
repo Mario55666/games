@@ -741,6 +741,12 @@
    Lógica de aplicación (JavaScript vanilla)
    ========================================================= */
 
+/* Shim: si anime.js no cargó (offline o CDN bloqueado), las
+   microanimaciones se vuelven inocuas sin romper la app. */
+if (typeof window.anime !== "function") {
+  window.anime = function () { return { play(){}, pause(){}, restart(){} }; };
+}
+
 /* ---------- Estado del caso (en memoria, sin localStorage) ---------- */
 const estadoCaso = {
   equipo: { integrantes: [], correoVacio:false, codigoClase:"", nombreEquipo:"" },
@@ -1058,6 +1064,9 @@ function construirCartas(){
         animarBloqueo(carta);
         return;
       }
+      // Limpiar el transform en línea del efecto tilt para que la regla CSS
+      // .volteada (rotateY 180deg) no quede anulada por la especificidad inline.
+      carta.querySelector(".carta-inner").style.transform = "";
       carta.classList.toggle("volteada");
     });
 
