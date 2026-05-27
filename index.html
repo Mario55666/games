@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#3b0a0a" />
+<meta name="description" content="Misión Semiótica estilo Sherlock Holmes: experiencia gamificada de análisis semiótico y antropológico de la imagen." />
+<title>Misión Semiótica · Estilo Sherlock Holmes</title>
+
+<!-- PWA: manifest e íconos estáticos (usados al servirse vía http) -->
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="icon-192.png" />
+<link rel="icon" type="image/png" href="icon-192.png" />
+
+<!-- Bootstrap 5 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+<!-- Iconos -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+<!-- Tipografía victoriana -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    --burdeos:#5c1a1a;
+    --burdeos-claro:#7a2424;
+    --oro:#c8a24a;
+    --oro-claro:#e6c878;
+    --tinta:#1a1410;
+    --tinta-2:#241b14;
+    --pergamino:#efe3c8;
+    --pergamino-osc:#d9c8a3;
+    --verde-pista:#3f6f4a;
+    --rojo-alerta:#8c2f2f;
+    --sombra:rgba(0,0,0,.55);
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    font-family:'EB Garamond', Georgia, serif;
+    color:var(--pergamino);
+    background:
+      radial-gradient(ellipse at top, #2a1d14 0%, #160f0a 55%, #0b0705 100%) fixed;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  /* Textura sutil de papel/grano */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    pointer-events:none;
+    opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    z-index:0;
+  }
+
+  h1,h2,h3,h4,h5,.titulo-deco{ font-family:'Cinzel', serif; letter-spacing:.5px; }
+  .display-deco{ font-family:'Cinzel Decorative', serif; }
+
+  .oro{ color:var(--oro-claro); }
+  .text-burdeos{ color:#e9a3a3; }
+
+  /* Marco decorativo victoriano */
+  .marco-victoriano{
+    position:relative;
+    background:
+      linear-gradient(180deg, rgba(40,28,18,.92), rgba(20,14,9,.96));
+    border:2px solid var(--oro);
+    border-radius:6px;
+    padding:clamp(18px,4vw,42px);
+    box-shadow:0 0 0 6px rgba(0,0,0,.45), 0 18px 50px var(--sombra), inset 0 0 40px rgba(0,0,0,.5);
+  }
+  .marco-victoriano::before,
+  .marco-victoriano::after{
+    content:"❦";
+    position:absolute;
+    font-size:1.4rem;
+    color:var(--oro);
+    opacity:.8;
+  }
+  .marco-victoriano::before{ top:6px; left:12px; }
+  .marco-victoriano::after{ bottom:2px; right:12px; }
+
+  .esquina{ position:absolute; width:26px; height:26px; border-color:var(--oro-claro); opacity:.85; }
+  .esquina.tl{ top:6px; left:6px; border-top:2px solid; border-left:2px solid; }
+  .esquina.tr{ top:6px; right:6px; border-top:2px solid; border-right:2px solid; }
+  .esquina.bl{ bottom:6px; left:6px; border-bottom:2px solid; border-left:2px solid; }
+  .esquina.br{ bottom:6px; right:6px; border-bottom:2px solid; border-right:2px solid; }
+
+  .filete{
+    height:2px; border:0;
+    background:linear-gradient(90deg, transparent, var(--oro), transparent);
+    margin:1rem auto; max-width:340px;
+  }
+
+  /* Sellos / insignias */
+  .sello{
+    display:inline-flex; align-items:center; gap:.4rem;
+    border:1px solid var(--oro);
+    color:var(--oro-claro);
+    background:rgba(92,26,26,.35);
+    border-radius:30px;
+    padding:.25rem .8rem;
+    font-family:'Cinzel',serif; font-size:.8rem;
+  }
+
+  /* Botones */
+  .btn-oro{
+    background:linear-gradient(180deg, var(--oro-claro), var(--oro));
+    border:1px solid #8c6d24;
+    color:#2a1c08; font-family:'Cinzel',serif; font-weight:600;
+    letter-spacing:.5px;
+    box-shadow:0 4px 14px rgba(0,0,0,.4);
+  }
+  .btn-oro:hover{ filter:brightness(1.08); color:#2a1c08; }
+  .btn-burdeos{
+    background:linear-gradient(180deg, var(--burdeos-claro), var(--burdeos));
+    border:1px solid var(--oro);
+    color:var(--pergamino); font-family:'Cinzel',serif; letter-spacing:.5px;
+  }
+  .btn-burdeos:hover{ filter:brightness(1.1); color:#fff; }
+  .btn-fantasma{
+    background:transparent; border:1px solid var(--oro); color:var(--oro-claro);
+    font-family:'Cinzel',serif;
+  }
+  .btn-fantasma:hover{ background:rgba(200,162,74,.12); color:var(--oro-claro); }
+
+  /* Pantallas */
+  .pantalla{ display:none; position:relative; z-index:1; }
+  .pantalla.activa{ display:block; animation:aparecer .6s ease; }
+  @keyframes aparecer{ from{ opacity:0; transform:translateY(14px);} to{ opacity:1; transform:translateY(0);} }
+
+  /* Barra superior */
+  .barra-progreso-fases{ gap:.4rem; flex-wrap:wrap; }
+  .paso-fase{
+    font-family:'Cinzel',serif; font-size:.72rem; text-transform:uppercase;
+    padding:.3rem .65rem; border-radius:20px; border:1px solid rgba(200,162,74,.4);
+    color:#bfae86; background:rgba(0,0,0,.25); white-space:nowrap;
+  }
+  .paso-fase.activa{ background:var(--burdeos); color:var(--oro-claro); border-color:var(--oro); }
+  .paso-fase.hecha{ color:var(--verde-pista); border-color:var(--verde-pista); }
+
+  .progress{ background:rgba(0,0,0,.4); border:1px solid rgba(200,162,74,.35); height:10px; }
+  .progress-bar{ background:linear-gradient(90deg,var(--oro),var(--oro-claro)); }
+
+  /* Tarjetas de contenido */
+  .panel{
+    background:linear-gradient(180deg, rgba(34,27,20,.94), rgba(20,14,9,.96));
+    border:1px solid rgba(200,162,74,.45);
+    border-radius:8px;
+    padding:clamp(16px,3vw,28px);
+    box-shadow:0 10px 30px var(--sombra), inset 0 0 24px rgba(0,0,0,.35);
+  }
+  .panel + .panel{ margin-top:1.1rem; }
+
+  .micro{
+    border-left:3px solid var(--oro);
+    background:rgba(92,26,26,.18);
+    padding:.8rem 1rem; border-radius:0 6px 6px 0;
+  }
+
+  label.form-label{ font-family:'Cinzel',serif; font-size:.85rem; color:var(--oro-claro); }
+  .form-control, .form-select, textarea{
+    background:rgba(15,11,7,.85)!important; color:var(--pergamino)!important;
+    border:1px solid rgba(200,162,74,.4)!important;
+  }
+  .form-control:focus, textarea:focus, .form-select:focus{
+    border-color:var(--oro)!important; box-shadow:0 0 0 .2rem rgba(200,162,74,.2)!important;
+    background:rgba(15,11,7,.95)!important;
+  }
+  .form-control::placeholder, textarea::placeholder{ color:#8a7c63; }
+
+  /* Preguntas cerradas */
+  .opcion{
+    display:block; width:100%; text-align:left; margin-bottom:.55rem;
+    background:rgba(15,11,7,.7); border:1px solid rgba(200,162,74,.35);
+    color:var(--pergamino); border-radius:6px; padding:.7rem .9rem;
+    font-family:'EB Garamond',serif; transition:all .18s ease;
+  }
+  .opcion:hover{ border-color:var(--oro); background:rgba(92,26,26,.3); }
+  .opcion.correcta{ border-color:var(--verde-pista); background:rgba(63,111,74,.35); }
+  .opcion.incorrecta{ border-color:var(--rojo-alerta); background:rgba(140,47,47,.3); }
+  .opcion .letra{ font-family:'Cinzel',serif; color:var(--oro-claro); margin-right:.5rem; }
+
+  .feedback{
+    margin-top:.5rem; padding:.65rem .85rem; border-radius:6px; font-size:.95rem;
+    display:none;
+  }
+  .feedback.show{ display:block; animation:aparecer .3s ease; }
+  .feedback.pista{ background:rgba(92,26,26,.3); border:1px solid var(--oro); color:var(--oro-claro); }
+  .feedback.ok{ background:rgba(63,111,74,.3); border:1px solid var(--verde-pista); color:#bfe6c5; }
+
+  /* ===== JUEGO DE CARTAS ===== */
+  .tablero-cartas{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+    gap:1rem;
+    perspective:1400px;
+  }
+  /* all-but-me blur */
+  @supports selector(:has(*)){
+    .tablero-cartas:has(.carta:hover) .carta:not(:hover):not(.bloqueada){
+      filter:blur(2.5px) brightness(.7);
+    }
+  }
+  .carta{
+    position:relative;
+    aspect-ratio:3/4.2;
+    cursor:pointer;
+    transition:filter .3s ease, transform .3s ease;
+  }
+  .carta-inner{
+    position:relative; width:100%; height:100%;
+    transform-style:preserve-3d;
+    transition:transform .7s cubic-bezier(.2,.7,.2,1);
+  }
+  .carta.volteada .carta-inner{ transform:rotateY(180deg); }
+  .cara{
+    position:absolute; inset:0;
+    -webkit-backface-visibility:hidden; backface-visibility:hidden;
+    border-radius:12px; overflow:hidden;
+    border:2px solid var(--oro);
+    box-shadow:0 10px 26px var(--sombra);
+  }
+  /* Frente (verso del naipe) */
+  .cara-frente{
+    background:
+      repeating-linear-gradient(45deg, rgba(92,26,26,.9) 0 10px, rgba(60,16,16,.9) 10px 20px),
+      var(--burdeos);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:.6rem;
+  }
+  .cara-frente .ornamento{ font-size:1.6rem; color:var(--oro-claro); }
+  .cara-frente .tipo{ font-family:'Cinzel',serif; font-size:.72rem; color:var(--oro-claro); margin-top:.3rem; letter-spacing:1px; }
+  .cara-frente .num{
+    position:absolute; top:6px; left:8px; right:auto;
+    font-family:'Cinzel Decorative',serif; color:var(--oro-claro); font-size:.95rem;
+  }
+  .cara-frente .num.br{ top:auto; bottom:6px; left:auto; right:8px; transform:rotate(180deg); }
+
+  /* Reverso (análisis) */
+  .cara-reverso{
+    transform:rotateY(180deg);
+    background:linear-gradient(180deg, #efe3c8, #d9c8a3);
+    color:#2a1c10;
+    padding:.7rem .65rem; display:flex; flex-direction:column;
+    font-family:'EB Garamond',serif;
+  }
+  .cara-reverso .r-tipo{ font-family:'Cinzel',serif; font-size:.66rem; color:var(--burdeos); letter-spacing:1px; }
+  .cara-reverso .r-titulo{ font-family:'Cinzel',serif; font-weight:700; font-size:.9rem; line-height:1.05; margin:.1rem 0 .25rem; }
+  .cara-reverso .r-prompt{
+    font-size:.8rem; line-height:1.15; flex:1; overflow:auto;
+    transform:translateY(8px); opacity:0; transition:all .5s ease .25s;
+  }
+  .carta.volteada .cara-reverso .r-prompt{ transform:translateY(0); opacity:1; }
+  .cara-reverso textarea{
+    background:rgba(255,255,255,.7)!important; color:#2a1c10!important;
+    border:1px solid #9c7d3a!important; font-size:.78rem; resize:none;
+  }
+  .cara-reverso textarea::placeholder{ color:#7a6a4a; }
+  .btn-validar{
+    font-family:'Cinzel',serif; font-size:.72rem; padding:.25rem; margin-top:.35rem;
+    background:var(--burdeos); color:var(--oro-claro); border:1px solid var(--oro);
+  }
+  .btn-validar:hover{ background:var(--burdeos-claro); color:#fff; }
+  .r-feedback{ font-size:.72rem; margin-top:.3rem; min-height:1em; }
+  .r-feedback.ok{ color:var(--verde-pista); font-weight:600; }
+  .r-feedback.pista{ color:var(--rojo-alerta); }
+
+  /* Bloqueada */
+  .carta.bloqueada{ cursor:not-allowed; }
+  .carta.bloqueada .carta-inner{ transform:none!important; }
+  .carta.bloqueada .cara-frente{ filter:grayscale(.7) brightness(.4); }
+  .carta.bloqueada::after{
+    content:"\F47B"; font-family:"bootstrap-icons"; /* candado */
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-size:2.2rem; color:rgba(230,200,120,.85); z-index:3;
+  }
+  .carta.resuelta .cara-frente::after{
+    content:"\F26B"; font-family:"bootstrap-icons";
+    position:absolute; bottom:6px; right:8px; color:#7be29a; font-size:1.1rem;
+  }
+
+  /* Carta de sospechoso (tourist 3D + holográfico) */
+  .carta.sospechoso .cara-frente{
+    background:radial-gradient(circle at 50% 30%, #3a2a14, #160f0a);
+  }
+  .carta.sospechoso:not(.bloqueada):hover .carta-inner:not(.volteada){
+    /* leve perspectiva extra */
+  }
+  .carta.resuelta.holo .cara-reverso::before{
+    content:""; position:absolute; inset:0; pointer-events:none; mix-blend-mode:overlay;
+    background:linear-gradient(115deg, transparent 20%, rgba(255,255,255,.55) 38%, rgba(120,200,255,.35) 46%, rgba(255,120,200,.35) 54%, transparent 70%);
+    background-size:220% 220%;
+    animation:holo 3.2s linear infinite;
+  }
+  @keyframes holo{ 0%{ background-position:0% 0%;} 100%{ background-position:200% 200%;} }
+
+  .indic-sospecha{
+    height:6px; border-radius:4px; margin-top:.25rem;
+    background:linear-gradient(90deg,#8c2f2f,#caa23a,#3f6f4a);
+    animation:hue 4s linear infinite;
+  }
+  @keyframes hue{ 0%{ filter:hue-rotate(0deg);} 100%{ filter:hue-rotate(360deg);} }
+
+  /* Panel de indicios reunidos (glassmorphism) */
+  .expediente{
+    position:sticky; top:1rem;
+    background:rgba(30,22,14,.45);
+    -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+    border:1px solid rgba(200,162,74,.5);
+    border-radius:10px; padding:1rem;
+    box-shadow:0 8px 26px var(--sombra);
+  }
+  .expediente h5{ color:var(--oro-claro); }
+  .indicio-item{
+    font-size:.85rem; padding:.4rem .5rem; border-bottom:1px dashed rgba(200,162,74,.3);
+    display:flex; gap:.4rem; align-items:flex-start;
+  }
+  .indicio-item i{ color:var(--verde-pista); }
+
+  /* Tabla de vinculación */
+  .vinculo-row .form-select{ font-size:.85rem; }
+
+  /* Cierre / estrellas */
+  .estrella-input{ font-size:1.6rem; color:var(--oro-claro); }
+  .rango-grande{ font-family:'Cinzel Decorative',serif; font-size:clamp(1.6rem,5vw,2.6rem); }
+
+  /* Footer */
+  .footer-academico{
+    border-top:1px solid var(--oro);
+    margin-top:2rem; padding:1.2rem 0; text-align:center;
+    font-family:'Cinzel',serif; font-size:.85rem; color:var(--oro-claro);
+    background:rgba(0,0,0,.3); position:relative; z-index:1;
+  }
+
+  /* Impresión */
+  @media print{
+    body{ background:#fff; color:#000; }
+    body::before{ display:none; }
+    .no-print{ display:none!important; }
+    .panel,.marco-victoriano,.expediente{ box-shadow:none; border:1px solid #444; background:#fff; color:#000; }
+    .oro,.text-burdeos,.footer-academico{ color:#000!important; }
+    #areaImpresion{ display:block!important; }
+  }
+
+  .scrim-cargando{
+    position:fixed; inset:0; z-index:9999; background:rgba(8,5,3,.92);
+    display:flex; align-items:center; justify-content:center; flex-direction:column;
+    font-family:'Cinzel',serif; color:var(--oro-claro);
+  }
+  .lupa-spin{ font-size:3rem; animation:spin 2.4s linear infinite; }
+  @keyframes spin{ to{ transform:rotate(360deg);} }
+
+  .alerta-flotante{
+    position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+    z-index:9998; min-width:280px; max-width:92vw;
+  }
+</style>
+</head>
+<body>
+
+<!-- ====== CARGA ====== -->
+<div class="scrim-cargando" id="scrimCarga">
+  <i class="bi bi-search lupa-spin"></i>
+  <div class="mt-3">Abriendo el expediente…</div>
+</div>
+
+<!-- ====== BARRA SUPERIOR ====== -->
+<header class="no-print" id="barraSuperior" style="display:none; position:sticky; top:0; z-index:50; background:rgba(11,7,5,.95); border-bottom:1px solid var(--oro);">
+  <div class="container py-2">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-search oro fs-5"></i>
+        <span class="titulo-deco oro" style="font-size:.95rem">Misión Semiótica</span>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <span class="sello"><i class="bi bi-gem"></i> <span id="hudPuntaje">0</span> pts</span>
+        <span class="sello"><i class="bi bi-award"></i> <span id="hudRango">Aprendiz</span></span>
+      </div>
+    </div>
+    <div class="d-flex barra-progreso-fases mt-2 justify-content-center" id="barraFases"></div>
+    <div class="progress mt-2"><div class="progress-bar" id="progresoGlobal" style="width:0%"></div></div>
+  </div>
+</header>
+
+<main class="container py-4" style="position:relative; z-index:1;">
+
+  <!-- ============ 1. REGISTRO ============ -->
+  <section class="pantalla activa" id="p-registro">
+    <div class="marco-victoriano mx-auto" style="max-width:760px">
+      <span class="esquina tl"></span><span class="esquina tr"></span><span class="esquina bl"></span><span class="esquina br"></span>
+      <div class="text-center">
+        <div class="sello mb-2"><i class="bi bi-fingerprint"></i> Expediente Confidencial</div>
+        <h1 class="display-deco oro" style="font-size:clamp(1.6rem,6vw,2.6rem)">Misión Semiótica</h1>
+        <p class="titulo-deco" style="font-size:1rem; letter-spacing:2px;">— al estilo Sherlock Holmes —</p>
+        <hr class="filete" />
+        <p style="max-width:560px; margin:0 auto;">Antes de tomar el caso, todo equipo de detectives debe registrar su identidad ante la agencia. Mínimo <strong class="oro">2</strong> y máximo <strong class="oro">4</strong> investigadores.</p>
+      </div>
+
+      <form id="formRegistro" class="mt-4">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Código de la clase</label>
+            <input type="text" class="form-control" id="codigoClase" placeholder="Ej. SEM-2026-A" required />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Nombre del equipo (opcional)</label>
+            <input type="text" class="form-control" id="nombreEquipo" placeholder="Los Sabuesos del Signo" />
+          </div>
+        </div>
+
+        <hr class="filete" />
+        <h5 class="oro text-center mb-3"><i class="bi bi-people-fill"></i> Integrantes del equipo</h5>
+        <div id="contenedorIntegrantes"></div>
+        <div class="text-center mt-2">
+          <button type="button" class="btn btn-fantasma btn-sm" id="btnAgregarIntegrante"><i class="bi bi-plus-circle"></i> Añadir investigador</button>
+        </div>
+
+        <div class="text-center mt-4">
+          <button type="submit" class="btn btn-oro btn-lg px-4"><i class="bi bi-unlock-fill"></i> Aceptar el caso</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ 2. PRESENTACIÓN ============ -->
+  <section class="pantalla" id="p-presentacion">
+    <div class="marco-victoriano mx-auto" style="max-width:900px">
+      <span class="esquina tl"></span><span class="esquina tr"></span><span class="esquina bl"></span><span class="esquina br"></span>
+      <div class="text-center">
+        <div class="sello mb-2"><i class="bi bi-envelope-paper"></i> Carta de encargo</div>
+        <h2 class="oro">El Caso de la Imagen Sospechosa</h2>
+        <hr class="filete" />
+      </div>
+      <div class="panel">
+        <p class="fst-italic" style="font-size:1.05rem">«Estimados investigadores: una <strong class="text-burdeos">ONG de Lima</strong> nos ha solicitado auditar una campaña visual sobre <strong class="oro">identidad cultural y diversidad</strong>. Sospechamos que algunas imágenes ocultan códigos, mitos e ideologías que contradicen el mensaje declarado. Su misión es analizar los signos, reunir evidencias y justificar cada decisión visual. — La Agencia.»</p>
+      </div>
+
+      <div class="row g-3 mt-1">
+        <div class="col-md-6">
+          <div class="panel h-100">
+            <h5 class="oro"><i class="bi bi-bullseye"></i> Logro de la sesión</h5>
+            <p class="mb-0">Aplicar principios de <strong>antropología visual</strong> y <strong>semiótica</strong> al análisis y diseño de campañas visuales culturalmente pertinentes.</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="panel h-100">
+            <h5 class="oro"><i class="bi bi-diagram-3"></i> Ruta del detective (IUTPC)</h5>
+            <p class="mb-0"><strong>I</strong>nicio · <strong>U</strong>tilidad · <strong>T</strong>ransformación · <strong>P</strong>ráctica · <strong>C</strong>ierre. Cada fase es una sala del expediente que debes resolver.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="micro mt-3">
+        <strong class="oro">Cómo se gana:</strong> observa antes de concluir, justifica cada inferencia y atiende las pistas. No se avanza por azar: las cartas se desbloquean conforme razonas correctamente.
+      </div>
+
+      <div class="text-center mt-4">
+        <button class="btn btn-oro btn-lg px-4" data-ir="p-inicio"><i class="bi bi-door-open"></i> Entrar a la investigación</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. FASE INICIO ============ -->
+  <section class="pantalla" id="p-inicio">
+    <div class="text-center mb-3">
+      <div class="sello"><i class="bi bi-1-circle"></i> Fase · INICIO</div>
+      <h2 class="oro mt-2">Activación del ojo detective</h2>
+      <p>Antes de leer significados, hay que <em>ver</em>. Calienta la mirada con tus primeras pistas.</p>
+    </div>
+
+    <div class="panel">
+      <h5 class="oro"><i class="bi bi-eye"></i> Microexplicación</h5>
+      <p>La <strong>semiótica</strong> estudia los signos y cómo producen sentido. Toda imagen opera en tres niveles: <strong class="oro">denotativo</strong> (lo que literalmente se ve), <strong class="oro">connotativo</strong> (las asociaciones culturales que evoca) y <strong class="oro">mítico-ideológico</strong> (los valores y creencias que naturaliza). La <strong>antropología visual</strong> nos recuerda que esos sentidos dependen del contexto cultural de quien mira.</p>
+    </div>
+
+    <div class="panel" data-pregunta-cerrada
+      data-correcta="b"
+      data-fb-correcta="¡Bien observado! El nivel denotativo es la descripción literal, sin interpretación todavía."
+      data-fb-incorrecta="Pista: el nivel denotativo responde a “¿qué hay, literalmente?”, no a “¿qué significa?”. Quédate con lo visible.">
+      <h5 class="oro"><i class="bi bi-question-circle"></i> Pregunta cerrada · Calentamiento</h5>
+      <p>Frente a un afiche con una mujer andina sonriendo junto a un telar, ¿cuál de estas afirmaciones es <strong>denotativa</strong>?</p>
+      <div class="opciones">
+        <button class="opcion" data-op="a"><span class="letra">A.</span> El afiche celebra el orgullo de las tradiciones peruanas.</button>
+        <button class="opcion" data-op="b"><span class="letra">B.</span> Hay una mujer de pollera frente a un telar de hilos de colores.</button>
+        <button class="opcion" data-op="c"><span class="letra">C.</span> La imagen idealiza lo indígena como algo del pasado.</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="panel" data-pregunta-abierta data-id-abierta="inicio_1">
+      <h5 class="oro"><i class="bi bi-pencil"></i> Bitácora abierta</h5>
+      <p>Describe <strong>solo lo que ves</strong> (denotación) en cualquiera de las imágenes publicitarias que conozcas de tu entorno. Aún no interpretes.</p>
+      <textarea class="form-control" rows="3" data-abierta placeholder="Veo… (objetos, colores, personas, encuadre, texto)"></textarea>
+    </div>
+
+    <div class="text-center mt-4 no-print">
+      <button class="btn btn-burdeos px-4" data-ir="p-utilidad" data-completa-fase="inicio">Continuar <i class="bi bi-arrow-right"></i></button>
+    </div>
+  </section>
+
+  <!-- ============ 4. FASE UTILIDAD ============ -->
+  <section class="pantalla" id="p-utilidad">
+    <div class="text-center mb-3">
+      <div class="sello"><i class="bi bi-2-circle"></i> Fase · UTILIDAD</div>
+      <h2 class="oro mt-2">¿Por qué importa esto?</h2>
+      <p>Un buen detective sabe para qué sirve cada herramienta. Conecta la teoría con la decisión de diseño.</p>
+    </div>
+
+    <div class="panel">
+      <h5 class="oro"><i class="bi bi-tools"></i> Microexplicación: retórica de la imagen</h5>
+      <p>Las imágenes persuaden con <strong>figuras retóricas visuales</strong>: la <em>metáfora</em> (algo dicho mediante otra cosa), la <em>metonimia</em> (la parte por el todo), la <em>hipérbole</em> (exageración), la <em>antítesis</em> (contraste). Reconocerlas permite justificar por qué una campaña funciona —o por qué traiciona su mensaje.</p>
+    </div>
+
+    <div class="panel" data-pregunta-cerrada
+      data-correcta="c"
+      data-fb-correcta="Correcto: mostrar una sola mano artesana para representar a todo un pueblo es metonimia (la parte por el todo)."
+      data-fb-incorrecta="Pista: piensa en la relación entre parte y todo. ¿Una mano representa a quién?">
+      <h5 class="oro"><i class="bi bi-question-circle"></i> Pregunta cerrada · Figuras retóricas</h5>
+      <p>Una campaña muestra <strong>una sola mano tejiendo</strong> para hablar de toda una comunidad de artesanas. ¿Qué figura retórica predomina?</p>
+      <div class="opciones">
+        <button class="opcion" data-op="a"><span class="letra">A.</span> Hipérbole</button>
+        <button class="opcion" data-op="b"><span class="letra">B.</span> Antítesis</button>
+        <button class="opcion" data-op="c"><span class="letra">C.</span> Metonimia</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="panel" data-pregunta-cerrada
+      data-correcta="a"
+      data-fb-correcta="Así es: el contraste claro/oscuro y centro/periferia organiza la jerarquía visual y dirige la atención."
+      data-fb-incorrecta="Pista: observa el contraste. ¿Qué elemento capta primero la atención y por qué resalta del resto?">
+      <h5 class="oro"><i class="bi bi-question-circle"></i> Pregunta cerrada · Jerarquía visual</h5>
+      <p>¿Qué recurso usa el diseñador para que tu ojo vaya <strong>primero</strong> a un elemento concreto del afiche?</p>
+      <div class="opciones">
+        <button class="opcion" data-op="a"><span class="letra">A.</span> Contraste de luz, color y posición central.</button>
+        <button class="opcion" data-op="b"><span class="letra">B.</span> Usar la misma intensidad en todos los elementos.</button>
+        <button class="opcion" data-op="c"><span class="letra">C.</span> Eliminar todo texto del afiche.</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="panel" data-pregunta-abierta data-id-abierta="utilidad_1">
+      <h5 class="oro"><i class="bi bi-pencil"></i> Bitácora abierta</h5>
+      <p>En tu futura práctica como diseñador, ¿<strong>para qué</strong> te servirá distinguir los tres niveles de lectura (denotativo, connotativo, mítico)? Da un ejemplo concreto.</p>
+      <textarea class="form-control" rows="3" data-abierta placeholder="Me servirá para…"></textarea>
+    </div>
+
+    <div class="text-center mt-4 no-print">
+      <button class="btn btn-burdeos px-4" data-ir="p-transformacion" data-completa-fase="utilidad">Ir a la escena del caso <i class="bi bi-arrow-right"></i></button>
+    </div>
+  </section>
+
+  <!-- ============ 5. FASE TRANSFORMACIÓN — JUEGO DE CARTAS ============ -->
+  <section class="pantalla" id="p-transformacion">
+    <div class="text-center mb-3">
+      <div class="sello"><i class="bi bi-3-circle"></i> Fase · TRANSFORMACIÓN</div>
+      <h2 class="oro mt-2">La escena del caso</h2>
+      <p>Voltea cada carta, responde su <em>prompt</em> de análisis y valida. Las cartas se desbloquean en cadena: <strong>escena → indicio → testimonio → evidencia → sospechoso → coartada</strong>.</p>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-lg-8">
+        <div class="tablero-cartas" id="tableroCartas"><!-- cartas inyectadas --></div>
+      </div>
+      <div class="col-lg-4">
+        <div class="expediente">
+          <h5><i class="bi bi-folder2-open"></i> Indicios reunidos</h5>
+          <div class="progress my-2"><div class="progress-bar" id="progresoCartas" style="width:0%"></div></div>
+          <div id="listaIndicios"><p class="fst-italic small mb-0" style="opacity:.7">Aún no has reunido pruebas. Empieza por la <strong>Carta 1 (escena)</strong>.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel mt-3" id="bloqueVinculacion" style="display:none">
+      <h5 class="oro"><i class="bi bi-link-45deg"></i> Reto final: vincula culpable y evidencia</h5>
+      <p>Reuniste todas las pruebas. Ahora relaciona cada concepto semiótico con su definición para cerrar la hipótesis del caso.</p>
+      <div id="vinculos"></div>
+      <div class="text-center mt-3">
+        <button class="btn btn-oro" id="btnValidarVinculos"><i class="bi bi-check2-square"></i> Validar hipótesis</button>
+      </div>
+      <div class="feedback mt-2"></div>
+    </div>
+
+    <div class="text-center mt-4 no-print">
+      <button class="btn btn-burdeos px-4" id="btnIrPractica" data-ir="p-practica" data-completa-fase="transformacion" disabled>
+        Resuelve la escena para continuar <i class="bi bi-lock"></i>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ 6. FASE PRÁCTICA — INFORME ============ -->
+  <section class="pantalla" id="p-practica">
+    <div class="text-center mb-3">
+      <div class="sello"><i class="bi bi-4-circle"></i> Fase · PRÁCTICA</div>
+      <h2 class="oro mt-2">Informe de análisis semiótico-antropológico</h2>
+      <p>Aplica la ficha a una pieza de tu propia campaña (o a una imagen propuesta). Esta es la evidencia central del caso.</p>
+    </div>
+
+    <div class="marco-victoriano">
+      <span class="esquina tl"></span><span class="esquina tr"></span><span class="esquina bl"></span><span class="esquina br"></span>
+
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Pieza analizada (título / descripción)</label>
+          <input class="form-control" data-informe="pieza" placeholder="Afiche ‘Lima Diversa’, propio del equipo" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Contexto cultural de circulación</label>
+          <input class="form-control" data-informe="contexto" placeholder="Campaña ONG, redes sociales, Lima 2026" />
+        </div>
+      </div>
+
+      <hr class="filete" />
+
+      <div class="panel">
+        <label class="form-label">1 · Nivel DENOTATIVO — ¿Qué se ve literalmente?</label>
+        <textarea class="form-control" rows="2" data-informe="denotativo" placeholder="Personas, objetos, colores, tipografía, encuadre…"></textarea>
+      </div>
+      <div class="panel">
+        <label class="form-label">2 · Nivel CONNOTATIVO — ¿Qué asociaciones culturales evoca?</label>
+        <textarea class="form-control" rows="2" data-informe="connotativo" placeholder="Sentimientos, valores, estereotipos, referencias…"></textarea>
+      </div>
+      <div class="panel">
+        <label class="form-label">3 · Nivel MÍTICO-IDEOLÓGICO — ¿Qué creencias naturaliza?</label>
+        <textarea class="form-control" rows="2" data-informe="mitico" placeholder="¿Qué visión del mundo refuerza u oculta?"></textarea>
+      </div>
+      <div class="panel">
+        <label class="form-label">4 · Figuras retóricas y códigos culturales identificados</label>
+        <textarea class="form-control" rows="2" data-informe="figuras" placeholder="Metáfora, metonimia, color, vestimenta, símbolos…"></textarea>
+      </div>
+      <div class="panel">
+        <label class="form-label">5 · Pertinencia cultural y diversidad — argumento</label>
+        <textarea class="form-control" rows="2" data-informe="pertinencia" placeholder="¿La pieza representa con dignidad y precisión a su público?"></textarea>
+      </div>
+      <div class="panel">
+        <label class="form-label">6 · Conclusión del caso — decisión de diseño justificada</label>
+        <textarea class="form-control" rows="2" data-informe="conclusion" placeholder="Como detectives concluimos que… y recomendamos…"></textarea>
+      </div>
+
+      <div class="panel">
+        <h6 class="oro"><i class="bi bi-list-check"></i> Rúbrica de autoevaluación</h6>
+        <div id="rubrica"></div>
+      </div>
+    </div>
+
+    <div class="text-center mt-4 no-print">
+      <button class="btn btn-burdeos px-4" data-ir="p-cierre" data-completa-fase="practica">Cerrar el caso <i class="bi bi-arrow-right"></i></button>
+    </div>
+  </section>
+
+  <!-- ============ 7. FASE CIERRE ============ -->
+  <section class="pantalla" id="p-cierre">
+    <div class="text-center mb-3">
+      <div class="sello"><i class="bi bi-5-circle"></i> Fase · CIERRE</div>
+      <h2 class="oro mt-2">Veredicto del caso</h2>
+    </div>
+
+    <div class="marco-victoriano text-center">
+      <span class="esquina tl"></span><span class="esquina tr"></span><span class="esquina bl"></span><span class="esquina br"></span>
+      <div class="rango-grande oro" id="rangoFinal">—</div>
+      <div class="my-2"><span class="sello fs-6"><i class="bi bi-gem"></i> <span id="puntajeFinal">0</span> puntos</span></div>
+      <div id="insigniasFinal" class="d-flex justify-content-center flex-wrap gap-2 my-3"></div>
+      <hr class="filete" />
+      <div class="row g-3 text-start">
+        <div class="col-md-6">
+          <div class="panel h-100">
+            <h6 class="oro"><i class="bi bi-hand-thumbs-up"></i> Fortalezas detectadas</h6>
+            <ul id="listaFortalezas" class="mb-0 small"></ul>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="panel h-100">
+            <h6 class="oro"><i class="bi bi-wrench-adjustable"></i> Aspectos por mejorar</h6>
+            <ul id="listaMejoras" class="mb-0 small"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel mt-3">
+      <h5 class="oro text-center"><i class="bi bi-stars"></i> Dos estrellas y un deseo</h5>
+      <div class="row g-3 mt-1">
+        <div class="col-md-4">
+          <label class="form-label"><i class="bi bi-star-fill"></i> Estrella 1 — algo que aprendimos bien</label>
+          <textarea class="form-control" rows="3" data-informe="estrella1" placeholder="Aprendimos a…"></textarea>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label"><i class="bi bi-star-fill"></i> Estrella 2 — otro logro del equipo</label>
+          <textarea class="form-control" rows="3" data-informe="estrella2" placeholder="Logramos…"></textarea>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label"><i class="bi bi-magic"></i> Un deseo — qué queremos mejorar</label>
+          <textarea class="form-control" rows="3" data-informe="deseo" placeholder="Deseamos…"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel mt-3" data-pregunta-abierta data-id-abierta="cierre_metacog">
+      <h5 class="oro"><i class="bi bi-lightbulb"></i> Reflexión metacognitiva</h5>
+      <p>¿<strong>Qué cambió</strong> en su forma de mirar las imágenes después de este caso? ¿Cómo lo aplicarán en sus próximos proyectos de diseño?</p>
+      <textarea class="form-control" rows="3" data-abierta placeholder="Antes mirábamos… ahora…"></textarea>
+    </div>
+
+    <div class="panel mt-3">
+      <h6 class="oro"><i class="bi bi-check2-all"></i> Checklist final del expediente</h6>
+      <div id="checklistFinal"></div>
+    </div>
+
+    <div class="text-center mt-4 no-print d-flex flex-wrap justify-content-center gap-2">
+      <button class="btn btn-oro px-4" id="btnImprimirCompleto"><i class="bi bi-printer-fill"></i> Imprimir informe completo</button>
+      <button class="btn btn-burdeos px-4" id="btnImprimirRespuestas"><i class="bi bi-file-earmark-text"></i> Imprimir solo respuestas del equipo</button>
+      <button class="btn btn-fantasma px-4" id="btnReiniciar"><i class="bi bi-arrow-counterclockwise"></i> Nuevo caso</button>
+    </div>
+  </section>
+
+  <!-- Área generada para impresión -->
+  <div id="areaImpresion" style="display:none"></div>
+
+</main>
+
+<footer class="footer-academico">
+  <i class="bi bi-feather"></i> Mg. Mario Quiroz Martinez — Curso de Semiótica de la Imagen 2026
+</footer>
+
+<div id="zonaAlertas"></div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- anime.js para microanimaciones -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+<script>
+/* =========================================================
+   MISIÓN SEMIÓTICA · estilo Sherlock Holmes
+   Lógica de aplicación (JavaScript vanilla)
+   ========================================================= */
+
+/* Shim: si anime.js no cargó (offline o CDN bloqueado), las
+   microanimaciones se vuelven inocuas sin romper la app. */
+if (typeof window.anime !== "function") {
+  window.anime = function () { return { play(){}, pause(){}, restart(){} }; };
+}
+
+/* ---------- Estado del caso (en memoria, sin localStorage) ---------- */
+const estadoCaso = {
+  equipo: { integrantes: [], correoVacio:false, codigoClase:"", nombreEquipo:"" },
+  faseActual: "p-registro",
+  fasesCompletadas: new Set(),
+  puntaje: 0,
+  insignias: new Set(),
+  cartasReveladas: new Set(),
+  sospechososDescartados: [],
+  indiciosReunidos: [],
+  respuestasAbiertas: {},
+  respuestasCerradas: {},
+  informe: {},
+  vinculosOk: false
+};
+
+const FASES = [
+  { id:"p-inicio",          label:"Inicio" },
+  { id:"p-utilidad",        label:"Utilidad" },
+  { id:"p-transformacion",  label:"Transformación" },
+  { id:"p-practica",        label:"Práctica" },
+  { id:"p-cierre",          label:"Cierre" }
+];
+
+/* ---------- Datos del juego de cartas (cadena tipo Si Stebbins) ---------- */
+const CARTAS = [
+  { id:1, tipo:"ESCENA", ornamento:"⛪", titulo:"La plaza intervenida",
+    prompt:"Observación directa: en el afiche de la ONG aparece una plaza limeña con personas de distintas culturas. ¿Qué elemento aparece PRIMERO y capta tu atención? Descríbelo (denotación).",
+    claves:["centro","color","contraste","persona","grande","primero","mujer","figura"],
+    fbOk:"Buen ojo: identificaste el foco visual. La jerarquía guía la lectura.",
+    fbPista:"Pista: piensa en qué elemento es más grande, más claro o está al centro. ¿Qué ves antes que nada?" },
+
+  { id:2, tipo:"INDICIO FÍSICO", ornamento:"🔍", titulo:"El detalle fuera de lugar",
+    prompt:"Un detalle parece fuera de lugar: la vestimenta tradicional aparece, pero descontextualizada. ¿Qué objeto o detalle podría ser una pista y por qué llama la atención?",
+    claves:["vestimenta","ropa","traje","color","fuera","contexto","detalle","símbolo","objeto"],
+    fbOk:"Correcto: un detalle anómalo suele cargar connotaciones. Lo registraste como indicio.",
+    fbPista:"Pista: ¿qué detalle parece querer ocultar o forzar un significado? Revisa el contexto cultural." },
+
+  { id:3, tipo:"TESTIMONIO", ornamento:"🗣️", titulo:"La voz de la comunidad",
+    prompt:"Inferencia cultural: un miembro de la comunidad dice que ‘no se siente representado’. ¿Qué relación tiene este testimonio con la lectura connotativa de la imagen?",
+    claves:["connota","represent","estereotipo","cultura","significa","interpreta","sentido","valor"],
+    fbOk:"Bien: el testimonio activa la lectura connotativa. La pertinencia cultural está en juego.",
+    fbPista:"Pista: recuerda la relación entre lo que se muestra y lo que la cultura interpreta. ¿Connotación o denotación?" },
+
+  { id:4, tipo:"EVIDENCIA", ornamento:"📜", titulo:"El mito naturalizado",
+    prompt:"Validación: la campaña presenta lo indígena solo como ‘folclor del pasado’. ¿Qué nivel de lectura revela esto y qué ideología naturaliza?",
+    claves:["mito","ideolog","pasado","naturaliz","poder","mítico","exotiz","folclor"],
+    fbOk:"Exacto: opera el nivel mítico-ideológico, naturalizando una visión del ‘otro’.",
+    fbPista:"Pista: cuando una imagen hace pasar una creencia por ‘algo natural o evidente’, ¿en qué nivel estamos?" },
+
+  { id:5, tipo:"SOSPECHOSO", ornamento:"🎩", titulo:"El código culpable", sospechoso:true,
+    prompt:"¿Qué culpable se asocia mejor con la cadena de pruebas? Identifica el ‘código’ responsable de la distorsión (estereotipo, exotización, folclorización…) y justifícalo.",
+    claves:["estereotipo","exotiz","folclor","código","prejuicio","reduc","caricatur"],
+    fbOk:"Caso resuelto: nombraste el código culpable y lo sostuviste con evidencia.",
+    fbPista:"Pista: ¿qué código reduce una cultura a un cliché? El indicio más fuerte apunta a la exotización/estereotipo." },
+
+  { id:6, tipo:"COARTADA", ornamento:"⚖️", titulo:"El contraste decisivo", sospechoso:true,
+    prompt:"Contraste/coartada: ¿qué evidencia CONTRADICE la versión oficial de la campaña? Propón una decisión de diseño que la corrija manteniendo pertinencia cultural.",
+    claves:["contradic","corrig","diseño","propon","diversidad","representa","incluir","contexto","cambiar"],
+    fbOk:"Veredicto sólido: detectaste la contradicción y propusiste una corrección pertinente.",
+    fbPista:"Pista: ¿qué información falta o qué dato choca con el mensaje declarado? Propón cómo rediseñarlo." }
+];
+
+const VINCULOS = [
+  { concepto:"Denotación", correcta:"Descripción literal de lo visible, sin interpretar.",
+    opciones:["Descripción literal de lo visible, sin interpretar.","Valores que la imagen hace pasar por naturales.","Asociación cultural que evoca el signo."] },
+  { concepto:"Connotación", correcta:"Asociación cultural que evoca el signo.",
+    opciones:["Parte que representa al todo.","Asociación cultural que evoca el signo.","Descripción literal de lo visible, sin interpretar."] },
+  { concepto:"Nivel mítico", correcta:"Valores e ideología que la imagen naturaliza.",
+    opciones:["Valores e ideología que la imagen naturaliza.","Exageración de un rasgo.","Contraste entre dos elementos."] },
+  { concepto:"Metonimia", correcta:"Una parte que representa al todo.",
+    opciones:["Una parte que representa al todo.","Comparación implícita entre dos cosas.","Repetición de un patrón."] }
+];
+
+const RUBRICA = [
+  "Distinguimos correctamente los tres niveles de lectura.",
+  "Identificamos al menos una figura retórica visual.",
+  "Reconocimos códigos culturales presentes en la pieza.",
+  "Argumentamos la pertinencia cultural con evidencia.",
+  "Formulamos una conclusión/decisión de diseño justificada."
+];
+
+const CHECKLIST = [
+  "Registramos a todos los integrantes del equipo.",
+  "Completamos las cinco fases del modelo IUTPC.",
+  "Resolvimos las seis cartas de la escena del caso.",
+  "Llenamos el informe de análisis semiótico-antropológico.",
+  "Escribimos las dos estrellas y un deseo."
+];
+
+/* ---------- Utilidades ---------- */
+const $ = (s, ctx=document) => ctx.querySelector(s);
+const $$ = (s, ctx=document) => Array.from(ctx.querySelectorAll(s));
+
+function alerta(msg, tipo="warning"){
+  const z = $("#zonaAlertas");
+  const el = document.createElement("div");
+  el.className = `alert alert-${tipo} alerta-flotante shadow`;
+  el.innerHTML = msg;
+  z.appendChild(el);
+  setTimeout(()=>{ el.style.transition="opacity .4s"; el.style.opacity="0"; setTimeout(()=>el.remove(),400); }, 3200);
+}
+
+function sumarPuntos(n, motivo){
+  estadoCaso.puntaje += n;
+  $("#hudPuntaje").textContent = estadoCaso.puntaje;
+  actualizarRango();
+  if(motivo) alerta(`<i class="bi bi-gem"></i> +${n} pts · ${motivo}`, "success");
+}
+
+function rangoPorPuntaje(p){
+  if(p >= 220) return "Maestro Detective";
+  if(p >= 150) return "Inspector";
+  if(p >= 90)  return "Sabueso";
+  if(p >= 40)  return "Aprendiz";
+  return "Novato";
+}
+function actualizarRango(){ $("#hudRango").textContent = rangoPorPuntaje(estadoCaso.puntaje); }
+
+/* =========================================================
+   REGISTRO DE EQUIPO
+   ========================================================= */
+function filaIntegrante(idx){
+  const div = document.createElement("div");
+  div.className = "row g-2 mb-2 align-items-end fila-integrante";
+  div.innerHTML = `
+    <div class="col-12 col-md-5">
+      <label class="form-label small">Nombres y apellidos #${idx+1}</label>
+      <input class="form-control nombre-int" placeholder="Nombre Apellido" />
+    </div>
+    <div class="col-10 col-md-6">
+      <label class="form-label small">Correo institucional</label>
+      <input type="email" class="form-control correo-int" placeholder="nombre@institucion.edu.pe" />
+    </div>
+    <div class="col-2 col-md-1">
+      <button type="button" class="btn btn-fantasma btn-sm w-100 btn-quitar" title="Quitar"><i class="bi bi-x-lg"></i></button>
+    </div>`;
+  div.querySelector(".btn-quitar").addEventListener("click", ()=>{
+    if($$(".fila-integrante").length <= 2){ alerta("El equipo necesita al menos 2 investigadores."); return; }
+    div.remove(); renumerarIntegrantes();
+  });
+  return div;
+}
+function renumerarIntegrantes(){
+  $$(".fila-integrante").forEach((f,i)=>{ f.querySelector("label").textContent = `Nombres y apellidos #${i+1}`; });
+}
+function initRegistro(){
+  const cont = $("#contenedorIntegrantes");
+  for(let i=0;i<2;i++) cont.appendChild(filaIntegrante(i));
+
+  $("#btnAgregarIntegrante").addEventListener("click", ()=>{
+    if($$(".fila-integrante").length >= 4){ alerta("Máximo 4 investigadores por equipo."); return; }
+    cont.appendChild(filaIntegrante($$(".fila-integrante").length));
+  });
+
+  $("#formRegistro").addEventListener("submit", (e)=>{
+    e.preventDefault();
+    const codigo = $("#codigoClase").value.trim();
+    if(!codigo){ alerta("Indica el código de la clase."); return; }
+
+    const filas = $$(".fila-integrante");
+    const integrantes = [];
+    let valido = true;
+    filas.forEach(f=>{
+      const nombre = f.querySelector(".nombre-int").value.trim();
+      const correo = f.querySelector(".correo-int").value.trim();
+      if(!nombre || !correo){ valido = false; }
+      else if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(correo)){ valido=false; }
+      else integrantes.push({ nombre, correo });
+    });
+    if(!valido || integrantes.length < 2){
+      alerta("Todos los integrantes deben tener nombre y un correo válido (mínimo 2)."); return;
+    }
+    estadoCaso.equipo = {
+      integrantes, codigoClase: codigo,
+      nombreEquipo: $("#nombreEquipo").value.trim() || "Equipo sin nombre"
+    };
+    estadoCaso.insignias.add("Caso aceptado");
+    sumarPuntos(20, "Equipo registrado");
+    $("#barraSuperior").style.display = "block";
+    irA("p-presentacion");
+  });
+}
+
+/* =========================================================
+   NAVEGACIÓN ENTRE PANTALLAS
+   ========================================================= */
+function irA(idPantalla){
+  $$(".pantalla").forEach(p=>p.classList.remove("activa"));
+  const destino = document.getElementById(idPantalla);
+  if(destino){ destino.classList.add("activa"); estadoCaso.faseActual = idPantalla; }
+  window.scrollTo({ top:0, behavior:"smooth" });
+  renderBarraFases();
+  if(idPantalla === "p-cierre") construirCierre();
+}
+
+function renderBarraFases(){
+  const cont = $("#barraFases"); cont.innerHTML = "";
+  FASES.forEach(f=>{
+    const span = document.createElement("span");
+    span.className = "paso-fase";
+    if(estadoCaso.faseActual === f.id) span.classList.add("activa");
+    if(estadoCaso.fasesCompletadas.has(f.id)) span.classList.add("hecha");
+    span.textContent = f.label;
+    cont.appendChild(span);
+  });
+  const total = FASES.length;
+  const hechas = FASES.filter(f=>estadoCaso.fasesCompletadas.has(f.id)).length;
+  $("#progresoGlobal").style.width = Math.round((hechas/total)*100) + "%";
+}
+
+/* Botones de navegación con data-ir / data-completa-fase */
+function initNavegacion(){
+  $$("[data-ir]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const fase = btn.getAttribute("data-completa-fase");
+      if(fase){
+        const idFase = "p-" + fase;
+        estadoCaso.fasesCompletadas.add(idFase);
+        if(!estadoCaso.insignias.has("Fase: "+fase)){
+          estadoCaso.insignias.add("Fase: "+fase);
+        }
+      }
+      irA(btn.getAttribute("data-ir"));
+    });
+  });
+}
+
+/* =========================================================
+   PREGUNTAS CERRADAS (con pistas)
+   ========================================================= */
+function initPreguntasCerradas(){
+  $$("[data-pregunta-cerrada]").forEach((bloque, idx)=>{
+    const correcta = bloque.getAttribute("data-correcta");
+    const fbOk = bloque.getAttribute("data-fb-correcta");
+    const fbNo = bloque.getAttribute("data-fb-incorrecta");
+    const feedback = $(".feedback", bloque);
+    const idQ = "cerrada_" + idx;
+    let resuelta = false;
+
+    $$(".opcion", bloque).forEach(op=>{
+      op.addEventListener("click", ()=>{
+        if(resuelta) return;
+        const elegida = op.getAttribute("data-op");
+        if(elegida === correcta){
+          op.classList.add("correcta");
+          feedback.className = "feedback show ok";
+          feedback.innerHTML = `<i class="bi bi-check-circle-fill"></i> ${fbOk}`;
+          resuelta = true;
+          estadoCaso.respuestasCerradas[idQ] = { elegida, correcto:true };
+          sumarPuntos(15, "Deducción correcta");
+        } else {
+          op.classList.add("incorrecta");
+          feedback.className = "feedback show pista";
+          feedback.innerHTML = `<i class="bi bi-lightbulb"></i> ${fbNo}`;
+          estadoCaso.respuestasCerradas[idQ] = { elegida, correcto:false };
+          // permite reintentar: rehabilita visualmente tras un momento
+          setTimeout(()=>op.classList.remove("incorrecta"), 1200);
+        }
+      });
+    });
+  });
+}
+
+/* =========================================================
+   PREGUNTAS ABIERTAS — guardado en estado
+   ========================================================= */
+function initPreguntasAbiertas(){
+  $$("[data-abierta]").forEach(ta=>{
+    const cont = ta.closest("[data-id-abierta]");
+    const id = cont ? cont.getAttribute("data-id-abierta") : "abierta_" + Math.random().toString(36).slice(2);
+    ta.addEventListener("input", ()=>{ estadoCaso.respuestasAbiertas[id] = ta.value; });
+  });
+  /* campos del informe */
+  $$("[data-informe]").forEach(el=>{
+    el.addEventListener("input", ()=>{ estadoCaso.informe[el.getAttribute("data-informe")] = el.value; });
+  });
+}
+
+/* =========================================================
+   JUEGO DE CARTAS — TRANSFORMACIÓN
+   ========================================================= */
+function construirCartas(){
+  const tablero = $("#tableroCartas");
+  tablero.innerHTML = "";
+  CARTAS.forEach(c=>{
+    const carta = document.createElement("div");
+    carta.className = "carta" + (c.id === 1 ? "" : " bloqueada") + (c.sospechoso ? " sospechoso" : "");
+    carta.dataset.id = c.id;
+
+    carta.innerHTML = `
+      <div class="carta-inner">
+        <div class="cara cara-frente">
+          <span class="num">${c.id}</span><span class="num br">${c.id}</span>
+          <div class="ornamento">${c.ornamento}</div>
+          <div class="tipo">${c.tipo}</div>
+          ${c.sospechoso ? '<div class="indic-sospecha" style="width:70%"></div>' : ''}
+        </div>
+        <div class="cara cara-reverso">
+          <div class="r-tipo">CARTA ${c.id} · ${c.tipo}</div>
+          <div class="r-titulo">${c.titulo}</div>
+          <div class="r-prompt">
+            <p class="mb-1">${c.prompt}</p>
+            <textarea rows="2" placeholder="Anota tu análisis…"></textarea>
+            <button class="btn btn-validar w-100"><i class="bi bi-check2"></i> Validar pista</button>
+            <div class="r-feedback"></div>
+          </div>
+        </div>
+      </div>`;
+
+    // Voltear al hacer clic en la cara frontal (si no está bloqueada)
+    carta.querySelector(".cara-frente").addEventListener("click", ()=>{
+      if(carta.classList.contains("bloqueada")){
+        alerta('<i class="bi bi-lock"></i> Resuelve la carta anterior para desbloquear esta.');
+        animarBloqueo(carta);
+        return;
+      }
+      // Limpiar el transform en línea del efecto tilt para que la regla CSS
+      // .volteada (rotateY 180deg) no quede anulada por la especificidad inline.
+      carta.querySelector(".carta-inner").style.transform = "";
+      carta.classList.toggle("volteada");
+    });
+
+    // Validación del prompt
+    const ta = carta.querySelector("textarea");
+    const fb = carta.querySelector(".r-feedback");
+    carta.querySelector(".btn-validar").addEventListener("click", ()=>{
+      validarCarta(c, carta, ta, fb);
+    });
+
+    // Efecto tourist 3D para sospechosos
+    if(c.sospechoso) activarTilt(carta);
+
+    tablero.appendChild(carta);
+  });
+  construirVinculos();
+  actualizarExpediente();
+}
+
+function validarCarta(c, carta, ta, fb){
+  if(carta.classList.contains("resuelta")) return;
+  const txt = ta.value.toLowerCase().trim();
+  const palabras = txt.split(/\s+/).filter(Boolean).length;
+  const aciertoClave = c.claves.some(k => txt.includes(k));
+
+  // Criterio: debe escribir algo sustantivo (>=5 palabras) y tocar al menos una clave conceptual
+  if(palabras >= 5 && aciertoClave){
+    carta.classList.add("resuelta");
+    if(c.sospechoso) carta.classList.add("holo");
+    fb.className = "r-feedback ok";
+    fb.innerHTML = `<i class="bi bi-check-circle"></i> ${c.fbOk}`;
+    estadoCaso.cartasReveladas.add(c.id);
+    estadoCaso.indiciosReunidos.push({ id:c.id, tipo:c.tipo, titulo:c.titulo, texto:ta.value.trim() });
+    sumarPuntos(20, `Carta ${c.id} resuelta`);
+    desbloquearSiguiente(c.id);
+    actualizarExpediente();
+    pulsoExito(carta);
+  } else {
+    fb.className = "r-feedback pista";
+    let pista = c.fbPista;
+    if(palabras < 5) pista = "Pista: desarrolla más tu análisis (al menos una frase completa). " + c.fbPista;
+    fb.innerHTML = `<i class="bi bi-lightbulb"></i> ${pista}`;
+  }
+}
+
+function desbloquearSiguiente(idActual){
+  const siguiente = $(`.carta[data-id="${idActual+1}"]`);
+  if(siguiente){
+    siguiente.classList.remove("bloqueada");
+    anime({ targets: siguiente, scale:[.85,1], opacity:[.4,1], duration:600, easing:"easeOutBack" });
+    alerta(`<i class="bi bi-unlock"></i> Nueva carta desbloqueada: Carta ${idActual+1}`, "info");
+  }
+  // ¿Todas resueltas? -> mostrar vinculación
+  if(estadoCaso.cartasReveladas.size === CARTAS.length){
+    $("#bloqueVinculacion").style.display = "block";
+    estadoCaso.insignias.add("Escena completa");
+    alerta('<i class="bi bi-stars"></i> ¡Reuniste todas las pruebas! Resuelve el reto final.', "success");
+  }
+}
+
+function actualizarExpediente(){
+  const lista = $("#listaIndicios");
+  if(estadoCaso.indiciosReunidos.length === 0){
+    lista.innerHTML = '<p class="fst-italic small mb-0" style="opacity:.7">Aún no has reunido pruebas. Empieza por la <strong>Carta 1 (escena)</strong>.</p>';
+  } else {
+    lista.innerHTML = estadoCaso.indiciosReunidos.map(i=>`
+      <div class="indicio-item"><i class="bi bi-check-circle-fill"></i>
+        <div><strong>${i.tipo}:</strong> ${i.titulo}<br><span class="small" style="opacity:.8">${escapeHtml(i.texto).slice(0,90)}${i.texto.length>90?'…':''}</span></div>
+      </div>`).join("");
+  }
+  const pct = Math.round((estadoCaso.cartasReveladas.size / CARTAS.length) * 100);
+  $("#progresoCartas").style.width = pct + "%";
+}
+
+/* Reto de vinculación */
+function construirVinculos(){
+  const cont = $("#vinculos"); cont.innerHTML = "";
+  VINCULOS.forEach((v, i)=>{
+    const ops = [...v.opciones].sort(()=>Math.random()-0.5);
+    const row = document.createElement("div");
+    row.className = "row g-2 align-items-center mb-2 vinculo-row";
+    row.innerHTML = `
+      <div class="col-md-4"><span class="sello w-100 justify-content-center">${v.concepto}</span></div>
+      <div class="col-md-8">
+        <select class="form-select" data-vinculo="${i}">
+          <option value="">— elige la definición correcta —</option>
+          ${ops.map(o=>`<option value="${escapeHtml(o)}">${escapeHtml(o)}</option>`).join("")}
+        </select>
+      </div>`;
+    cont.appendChild(row);
+  });
+
+  $("#btnValidarVinculos").addEventListener("click", ()=>{
+    const fb = $("#bloqueVinculacion .feedback");
+    let correctos = 0;
+    VINCULOS.forEach((v,i)=>{
+      const sel = $(`select[data-vinculo="${i}"]`);
+      if(sel.value === v.correcta){ correctos++; sel.style.borderColor = "var(--verde-pista)"; }
+      else { sel.style.borderColor = "var(--rojo-alerta)"; }
+    });
+    if(correctos === VINCULOS.length){
+      fb.className = "feedback show ok";
+      fb.innerHTML = '<i class="bi bi-check-circle-fill"></i> ¡Hipótesis confirmada! El caso queda resuelto.';
+      if(!estadoCaso.vinculosOk){
+        estadoCaso.vinculosOk = true;
+        estadoCaso.insignias.add("Hipótesis confirmada");
+        sumarPuntos(40, "Vinculación correcta");
+      }
+      const btn = $("#btnIrPractica");
+      btn.disabled = false;
+      btn.innerHTML = 'Continuar a la Práctica <i class="bi bi-arrow-right"></i>';
+    } else {
+      fb.className = "feedback show pista";
+      fb.innerHTML = `<i class="bi bi-lightbulb"></i> Acertaste ${correctos} de ${VINCULOS.length}. Pista: relaciona cada concepto con su definición más literal. Revisa las marcadas en rojo.`;
+    }
+  });
+}
+
+/* Efecto tilt 3D (tourist card) para sospechosos */
+function activarTilt(carta){
+  const inner = carta.querySelector(".carta-inner");
+  carta.addEventListener("mousemove", (e)=>{
+    if(carta.classList.contains("bloqueada") || carta.classList.contains("volteada")) return;
+    const r = carta.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - .5;
+    const py = (e.clientY - r.top) / r.height - .5;
+    inner.style.transform = `rotateX(${ -py*12 }deg) rotateY(${ px*12 }deg) translateZ(14px)`;
+  });
+  carta.addEventListener("mouseleave", ()=>{
+    if(!carta.classList.contains("volteada")) inner.style.transform = "";
+  });
+}
+
+function animarBloqueo(carta){
+  anime({ targets: carta, translateX:[0,-6,6,-4,4,0], duration:400, easing:"easeInOutSine" });
+}
+function pulsoExito(carta){
+  anime({ targets: carta, scale:[1,1.05,1], duration:500, easing:"easeOutQuad" });
+}
+
+/* =========================================================
+   FASE PRÁCTICA — rúbrica
+   ========================================================= */
+function construirRubrica(){
+  const cont = $("#rubrica"); cont.innerHTML = "";
+  RUBRICA.forEach((r,i)=>{
+    const id = "rub_"+i;
+    cont.insertAdjacentHTML("beforeend", `
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="${id}" data-rubrica="${i}">
+        <label class="form-check-label" for="${id}">${r}</label>
+      </div>`);
+  });
+}
+
+/* =========================================================
+   FASE CIERRE
+   ========================================================= */
+function construirCierre(){
+  // checklist
+  const chk = $("#checklistFinal"); chk.innerHTML = "";
+  const estados = [
+    estadoCaso.equipo.integrantes.length >= 2,
+    FASES.filter(f=>estadoCaso.fasesCompletadas.has(f.id)).length >= 4,
+    estadoCaso.cartasReveladas.size === CARTAS.length,
+    Object.keys(estadoCaso.informe).some(k=>["denotativo","connotativo","mitico","figuras","pertinencia","conclusion"].includes(k) && (estadoCaso.informe[k]||"").trim()),
+    (estadoCaso.informe.estrella1||"").trim() && (estadoCaso.informe.estrella2||"").trim()
+  ];
+  CHECKLIST.forEach((c,i)=>{
+    chk.insertAdjacentHTML("beforeend",`
+      <div class="indicio-item">
+        <i class="bi ${estados[i] ? 'bi-check-circle-fill' : 'bi-circle'}" style="color:${estados[i]?'var(--verde-pista)':'#8a7c63'}"></i>
+        <div>${c}</div>
+      </div>`);
+  });
+
+  // bonus por completar
+  if(estadoCaso.cartasReveladas.size === CARTAS.length && !estadoCaso.insignias.has("Caso cerrado")){
+    estadoCaso.insignias.add("Caso cerrado");
+    sumarPuntos(30, "Caso cerrado");
+  }
+
+  $("#puntajeFinal").textContent = estadoCaso.puntaje;
+  $("#rangoFinal").textContent = rangoPorPuntaje(estadoCaso.puntaje);
+
+  // insignias
+  const cont = $("#insigniasFinal"); cont.innerHTML = "";
+  [...estadoCaso.insignias].forEach(b=>{
+    cont.insertAdjacentHTML("beforeend", `<span class="sello"><i class="bi bi-patch-check-fill"></i> ${b}</span>`);
+  });
+
+  // fortalezas y mejoras (heurística simple sobre el estado)
+  const fort = [], mej = [];
+  const cerradasOk = Object.values(estadoCaso.respuestasCerradas).filter(r=>r.correcto).length;
+  if(cerradasOk >= 3) fort.push("Sólido dominio de niveles de lectura y figuras retóricas (respuestas cerradas correctas).");
+  else mej.push("Repasar la diferencia entre denotación, connotación y nivel mítico.");
+
+  if(estadoCaso.cartasReveladas.size === CARTAS.length) fort.push("Reconstrucción completa de la cadena de evidencias del caso.");
+  else mej.push("Completar todas las cartas de la escena para cerrar la investigación.");
+
+  if(estadoCaso.vinculosOk) fort.push("Vinculación correcta entre conceptos semióticos y sus definiciones.");
+  else mej.push("Afianzar las definiciones de los conceptos clave (reto de vinculación).");
+
+  const abiertasLlenas = Object.values(estadoCaso.respuestasAbiertas).filter(v=>(v||"").trim().length>20).length;
+  if(abiertasLlenas >= 3) fort.push("Buena argumentación en las bitácoras abiertas.");
+  else mej.push("Desarrollar más las justificaciones en las preguntas abiertas.");
+
+  const informeLleno = ["denotativo","connotativo","mitico","conclusion"].every(k=>(estadoCaso.informe[k]||"").trim());
+  if(informeLleno) fort.push("Informe semiótico-antropológico completo y articulado.");
+  else mej.push("Completar todos los campos del informe de análisis.");
+
+  if(fort.length === 0) fort.push("Equipo registrado y caso iniciado.");
+  if(mej.length === 0) mej.push("¡Excelente! Mantengan este nivel en su proyecto de campaña.");
+
+  $("#listaFortalezas").innerHTML = fort.map(f=>`<li>${f}</li>`).join("");
+  $("#listaMejoras").innerHTML = mej.map(m=>`<li>${m}</li>`).join("");
+
+  renderBarraFases();
+}
+
+/* =========================================================
+   IMPRESIÓN
+   ========================================================= */
+function escapeHtml(s){ return (s||"").replace(/[&<>"']/g, c=>({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[c])); }
+
+function cabeceraImpresion(){
+  const eq = estadoCaso.equipo;
+  return `
+    <div style="text-align:center; border-bottom:2px solid #5c1a1a; padding-bottom:10px; margin-bottom:14px;">
+      <h2 style="font-family:Georgia,serif; margin:0;">Misión Semiótica · estilo Sherlock Holmes</h2>
+      <p style="margin:.2rem 0;"><strong>Informe del caso</strong> — Equipo: ${escapeHtml(eq.nombreEquipo)} · Clase: ${escapeHtml(eq.codigoClase)}</p>
+      <p style="margin:.2rem 0; font-size:.9em;">Puntaje: ${estadoCaso.puntaje} · Rango: ${rangoPorPuntaje(estadoCaso.puntaje)}</p>
+    </div>
+    <p><strong>Integrantes:</strong></p>
+    <ul>${eq.integrantes.map(i=>`<li>${escapeHtml(i.nombre)} — ${escapeHtml(i.correo)}</li>`).join("")}</ul>`;
+}
+
+function bloqueRespuestas(){
+  const inf = estadoCaso.informe;
+  const ab = estadoCaso.respuestasAbiertas;
+  const campos = [
+    ["Pieza analizada", inf.pieza], ["Contexto cultural", inf.contexto],
+    ["1. Denotativo", inf.denotativo], ["2. Connotativo", inf.connotativo],
+    ["3. Mítico-ideológico", inf.mitico], ["4. Figuras y códigos", inf.figuras],
+    ["5. Pertinencia cultural", inf.pertinencia], ["6. Conclusión", inf.conclusion],
+    ["Estrella 1", inf.estrella1], ["Estrella 2", inf.estrella2], ["Un deseo", inf.deseo]
+  ];
+  let html = "<h3 style='border-bottom:1px solid #999'>Informe de análisis semiótico-antropológico</h3>";
+  campos.forEach(([t,v])=>{ html += `<p><strong>${t}:</strong><br>${escapeHtml(v||"(sin respuesta)")}</p>`; });
+
+  html += "<h3 style='border-bottom:1px solid #999'>Bitácoras abiertas</h3>";
+  Object.entries(ab).forEach(([k,v])=>{ html += `<p><strong>${escapeHtml(k)}:</strong> ${escapeHtml(v||"")}</p>`; });
+
+  html += "<h3 style='border-bottom:1px solid #999'>Indicios reunidos (juego de cartas)</h3><ol>";
+  estadoCaso.indiciosReunidos.forEach(i=>{ html += `<li><strong>${escapeHtml(i.tipo)} — ${escapeHtml(i.titulo)}:</strong> ${escapeHtml(i.texto)}</li>`; });
+  html += "</ol>";
+  return html;
+}
+
+function imprimir(soloRespuestas){
+  const area = $("#areaImpresion");
+  let html = cabeceraImpresion();
+  if(soloRespuestas){
+    html += "<h2 style='text-align:center'>Respuestas consolidadas del equipo</h2>" + bloqueRespuestas();
+  } else {
+    html += bloqueRespuestas();
+    html += `<h3 style='border-bottom:1px solid #999'>Veredicto</h3>
+      <p><strong>Insignias:</strong> ${[...estadoCaso.insignias].join(" · ") || "—"}</p>`;
+  }
+  html += `<hr><p style="text-align:center; font-family:Georgia,serif;"><em>Mg. Mario Quiroz Martinez — Curso de Semiótica de la Imagen 2026</em></p>`;
+  area.innerHTML = html;
+  area.style.display = "block";
+  // ocultar todo lo demás temporalmente vía clase
+  document.body.classList.add("modo-impresion");
+  $$(".pantalla, header, footer, #zonaAlertas").forEach(e=>e.classList.add("no-print"));
+  window.print();
+  setTimeout(()=>{
+    area.style.display = "none";
+    document.body.classList.remove("modo-impresion");
+    $$(".pantalla").forEach(e=>e.classList.remove("no-print"));
+    document.querySelector("header").classList.remove("no-print");
+  }, 300);
+}
+
+/* =========================================================
+   PWA: manifest + service worker embebidos (blob)
+   ========================================================= */
+function initPWA(){
+  const servidoPorHTTP = location.protocol === "http:" || location.protocol === "https:";
+
+  // Caso ideal: la app se sirve por http(s) y existen los archivos estáticos.
+  if(servidoPorHTTP && "serviceWorker" in navigator){
+    navigator.serviceWorker.register("sw.js").catch(()=>initPWAEmbebido());
+    return; // el <link rel="manifest"> estático ya está en el <head>
+  }
+  // Fallback (p. ej. abierto como archivo local file://): todo embebido.
+  initPWAEmbebido();
+}
+
+function initPWAEmbebido(){
+  // Manifest dinámico
+  const manifest = {
+    name: "Misión Semiótica · Sherlock Holmes",
+    short_name: "Misión Semiótica",
+    description: "Análisis semiótico y antropológico de la imagen, gamificado.",
+    start_url: ".",
+    scope: ".",
+    display: "standalone",
+    orientation: "portrait-primary",
+    background_color: "#0b0705",
+    theme_color: "#3b0a0a",
+    lang: "es",
+    icons: [
+      { src: iconoDataURL(192), sizes:"192x192", type:"image/png", purpose:"any maskable" },
+      { src: iconoDataURL(512), sizes:"512x512", type:"image/png", purpose:"any maskable" }
+    ]
+  };
+  const mBlob = new Blob([JSON.stringify(manifest)], { type:"application/json" });
+  const mURL = URL.createObjectURL(mBlob);
+  const link = document.createElement("link");
+  link.rel = "manifest"; link.href = mURL;
+  document.head.appendChild(link);
+  document.head.querySelector("link[rel=apple-touch-icon]") ||
+    (()=>{ const l=document.createElement("link"); l.rel="apple-touch-icon"; l.href=iconoDataURL(192); document.head.appendChild(l); })();
+
+  // Service worker (cachea la propia página para uso offline)
+  if("serviceWorker" in navigator){
+    const swCode = `
+      const CACHE = "mision-semiotica-v1";
+      self.addEventListener("install", e=>{ self.skipWaiting(); });
+      self.addEventListener("activate", e=>{ e.waitUntil(self.clients.claim()); });
+      self.addEventListener("fetch", e=>{
+        e.respondWith(
+          caches.open(CACHE).then(async cache=>{
+            const cached = await cache.match(e.request);
+            const network = fetch(e.request).then(resp=>{
+              if(resp && resp.status===200 && e.request.method==="GET"){ cache.put(e.request, resp.clone()); }
+              return resp;
+            }).catch(()=>cached);
+            return cached || network;
+          })
+        );
+      });`;
+    try{
+      const swBlob = new Blob([swCode], { type:"text/javascript" });
+      const swURL = URL.createObjectURL(swBlob);
+      navigator.serviceWorker.register(swURL).catch(()=>{ /* entorno sin soporte (p.ej. file://) */ });
+    }catch(_){}
+  }
+}
+
+/* Genera un ícono PNG (lupa victoriana) como data URL */
+function iconoDataURL(size){
+  const c = document.createElement("canvas");
+  c.width = c.height = size; const ctx = c.getContext("2d");
+  // fondo
+  const g = ctx.createRadialGradient(size/2, size*0.35, size*0.1, size/2, size/2, size*0.7);
+  g.addColorStop(0, "#5c1a1a"); g.addColorStop(1, "#160f0a");
+  ctx.fillStyle = g; ctx.fillRect(0,0,size,size);
+  // borde dorado
+  ctx.strokeStyle = "#c8a24a"; ctx.lineWidth = size*0.04;
+  ctx.strokeRect(size*0.06, size*0.06, size*0.88, size*0.88);
+  // lupa
+  ctx.strokeStyle = "#e6c878"; ctx.lineWidth = size*0.06; ctx.lineCap="round";
+  ctx.beginPath(); ctx.arc(size*0.44, size*0.42, size*0.20, 0, Math.PI*2); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(size*0.58, size*0.56); ctx.lineTo(size*0.78, size*0.76); ctx.stroke();
+  return c.toDataURL("image/png");
+}
+
+/* =========================================================
+   REINICIO
+   ========================================================= */
+function reiniciar(){
+  if(!confirm("¿Iniciar un nuevo caso? Se perderán las respuestas actuales.")) return;
+  location.reload();
+}
+
+/* =========================================================
+   ANIMACIÓN DE ENTRADA (anime.js demo de propiedades)
+   ========================================================= */
+function animarTitulo(){
+  anime({
+    targets: "#p-registro h1",
+    opacity: [0,1],
+    translateY: [-20,0],
+    easing: "easeOutExpo",
+    duration: 1200
+  });
+}
+
+/* =========================================================
+   INIT
+   ========================================================= */
+document.addEventListener("DOMContentLoaded", ()=>{
+  initRegistro();
+  initNavegacion();
+  initPreguntasCerradas();
+  initPreguntasAbiertas();
+  construirCartas();
+  construirRubrica();
+  initPWA();
+
+  $("#btnImprimirCompleto").addEventListener("click", ()=>imprimir(false));
+  $("#btnImprimirRespuestas").addEventListener("click", ()=>imprimir(true));
+  $("#btnReiniciar").addEventListener("click", reiniciar);
+
+  actualizarRango();
+  setTimeout(()=>{ $("#scrimCarga").style.display = "none"; animarTitulo(); }, 700);
+});
+</script>
+</body>
+</html>
