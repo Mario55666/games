@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#3b0a0a" />
+<meta name="description" content="Cazador de Signos: shooter vertical educativo con refuerzo del aprendizaje semiótico." />
+<title>Cazador de Signos · Colección Misión Semiótica</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root{ --burdeos:#5c1a1a; --burdeos-claro:#7a2424; --oro:#c8a24a; --oro-claro:#e6c878; --pergamino:#efe3c8; --verde:#3f6f4a; --rojo:#8c2f2f; --sombra:rgba(0,0,0,.55); }
+  *{ box-sizing:border-box; }
+  body{ margin:0; min-height:100vh; color:var(--pergamino); font-family:'EB Garamond',Georgia,serif;
+    background:radial-gradient(ellipse at top,#2a1d14 0%,#160f0a 55%,#0b0705 100%) fixed; }
+  body::before{ content:""; position:fixed; inset:0; pointer-events:none; opacity:.05; z-index:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .wrap{ position:relative; z-index:1; max-width:600px; margin:0 auto; padding:1.2rem; }
+  h1,h2,h3{ font-family:'Cinzel',serif; letter-spacing:.5px; }
+  .display{ font-family:'Cinzel Decorative',serif; }
+  .oro{ color:var(--oro-claro); }
+  a{ color:var(--oro-claro); }
+  .nav-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
+  .nav-top a{ text-decoration:none; font-family:'Cinzel',serif; font-size:.85rem; }
+  .marco{ position:relative; background:linear-gradient(180deg,rgba(40,28,18,.94),rgba(20,14,9,.96));
+    border:2px solid var(--oro); border-radius:8px; padding:clamp(12px,3vw,22px);
+    box-shadow:0 0 0 6px rgba(0,0,0,.45),0 18px 50px var(--sombra),inset 0 0 40px rgba(0,0,0,.5); }
+  .esq{ position:absolute; width:22px; height:22px; border-color:var(--oro-claro); opacity:.85; }
+  .esq.tl{ top:6px;left:6px;border-top:2px solid;border-left:2px solid; } .esq.tr{ top:6px;right:6px;border-top:2px solid;border-right:2px solid; }
+  .esq.bl{ bottom:6px;left:6px;border-bottom:2px solid;border-left:2px solid; } .esq.br{ bottom:6px;right:6px;border-bottom:2px solid;border-right:2px solid; }
+  .filete{ height:2px;border:0;background:linear-gradient(90deg,transparent,var(--oro),transparent);margin:.8rem auto;max-width:280px; }
+  .sello{ display:inline-flex;align-items:center;gap:.35rem;border:1px solid var(--oro);color:var(--oro-claro);
+    background:rgba(92,26,26,.35);border-radius:30px;padding:.22rem .7rem;font-family:'Cinzel',serif;font-size:.78rem; }
+  .hud{ display:flex; gap:.5rem; flex-wrap:wrap; justify-content:center; margin:.6rem 0; }
+  .consigna{ text-align:center; font-family:'Cinzel',serif; color:var(--oro-claro); font-size:1rem; margin:.4rem 0 .6rem; min-height:1.4em; }
+  .consigna b{ color:#fff; }
+  canvas{ display:block; width:100%; height:auto; border:1px solid rgba(200,162,74,.5); border-radius:8px; background:linear-gradient(180deg,#0d0a07,#160f0a); touch-action:none; }
+  .btn{ font-family:'Cinzel',serif; border-radius:6px; padding:.5rem 1rem; cursor:pointer; letter-spacing:.5px; border:1px solid var(--oro); }
+  .btn-oro{ background:linear-gradient(180deg,var(--oro-claro),var(--oro)); color:#2a1c08; font-weight:600; }
+  .btn-burdeos{ background:linear-gradient(180deg,var(--burdeos-claro),var(--burdeos)); color:var(--pergamino); }
+  .btn-fan{ background:transparent; color:var(--oro-claro); }
+  .btn:hover{ filter:brightness(1.08); }
+  .ayuda{ font-size:.82rem; opacity:.85; text-align:center; margin:.5rem 0; }
+  .panel{ background:rgba(20,14,9,.85); border:1px solid rgba(200,162,74,.4); border-radius:8px; padding:1rem; margin-top:1rem; animation:ap .35s ease; }
+  @keyframes ap{ from{ opacity:0; transform:translateY(10px);} }
+  .refuerzo{ border-left:4px solid var(--rojo); }
+  .et{ font-family:'Cinzel',serif; font-size:.76rem; text-transform:uppercase; letter-spacing:1px; color:var(--oro-claro); display:block; }
+  .item{ margin:.45rem 0; }
+  .opcion{ display:block; width:100%; text-align:left; margin:.35rem 0; background:rgba(15,11,7,.7);
+    border:1px solid rgba(200,162,74,.35); color:var(--pergamino); border-radius:6px; padding:.55rem .8rem; cursor:pointer; font-family:'EB Garamond',serif; }
+  .opcion:hover{ border-color:var(--oro); background:rgba(92,26,26,.3); }
+  .opcion.correcta{ border-color:var(--verde); background:rgba(63,111,74,.35); }
+  .opcion.incorrecta{ border-color:var(--rojo); background:rgba(140,47,47,.3); }
+  .opcion .letra{ font-family:'Cinzel',serif; color:var(--oro-claro); margin-right:.5rem; }
+  .footer{ text-align:center; font-family:'Cinzel',serif; font-size:.8rem; color:var(--oro-claro); padding:1.4rem 0; opacity:.85; }
+  .controles{ display:flex; gap:.5rem; justify-content:center; margin-top:.6rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav-top">
+    <a href="juegos.html">‹ Volver al gabinete</a>
+    <span class="sello">🚀 Cazador de Signos</span>
+  </div>
+
+  <div class="marco">
+    <span class="esq tl"></span><span class="esq tr"></span><span class="esq bl"></span><span class="esq br"></span>
+    <div style="text-align:center">
+      <h1 class="display oro" style="font-size:clamp(1.3rem,6vw,2rem); margin:.2rem 0">Cazador de Signos</h1>
+      <hr class="filete" />
+    </div>
+
+    <div class="hud">
+      <span class="sello">⚜ <span id="hudPts">0</span> pts</span>
+      <span class="sello">❤ <span id="hudVidas">3</span></span>
+      <span class="sello">🎯 <span id="hudRonda">0</span>/<span id="hudTot">8</span></span>
+    </div>
+
+    <div class="consigna" id="consigna">Pulsa «Comenzar» para iniciar la cacería.</div>
+    <canvas id="cv" width="560" height="640"></canvas>
+    <div class="ayuda">Mueve con ◀ ▶ o arrastrando · dispara con la barra espaciadora o tocando la nave</div>
+    <div class="controles">
+      <button class="btn btn-oro" id="btnComenzar">Comenzar</button>
+      <button class="btn btn-fan" id="btnIzq">◀</button>
+      <button class="btn btn-fan" id="btnDisparo">● Fuego</button>
+      <button class="btn btn-fan" id="btnDer">▶</button>
+    </div>
+
+    <!-- Refuerzo -->
+    <div class="panel refuerzo" id="refuerzo" style="display:none">
+      <h3 class="oro" style="margin:.1rem 0 .5rem">⚠ Blanco errado · refuerza el concepto</h3>
+      <div class="item"><span class="et">Pista</span><span id="rPista"></span></div>
+      <div class="item"><span class="et">Dato</span><span id="rDato"></span></div>
+      <div class="item"><span class="et">Elemento analógico</span><span id="rAnalogia"></span></div>
+      <hr class="filete" />
+      <div class="item"><span class="et">Pregunta de refuerzo</span><span id="rPregunta"></span></div>
+      <div id="rOpciones"></div>
+      <p id="rFb" style="min-height:1.1em; margin:.4rem 0 0"></p>
+    </div>
+
+    <!-- Fin -->
+    <div class="panel" id="zonaFin" style="display:none; text-align:center">
+      <div class="display oro" id="rangoFin" style="font-size:clamp(1.3rem,5vw,2rem)">—</div>
+      <p id="msgFin" style="max-width:460px; margin:.5rem auto"></p>
+      <button class="btn btn-oro" id="btnReiniciar">Jugar de nuevo</button>
+      <a class="btn btn-fan" href="juegos.html" style="text-decoration:none">Gabinete</a>
+    </div>
+  </div>
+
+  <div class="footer">Mg. Mario Quiroz Martinez — Curso de Semiótica de la Imagen 2026</div>
+</div>
+
+<script>
+/* ===== Consignas: definición -> término correcto + refuerzo ===== */
+const TERMS=["ÍCONO","ÍNDICE","SÍMBOLO","METÁFORA","METONIMIA","MITO","CÓDIGO","DENOTACIÓN"];
+const CONSIGNAS=[
+  { texto:"Signo que se parece a su objeto", correcto:"ÍCONO",
+    ref:{ pista:"Semejanza visual.", dato:"Una foto o un mapa son íconos.", analogia:"Como un retrato.", q:"El ícono se basa en…", ops:["Semejanza","Convención","Causa"], correcta:0 } },
+  { texto:"Signo conectado por causa o contigüidad física", correcto:"ÍNDICE",
+    ref:{ pista:"Hay un vínculo causal.", dato:"El humo indica fuego.", analogia:"Como la fiebre señala infección.", q:"El humo respecto al fuego es…", ops:["Índice","Ícono","Símbolo"], correcta:0 } },
+  { texto:"Signo por convención cultural", correcto:"SÍMBOLO",
+    ref:{ pista:"Se acuerda, no se parece.", dato:"Las palabras y banderas son símbolos.", analogia:"Como la luz roja del semáforo.", q:"La relación símbolo-objeto es…", ops:["Convencional","De semejanza","Causal"], correcta:0 } },
+  { texto:"Figura por semejanza entre dos cosas", correcto:"METÁFORA",
+    ref:{ pista:"Trasladar sentido por parecido.", dato:"'Es un león' = valiente.", analogia:"Cerebro dibujado como engranajes.", q:"La metáfora se basa en…", ops:["Semejanza","Parte-todo","Repetición"], correcta:0 } },
+  { texto:"Figura de la parte por el todo", correcto:"METONIMIA",
+    ref:{ pista:"Contigüidad parte/todo.", dato:"'La corona' por el rey.", analogia:"Una mano artesana por la comunidad.", q:"'Las canas' por la vejez es…", ops:["Metonimia","Metáfora","Hipérbole"], correcta:0 } },
+  { texto:"Sentido que naturaliza una ideología", correcto:"MITO",
+    ref:{ pista:"Barthes.", dato:"Hace lo cultural parecer natural.", analogia:"Un disfraz que olvidamos.", q:"El mito hace que la ideología parezca…", ops:["Natural","Falsa","Técnica"], correcta:0 } },
+  { texto:"Sistema de reglas para interpretar signos", correcto:"CÓDIGO",
+    ref:{ pista:"Convenciones compartidas.", dato:"Sin código no hay entendimiento.", analogia:"Las reglas de un juego.", q:"El código permite…", ops:["Interpretar signos","Ocultar mensajes","Crear ruido"], correcta:0 } },
+  { texto:"Nivel literal y descriptivo del signo", correcto:"DENOTACIÓN",
+    ref:{ pista:"Lo que se ve, sin interpretar.", dato:"Rosa roja = flor de color rojo.", analogia:"Leer la etiqueta.", q:"La denotación es el sentido…", ops:["Literal","Cultural","Ideológico"], correcta:0 } }
+];
+
+/* ===== Setup ===== */
+const cv=document.getElementById("cv"), ctx=cv.getContext("2d");
+const W=cv.width, H=cv.height;
+const $=(s)=>document.querySelector(s);
+let nave, balas, blancos, consignaActual, ronda, pts, vidas, jugando, paused, refResuelto, spawnT, raf;
+const TOTAL=8;
+
+function reset(){
+  nave={ x:W/2, y:H-46, w:46, h:30, vx:0 };
+  balas=[]; blancos=[]; ronda=0; pts=0; vidas=3; jugando=false; paused=false; spawnT=0;
+  $("#hudTot").textContent=TOTAL;
+  actualizarHud();
+  $("#refuerzo").style.display="none"; $("#zonaFin").style.display="none";
+  dibujar();
+  $("#consigna").innerHTML="Pulsa «Comenzar» para iniciar la cacería.";
+}
+function actualizarHud(){ $("#hudPts").textContent=pts; $("#hudVidas").textContent=vidas; $("#hudRonda").textContent=ronda; }
+
+function nuevaConsigna(){
+  consignaActual=CONSIGNAS[ronda % CONSIGNAS.length];
+  $("#consigna").innerHTML="Dispara al: <b>"+terminoSinTilde(consignaActual.correcto)+"</b> — "+consignaActual.texto;
+  blancos=[]; spawnT=0;
+}
+function terminoSinTilde(t){ return t; }
+
+function spawnBlanco(){
+  // garantizar que el correcto aparezca con frecuencia
+  let term;
+  if(Math.random()<0.4) term=consignaActual.correcto;
+  else term=TERMS[Math.floor(Math.random()*TERMS.length)];
+  const w=Math.max(70, ctx.measureText? 84:84);
+  const x=20+Math.random()*(W-40-w);
+  blancos.push({ x, y:-30, w, h:30, term, vy:0.7+ronda*0.05+Math.random()*0.4 });
+}
+
+function disparar(){ if(!jugando||paused) return; balas.push({ x:nave.x, y:nave.y-18, vy:-7 }); }
+
+function loop(){
+  if(jugando && !paused){
+    update();
+    dibujar();
+  }
+  raf=requestAnimationFrame(loop);
+}
+
+function update(){
+  // nave
+  nave.x+=nave.vx; nave.x=Math.max(nave.w/2, Math.min(W-nave.w/2, nave.x));
+  // balas
+  balas.forEach(b=>b.y+=b.vy); balas=balas.filter(b=>b.y>-10);
+  // spawn
+  spawnT--; if(spawnT<=0){ spawnBlanco(); spawnT=70-Math.min(40,ronda*4); }
+  // blancos
+  blancos.forEach(t=>t.y+=t.vy);
+  // colisiones bala-blanco
+  for(let i=blancos.length-1;i>=0;i--){
+    const t=blancos[i];
+    for(let j=balas.length-1;j>=0;j--){
+      const b=balas[j];
+      if(b.x>=t.x && b.x<=t.x+t.w && b.y>=t.y && b.y<=t.y+t.h){
+        balas.splice(j,1);
+        if(t.term===consignaActual.correcto){ acierto(); }
+        else { fallo("Disparaste a “"+t.term+"”, que no corresponde a la consigna."); }
+        blancos.splice(i,1);
+        return;
+      }
+    }
+  }
+  // blanco correcto que escapa por abajo
+  for(let i=blancos.length-1;i>=0;i--){
+    const t=blancos[i];
+    if(t.y>H){
+      if(t.term===consignaActual.correcto){ blancos.splice(i,1); fallo("Dejaste escapar el blanco correcto."); return; }
+      blancos.splice(i,1);
+    }
+  }
+}
+
+function acierto(){
+  pts+=10; ronda++; actualizarHud();
+  if(ronda>=TOTAL){ finalizar(true); return; }
+  nuevaConsigna();
+}
+
+function fallo(motivo){
+  vidas--; actualizarHud();
+  paused=true;
+  const ref=consignaActual.ref;
+  $("#rPista").textContent=motivo+" "+ref.pista;
+  $("#rDato").textContent=ref.dato; $("#rAnalogia").textContent=ref.analogia;
+  $("#rPregunta").textContent=ref.q; $("#rFb").textContent=""; refResuelto=false;
+  const cont=$("#rOpciones"); cont.innerHTML=""; const L=["A","B","C","D"];
+  ref.ops.forEach((op,i)=>{
+    const b=document.createElement("button"); b.className="opcion"; b.innerHTML="<span class='letra'>"+L[i]+".</span>"+op;
+    b.onclick=()=>{
+      if(refResuelto) return;
+      if(i===ref.correcta){
+        b.classList.add("correcta"); refResuelto=true; pts+=5; actualizarHud();
+        $("#rFb").textContent="Concepto reforzado. Reanudando la cacería…"; $("#rFb").style.color="var(--oro-claro)";
+        setTimeout(()=>{
+          $("#refuerzo").style.display="none";
+          if(vidas<=0) finalizar(false); else { paused=false; nuevaConsigna(); }
+        },1000);
+      } else {
+        b.classList.add("incorrecta"); $("#rFb").textContent="Aún no. Relee el dato y la analogía."; $("#rFb").style.color="#e9a3a3";
+        setTimeout(()=>b.classList.remove("incorrecta"),900);
+      }
+    };
+    cont.appendChild(b);
+  });
+  $("#refuerzo").style.display="block";
+  $("#refuerzo").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+function dibujar(){
+  ctx.clearRect(0,0,W,H);
+  // estrellas tenues
+  ctx.fillStyle="rgba(200,162,74,.12)";
+  for(let i=0;i<30;i++){ const x=(i*53)%W, y=((i*97)+ (Date.now()/40))%H; ctx.fillRect(x,y,2,2); }
+  // blancos (pergamino)
+  ctx.font="bold 15px Cinzel, serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
+  blancos.forEach(t=>{
+    ctx.fillStyle="rgba(239,227,200,.92)"; roundRect(t.x,t.y,t.w,t.h,7); ctx.fill();
+    ctx.strokeStyle="#c8a24a"; ctx.lineWidth=2; roundRect(t.x,t.y,t.w,t.h,7); ctx.stroke();
+    ctx.fillStyle="#2a1c10"; ctx.fillText(t.term, t.x+t.w/2, t.y+t.h/2+1);
+  });
+  // balas
+  ctx.fillStyle="#e6c878";
+  balas.forEach(b=>{ ctx.fillRect(b.x-2,b.y-8,4,10); });
+  // nave
+  ctx.save(); ctx.translate(nave.x,nave.y);
+  ctx.fillStyle="#7a2424"; ctx.strokeStyle="#e6c878"; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(0,-18); ctx.lineTo(20,16); ctx.lineTo(0,8); ctx.lineTo(-20,16); ctx.closePath();
+  ctx.fill(); ctx.stroke();
+  ctx.fillStyle="#e6c878"; ctx.beginPath(); ctx.arc(0,-2,4,0,7); ctx.fill();
+  ctx.restore();
+}
+function roundRect(x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+
+function finalizar(gano){
+  jugando=false;
+  $("#rangoFin").textContent=gano?"¡Cacería perfecta!":"Cacería interrumpida";
+  $("#msgFin").textContent=gano
+    ? "Cazaste todos los signos correctos con "+pts+" puntos. Dominas los tipos de signo y las figuras."
+    : "Se agotaron las vidas, pero cada fallo reforzó un concepto. Inténtalo de nuevo.";
+  $("#zonaFin").style.display="block";
+}
+
+function comenzar(){
+  reset(); jugando=true; ronda=0; nuevaConsigna(); actualizarHud();
+  $("#consigna").innerHTML="Dispara al: <b>"+consignaActual.correcto+"</b> — "+consignaActual.texto;
+}
+
+/* ===== Controles ===== */
+const teclas={};
+document.addEventListener("keydown",(e)=>{
+  if(["ArrowLeft","ArrowRight"," "].includes(e.key)) e.preventDefault();
+  teclas[e.key]=true;
+  if(e.key==="ArrowLeft") nave.vx=-5;
+  if(e.key==="ArrowRight") nave.vx=5;
+  if(e.key===" ") disparar();
+});
+document.addEventListener("keyup",(e)=>{ teclas[e.key]=false;
+  if((e.key==="ArrowLeft"||e.key==="ArrowRight") && !teclas["ArrowLeft"] && !teclas["ArrowRight"]) nave.vx=0; });
+
+// botones táctiles
+function holdBtn(id,onDown,onUp){ const el=$(id);
+  el.addEventListener("pointerdown",(e)=>{e.preventDefault(); onDown();});
+  el.addEventListener("pointerup",(e)=>{e.preventDefault(); onUp&&onUp();});
+  el.addEventListener("pointerleave",()=>{ onUp&&onUp(); });
+}
+holdBtn("#btnIzq",()=>nave.vx=-5,()=>nave.vx=0);
+holdBtn("#btnDer",()=>nave.vx=5,()=>nave.vx=0);
+$("#btnDisparo").addEventListener("pointerdown",(e)=>{e.preventDefault(); disparar();});
+
+// arrastrar sobre el canvas para mover; tap para disparar
+let dragX=null, moved=false;
+cv.addEventListener("pointerdown",(e)=>{ const r=cv.getBoundingClientRect(); dragX=(e.clientX-r.left)*(W/r.width); moved=false; });
+cv.addEventListener("pointermove",(e)=>{ if(dragX===null) return; const r=cv.getBoundingClientRect();
+  const x=(e.clientX-r.left)*(W/r.width); if(Math.abs(x-dragX)>4) moved=true; nave.x=x; nave.vx=0; });
+cv.addEventListener("pointerup",()=>{ if(!moved) disparar(); dragX=null; });
+
+$("#btnComenzar").onclick=comenzar;
+$("#btnReiniciar").onclick=comenzar;
+
+reset();
+loop();
+</script>
+</body>
+</html>
