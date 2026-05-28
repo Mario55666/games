@@ -79,11 +79,29 @@
   .toast{ position:fixed; bottom:18px; left:50%; transform:translateX(-50%); z-index:50; background:rgba(20,14,9,.95);
     border:1px solid var(--oro); color:var(--oro-claro); padding:.6rem 1rem; border-radius:8px; font-family:'Cinzel',serif; font-size:.85rem; }
 </style>
+<script>
+/* Vuelta segura al contexto padre: funciona dentro del modal (cerrarRefuerzo),
+   dentro del gabinete antiguo (volverAlHub) y de pie como página standalone. */
+function smartBack(){
+  try{
+    if(window.parent && window.parent !== window){
+      if(typeof window.parent.cerrarRefuerzo === "function"){
+        window.parent.cerrarRefuerzo(); return;
+      }
+      if(typeof window.parent.volverAlHub === "function"){
+        window.parent.volverAlHub(); return;
+      }
+    }
+  }catch(_){}
+  // Fallback: navegar al gabinete estándar
+  window.location.href = "juegos.html";
+}
+</script>
 </head>
 <body>
 <div class="wrap">
   <div class="nav-top">
-    <a href="juegos.html">‹ Volver al gabinete de juegos</a>
+    <a href="javascript:void(0)" onclick="smartBack();return false;">‹ Volver al gabinete de juegos</a>
     <span class="sello"><i>❦</i> Anagramas Semióticos</span>
   </div>
 
@@ -142,7 +160,7 @@
       <p id="msgFin" style="max-width:520px; margin:.6rem auto"></p>
       <div style="display:flex; gap:.5rem; justify-content:center; flex-wrap:wrap">
         <button class="btn btn-oro" id="btnReiniciar">Jugar de nuevo</button>
-        <a class="btn btn-fan" href="juegos.html" style="text-decoration:none">Volver al gabinete</a>
+        <a class="btn btn-fan" href="javascript:void(0)" onclick="smartBack();return false;" style="text-decoration:none">Volver al gabinete</a>
       </div>
     </div>
   </div>
