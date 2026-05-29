@@ -368,6 +368,176 @@
     color:#fff;
   }
 
+  /* ===== Mesa de análisis del expediente ===== */
+  .mesa-analisis{
+    margin:1.4rem 0 .5rem;
+    background:
+      linear-gradient(180deg, rgba(40,28,18,.96), rgba(15,10,7,.98));
+    border:2px solid var(--oro);
+    border-radius:10px;
+    padding:clamp(1rem, 3vw, 1.7rem);
+    box-shadow:0 0 0 5px rgba(0,0,0,.45), 0 18px 50px var(--sombra), inset 0 0 40px rgba(0,0,0,.45);
+    position:relative;
+  }
+  .mesa-analisis::before, .mesa-analisis::after{
+    content:"❦"; position:absolute; color:var(--oro); opacity:.75; font-size:1.2rem;
+  }
+  .mesa-analisis::before{ top:8px; left:14px; }
+  .mesa-analisis::after{ bottom:6px; right:14px; }
+  .mesa-header{
+    display:flex; align-items:flex-start; justify-content:space-between; gap:.7rem;
+    border-bottom:1px solid rgba(200,162,74,.4);
+    padding-bottom:.6rem; margin-bottom:.8rem;
+  }
+  .mesa-eyebrow{
+    font-family:'Cinzel',serif; font-size:.72rem; letter-spacing:3px;
+    color:var(--oro); text-transform:uppercase; opacity:.85;
+    margin-bottom:.18rem;
+  }
+  .mesa-titulo{
+    margin:0; font-family:'Cinzel Decorative',serif; color:var(--oro-claro);
+    font-size:clamp(1.2rem, 3.2vw, 1.7rem); line-height:1.1;
+  }
+  .mesa-pregunta{
+    background:rgba(92,26,26,.25);
+    border-left:3px solid var(--oro);
+    border-radius:0 6px 6px 0;
+    padding:.65rem .85rem;
+    font-size:1rem; line-height:1.4;
+    margin-bottom:.9rem;
+  }
+  .mesa-gemini{
+    background:linear-gradient(180deg, rgba(15,10,7,.7), rgba(8,5,3,.85));
+    border:1px solid rgba(200,162,74,.5);
+    border-radius:8px;
+    padding:.8rem .9rem;
+    margin-bottom:.9rem;
+  }
+  .mesa-gemini-header{
+    display:flex; align-items:center; gap:.5rem;
+    font-family:'Cinzel',serif; color:var(--oro-claro);
+    font-size:.9rem; margin-bottom:.35rem;
+  }
+  .mesa-gem-ic{ font-size:1.2rem; line-height:1; }
+  .mesa-gem-titulo{ font-weight:600; letter-spacing:.5px; }
+  .mesa-gem-instr{ color:var(--pergamino); opacity:.88; font-style:italic; }
+  .mesa-prompt-box{
+    background:#0b0805;
+    border:1px solid rgba(200,162,74,.45);
+    border-radius:6px;
+    padding:.55rem .7rem;
+    margin:.4rem 0 .55rem;
+  }
+  .mesa-prompt-box pre{
+    margin:0 0 .5rem;
+    color:#e8dcb5;
+    font-family:'IM Fell English', 'EB Garamond', serif;
+    font-size:.92rem; line-height:1.4;
+    white-space:pre-wrap; word-wrap:break-word;
+    max-height:200px; overflow:auto;
+  }
+  .mesa-prompt-acciones{ display:flex; gap:.4rem; flex-wrap:wrap; }
+  .mesa-pasos{
+    margin:.5rem 0 0 1.1rem; padding:0;
+    font-size:.86rem; line-height:1.35; color:var(--pergamino); opacity:.92;
+  }
+  .mesa-pasos li{ margin-bottom:.18rem; }
+  .mesa-pasos strong{ color:var(--oro-claro); }
+
+  .mesa-upload{ margin-bottom:.9rem; }
+  .mesa-upload-label{
+    display:flex; align-items:center; gap:.7rem;
+    background:rgba(15,11,7,.65);
+    border:2px dashed rgba(200,162,74,.55);
+    border-radius:8px;
+    padding:.8rem 1rem;
+    cursor:pointer; transition:all .2s ease;
+  }
+  .mesa-upload-label:hover{
+    background:rgba(92,26,26,.3);
+    border-color:var(--oro);
+  }
+  .mesa-upload-label.con-imagen{ display:none; }
+  .mesa-upload-label i{ font-size:1.5rem; color:var(--oro-claro); }
+  .mesa-upload-label .mesa-up-titulo{
+    display:block; font-family:'Cinzel',serif; color:var(--oro-claro);
+    font-size:.92rem; font-weight:600;
+  }
+  .mesa-upload-label .mesa-up-sub{
+    display:block; font-size:.8rem; color:var(--pergamino); opacity:.78;
+  }
+  .mesa-preview{
+    display:flex; gap:.85rem; flex-wrap:wrap;
+    background:rgba(15,11,7,.5);
+    border:1px solid rgba(200,162,74,.45);
+    border-radius:8px;
+    padding:.65rem;
+    align-items:flex-start;
+  }
+  .mesa-preview img{
+    max-width:260px; max-height:200px;
+    border:2px solid var(--oro);
+    border-radius:6px;
+    object-fit:contain;
+    background:#0b0805;
+  }
+  .mesa-preview-meta{
+    flex:1; min-width:160px;
+    display:flex; flex-direction:column; gap:.5rem;
+    font-size:.86rem; color:var(--pergamino);
+  }
+
+  .mesa-respuesta label{
+    color:var(--oro-claro); font-family:'Cinzel',serif; font-size:.85rem;
+    letter-spacing:.5px; margin-bottom:.3rem;
+  }
+  .mesa-respuesta textarea{
+    background:rgba(15,11,7,.85)!important;
+    color:var(--pergamino)!important;
+    border:1px solid rgba(200,162,74,.45)!important;
+    font-family:'EB Garamond',serif;
+    font-size:1rem; line-height:1.4;
+  }
+
+  .mesa-acciones{
+    display:flex; gap:.6rem; align-items:center; flex-wrap:wrap;
+    margin-top:.85rem;
+  }
+  .mesa-feedback{
+    flex:1; min-width:200px;
+    font-size:.92rem; line-height:1.35;
+  }
+  .mesa-feedback.ok{
+    color:#bfe6c5; background:rgba(63,111,74,.28);
+    border:1px solid var(--verde-pista);
+    border-radius:6px; padding:.5rem .7rem;
+  }
+  .mesa-feedback.pista{
+    color:#ffd9d9; background:rgba(140,47,47,.28);
+    border:1px solid var(--rojo-alerta);
+    border-radius:6px; padding:.5rem .7rem;
+  }
+
+  /* Marcar la carta activa (la que estás analizando en la mesa) */
+  .carta.activa{
+    outline:3px solid var(--oro-claro);
+    outline-offset:3px;
+    box-shadow:0 0 0 6px rgba(200,162,74,.18), 0 0 30px rgba(200,162,74,.3);
+  }
+  .carta .pulso-pista{
+    position:absolute; bottom:6px; left:50%; transform:translateX(-50%);
+    background:rgba(0,0,0,.6); color:var(--oro-claro);
+    font-family:'Cinzel',serif; font-size:.6rem;
+    border:1px solid var(--oro);
+    padding:.1rem .45rem; border-radius:30px;
+    pointer-events:none;
+  }
+
+  @media (max-width:680px){
+    .mesa-prompt-box pre{ font-size:.85rem; }
+    .mesa-preview img{ max-width:100%; max-height:180px; }
+  }
+
   /* Modal de refuerzo (juego en iframe a pantalla completa) */
   .modal-refuerzo{
     position:fixed; inset:0; z-index:9999;
@@ -523,6 +693,21 @@
     letter-spacing:.5px;
     text-transform:uppercase;
   }
+  /* Pie del reverso: "Mesa de análisis abajo" (sustituye la entrada de texto) */
+  .cara-reverso .r-bajar{
+    margin-top:auto;
+    text-align:center;
+    font-family:'Cinzel',serif;
+    font-size:.68rem;
+    color:var(--burdeos);
+    background:rgba(200,162,74,.18);
+    border:1px solid rgba(200,162,74,.45);
+    border-radius:6px;
+    padding:.3rem .5rem;
+    letter-spacing:.5px;
+  }
+  .cara-reverso .r-bajar i{ margin-right:.3rem; }
+
   /* Variante dentro del reverso de carta (más compacta) */
   .cara-reverso{ overflow:auto; }
   .cara-reverso .figura-victoriana{
@@ -1038,7 +1223,7 @@
     <div class="text-center mb-3">
       <div class="sello"><i class="bi bi-3-circle"></i> Fase · TRANSFORMACIÓN</div>
       <h2 class="oro mt-2">La escena del caso</h2>
-      <p>Voltea cada carta, responde su <em>prompt</em> de análisis y valida. Las cartas se desbloquean en cadena: <strong>escena → indicio → testimonio → evidencia → sospechoso → coartada</strong>.</p>
+      <p>Selecciona una carta para abrir su <strong>expediente de análisis</strong> en la mesa de abajo. Generarás una <strong>imagen de referencia</strong> con Gemini a partir de un prompt sugerido y la subirás (máx. 1 MB) para razonar tu respuesta. Las cartas se desbloquean en cadena: <strong>escena → indicio → testimonio → evidencia → sospechoso → coartada</strong>.</p>
     </div>
 
     <div class="row g-3">
@@ -1051,6 +1236,66 @@
           <div class="progress my-2"><div class="progress-bar" id="progresoCartas" style="width:0%"></div></div>
           <div id="listaIndicios"><p class="fst-italic small mb-0" style="opacity:.7">Aún no has reunido pruebas. Empieza por la <strong>Carta 1 (escena)</strong>.</p></div>
         </div>
+      </div>
+    </div>
+
+    <!-- ===== MESA DE ANÁLISIS DEL EXPEDIENTE ===== -->
+    <div class="mesa-analisis" id="mesaAnalisis" style="display:none">
+      <div class="mesa-header">
+        <div>
+          <div class="mesa-eyebrow" id="mesaEyebrow">— · —</div>
+          <h4 class="mesa-titulo" id="mesaTitulo">—</h4>
+        </div>
+        <button class="btn btn-fantasma btn-sm" type="button" id="mesaCerrar"><i class="bi bi-x-lg"></i> Cerrar</button>
+      </div>
+
+      <div class="mesa-pregunta" id="mesaPregunta"></div>
+
+      <div class="mesa-gemini">
+        <div class="mesa-gemini-header">
+          <span class="mesa-gem-ic">✨</span>
+          <span class="mesa-gem-titulo">Genera la imagen de referencia con Gemini</span>
+        </div>
+        <p class="mesa-gem-instr small mb-2" id="mesaGemInstr">Antes de razonar, visualízalo.</p>
+        <div class="mesa-prompt-box">
+          <pre id="mesaPromptIA" tabindex="0"></pre>
+          <div class="mesa-prompt-acciones">
+            <button type="button" class="btn btn-oro btn-sm" id="mesaCopiarPrompt"><i class="bi bi-clipboard"></i> Copiar prompt</button>
+            <a class="btn btn-burdeos btn-sm" href="https://gemini.google.com/" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right"></i> Abrir Gemini</a>
+          </div>
+        </div>
+        <ol class="mesa-pasos">
+          <li>Copia el prompt y pégalo en Gemini.</li>
+          <li>Descarga la imagen generada.</li>
+          <li>Súbela aquí (JPG / PNG / WebP · <strong>máx 1 MB</strong>).</li>
+          <li>Analiza lo que ves en el campo de respuesta y valida.</li>
+        </ol>
+      </div>
+
+      <div class="mesa-upload">
+        <label class="mesa-upload-label" for="mesaArchivo">
+          <i class="bi bi-cloud-upload"></i>
+          <span class="mesa-up-titulo">Subir imagen de referencia</span>
+          <span class="mesa-up-sub">Haz clic o arrastra el archivo · máx 1 MB</span>
+        </label>
+        <input type="file" id="mesaArchivo" accept="image/jpeg,image/png,image/webp,image/jpg" hidden>
+        <div class="mesa-preview" id="mesaPreview" style="display:none">
+          <img id="mesaPreviewImg" alt="Imagen generada por Gemini para esta pista">
+          <div class="mesa-preview-meta">
+            <span id="mesaPreviewInfo">—</span>
+            <button type="button" class="btn btn-fantasma btn-sm" id="mesaQuitarImg"><i class="bi bi-trash"></i> Quitar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mesa-respuesta">
+        <label class="form-label" for="mesaTextarea"><i class="bi bi-pencil-square"></i> Tu análisis (denotativo, connotativo, mítico…)</label>
+        <textarea id="mesaTextarea" class="form-control" rows="4" placeholder="Desarrolla tu razonamiento en al menos una frase completa…"></textarea>
+      </div>
+
+      <div class="mesa-acciones">
+        <button class="btn btn-oro" type="button" id="mesaValidar"><i class="bi bi-check2-square"></i> Validar análisis</button>
+        <div class="mesa-feedback" id="mesaFeedback"></div>
       </div>
     </div>
 
@@ -1741,25 +1986,33 @@ const CARTAS = [
     prompt:"Observación directa: en el afiche de la ONG aparece una plaza limeña con personas de distintas culturas. ¿Qué elemento aparece PRIMERO y capta tu atención? Descríbelo (denotación).",
     claves:["centro","color","contraste","persona","grande","primero","mujer","figura"],
     fbOk:"Buen ojo: identificaste el foco visual. La jerarquía guía la lectura.",
-    fbPista:"Pista: piensa en qué elemento es más grande, más claro o está al centro. ¿Qué ves antes que nada?" },
+    fbPista:"Pista: piensa en qué elemento es más grande, más claro o está al centro. ¿Qué ves antes que nada?" ,
+    promptIA:"Wide editorial illustration of a Lima plaza filled with people of diverse cultures going about their day — a Quechua woman in pollera selling textiles at the visual center, a businessman, an Afro-Peruvian student, a tourist with a camera, a child eating picarones, all under the soft afternoon light of Plaza San Martín's colonial architecture. The Quechua woman must be the largest, most contrasted figure at the center — clear visual hierarchy. Documentary-painterly style, warm tones, 35mm look.",
+    instrPI:"Genera la escena para identificar el foco visual (denotación) y describir lo que aparece PRIMERO." },
 
   { id:2, tipo:"INDICIO FÍSICO", ornamento:"🔍", titulo:"El detalle fuera de lugar",
     prompt:"Un detalle parece fuera de lugar: la vestimenta tradicional aparece, pero descontextualizada. ¿Qué objeto o detalle podría ser una pista y por qué llama la atención?",
     claves:["vestimenta","ropa","traje","color","fuera","contexto","detalle","símbolo","objeto"],
     fbOk:"Correcto: un detalle anómalo suele cargar connotaciones. Lo registraste como indicio.",
-    fbPista:"Pista: ¿qué detalle parece querer ocultar o forzar un significado? Revisa el contexto cultural." },
+    fbPista:"Pista: ¿qué detalle parece querer ocultar o forzar un significado? Revisa el contexto cultural." ,
+    promptIA:"Close-up commercial photography of a single Andean pollera and chumpi displayed on a stark white luxury mannequin in a high-end boutique — over-saturated colors, dramatic studio lighting, price tag dangling, completely isolated from any village/community context. Stylized, decontextualized, museum-like display. The traditional garment turned into a 'piece' for sale.",
+    instrPI:"Visualiza la vestimenta tradicional descontextualizada que actúa como indicio físico anómalo." },
 
   { id:3, tipo:"TESTIMONIO", ornamento:"🗣️", titulo:"La voz de la comunidad",
     prompt:"Inferencia cultural: un miembro de la comunidad dice que ‘no se siente representado’. ¿Qué relación tiene este testimonio con la lectura connotativa de la imagen?",
     claves:["connota","represent","estereotipo","cultura","significa","interpreta","sentido","valor"],
     fbOk:"Bien: el testimonio activa la lectura connotativa. La pertinencia cultural está en juego.",
-    fbPista:"Pista: recuerda la relación entre lo que se muestra y lo que la cultura interpreta. ¿Connotación o denotación?" },
+    fbPista:"Pista: recuerda la relación entre lo que se muestra y lo que la cultura interpreta. ¿Connotación o denotación?" ,
+    promptIA:"Honest documentary close-up portrait of a Quechua weaver woman, mid-50s, dignified expression, looking directly at the viewer with calm seriousness — a person with something to say. Soft natural light from a side window. Background: her own workshop with half-finished textiles, gently out of focus. The image must convey unheard testimony, not folklore.",
+    instrPI:"Genera el rostro de quien dice 'no me siento representada' para activar la lectura connotativa." },
 
   { id:4, tipo:"EVIDENCIA", ornamento:"📜", titulo:"El mito naturalizado",
     prompt:"Validación: la campaña presenta lo indígena solo como ‘folclor del pasado’. ¿Qué nivel de lectura revela esto y qué ideología naturaliza?",
     claves:["mito","ideolog","pasado","naturaliz","poder","mítico","exotiz","folclor"],
     fbOk:"Exacto: opera el nivel mítico-ideológico, naturalizando una visión del ‘otro’.",
-    fbPista:"Pista: cuando una imagen hace pasar una creencia por ‘algo natural o evidente’, ¿en qué nivel estamos?" },
+    fbPista:"Pista: cuando una imagen hace pasar una creencia por ‘algo natural o evidente’, ¿en qué nivel estamos?" ,
+    promptIA:"Editorial split-panel illustration. LEFT PANEL: sepia 19th-century anthropology engraving of an idealized 'native' figure presented as exotic specimen. RIGHT PANEL: contemporary glossy advertisement of the same kind of figure used to sell a bank, telecom or tourism brand — same pose, same stereotype, but hyper-saturated colors and modern typography. Two panels separated by 150 years and yet eerily similar. Editorial composition, balanced halves.",
+    instrPI:"Muestra cómo la misma imagen-mito atraviesa 150 años intacta — para nombrar el nivel mítico-ideológico." },
 
   { id:5, tipo:"SOSPECHOSO", ornamento:"🎩", titulo:"El código culpable", sospechoso:true,
     imagen:{ key:"i2",
@@ -1768,7 +2021,9 @@ const CARTAS = [
     prompt:"¿Qué culpable se asocia mejor con la cadena de pruebas? Identifica el ‘código’ responsable de la distorsión (estereotipo, exotización, folclorización…) y justifícalo.",
     claves:["estereotipo","exotiz","folclor","código","prejuicio","reduc","caricatur"],
     fbOk:"Caso resuelto: nombraste el código culpable y lo sostuviste con evidencia.",
-    fbPista:"Pista: ¿qué código reduce una cultura a un cliché? El indicio más fuerte apunta a la exotización/estereotipo." },
+    fbPista:"Pista: ¿qué código reduce una cultura a un cliché? El indicio más fuerte apunta a la exotización/estereotipo." ,
+    promptIA:"Glossy mock-up of a tourism advertising poster — non-indigenous fashion model dressed up as a generic 'Andean woman', over-saturated folkloric colors, studio lighting, fake idealized mountain backdrop, perfect commercial smile, holding a textile as decorative prop, brand logo placeholder bottom-right, postcard aesthetic. Exotization as visual code: costume instead of culture, depersonalization made visible.",
+    instrPI:"Crea el afiche-evidencia del 'código culpable' (exotización/estereotipo) que la cadena de pruebas señala." },
 
   { id:6, tipo:"COARTADA", ornamento:"⚖️", titulo:"El contraste decisivo", sospechoso:true,
     imagen:{ key:"i1",
@@ -1777,7 +2032,9 @@ const CARTAS = [
     prompt:"Contraste/coartada: ¿qué evidencia CONTRADICE la versión oficial de la campaña? Propón una decisión de diseño que la corrija manteniendo pertinencia cultural.",
     claves:["contradic","corrig","diseño","propon","diversidad","representa","incluir","contexto","cambiar"],
     fbOk:"Veredicto sólido: detectaste la contradicción y propusiste una corrección pertinente.",
-    fbPista:"Pista: ¿qué información falta o qué dato choca con el mensaje declarado? Propón cómo rediseñarlo." }
+    fbPista:"Pista: ¿qué información falta o qué dato choca con el mensaje declarado? Propón cómo rediseñarlo." ,
+    promptIA:"Documentary photograph of a real Andean weaver woman, mid-40s, working at her traditional backstrap loom in her own workshop, natural daylight, authentic clothing worn with everyday dignity (not styled), half-finished colorful alpaca textile, her hands actively shuttling the warp. Medium shot, photojournalism style, 50mm lens, no commercial polish — she is the protagonist and the cultural agent of her own representation.",
+    instrPI:"Genera la coartada visual: la representación digna que contradice el afiche oficial." }
 ];
 
 const VINCULOS = [
@@ -2017,6 +2274,9 @@ function initPreguntasAbiertas(){
 function construirCartas(){
   const tablero = $("#tableroCartas");
   tablero.innerHTML = "";
+  // Estado por carta (texto + imagen en memoria) para que no se pierda al cambiar.
+  if(!estadoCaso.cartasDatos) estadoCaso.cartasDatos = {};
+
   CARTAS.forEach(c=>{
     const carta = document.createElement("div");
     carta.className = "carta" + (c.id === 1 ? "" : " bloqueada") + (c.sospechoso ? " sospechoso" : "");
@@ -2036,42 +2296,245 @@ function construirCartas(){
           <div class="r-tipo">CARTA ${c.id} · ${c.tipo}</div>
           <div class="r-titulo">${c.titulo}</div>
           ${figHTML}
-          <div class="r-prompt">
-            <p class="mb-1">${c.prompt}</p>
-            <textarea rows="2" placeholder="Anota tu análisis…"></textarea>
-            <button class="btn btn-validar w-100"><i class="bi bi-check2"></i> Validar pista</button>
-            <div class="r-feedback"></div>
-          </div>
+          <div class="r-bajar"><i class="bi bi-arrow-down-circle"></i> Mesa de análisis abajo</div>
         </div>
       </div>`;
 
-    // Voltear al hacer clic en la cara frontal (si no está bloqueada)
+    // Click: voltear + abrir mesa de análisis
     carta.querySelector(".cara-frente").addEventListener("click", ()=>{
       if(carta.classList.contains("bloqueada")){
         alerta('<i class="bi bi-lock"></i> Resuelve la carta anterior para desbloquear esta.');
         animarBloqueo(carta);
         return;
       }
-      // Limpiar el transform en línea del efecto tilt para que la regla CSS
-      // .volteada (rotateY 180deg) no quede anulada por la especificidad inline.
       carta.querySelector(".carta-inner").style.transform = "";
-      carta.classList.toggle("volteada");
+      carta.classList.add("volteada");
+      abrirMesaAnalisis(c, carta);
+    });
+    // También permitir abrir la mesa desde el reverso (clic en el "↓")
+    carta.querySelector(".cara-reverso").addEventListener("click", ()=>{
+      if(carta.classList.contains("bloqueada")) return;
+      abrirMesaAnalisis(c, carta);
     });
 
-    // Validación del prompt
-    const ta = carta.querySelector("textarea");
-    const fb = carta.querySelector(".r-feedback");
-    carta.querySelector(".btn-validar").addEventListener("click", ()=>{
-      validarCarta(c, carta, ta, fb);
-    });
-
-    // Efecto tourist 3D para sospechosos
     if(c.sospechoso) activarTilt(carta);
-
     tablero.appendChild(carta);
   });
   construirVinculos();
   actualizarExpediente();
+  configurarMesaAnalisis();
+}
+
+/* ===== Mesa de análisis ===== */
+let _mesaCartaActiva = null;
+
+function configurarMesaAnalisis(){
+  const inputArchivo = $("#mesaArchivo");
+  const labelDrop = document.querySelector(".mesa-upload-label");
+  if(inputArchivo && !inputArchivo.dataset.bound){
+    inputArchivo.dataset.bound = "1";
+    inputArchivo.addEventListener("change", e => manejarSubidaImagen(e.target.files[0]));
+  }
+  if(labelDrop && !labelDrop.dataset.bound){
+    labelDrop.dataset.bound = "1";
+    ["dragenter","dragover"].forEach(ev=>labelDrop.addEventListener(ev, e=>{
+      e.preventDefault(); labelDrop.style.borderColor = "var(--oro-claro)";
+      labelDrop.style.background = "rgba(92,26,26,.4)";
+    }));
+    ["dragleave","drop"].forEach(ev=>labelDrop.addEventListener(ev, e=>{
+      e.preventDefault();
+      labelDrop.style.borderColor = ""; labelDrop.style.background = "";
+    }));
+    labelDrop.addEventListener("drop", e=>{
+      e.preventDefault();
+      const f = e.dataTransfer.files[0]; if(f) manejarSubidaImagen(f);
+    });
+  }
+  const btnCopiar = $("#mesaCopiarPrompt");
+  if(btnCopiar && !btnCopiar.dataset.bound){
+    btnCopiar.dataset.bound = "1";
+    btnCopiar.addEventListener("click", () => {
+      const pre = $("#mesaPromptIA"); if(!pre) return;
+      const txt = pre.textContent || "";
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(txt).then(
+          () => { btnCopiar.innerHTML = '<i class="bi bi-check2"></i> ¡Copiado!'; setTimeout(()=>btnCopiar.innerHTML='<i class="bi bi-clipboard"></i> Copiar prompt', 1600); },
+          () => alerta('<i class="bi bi-exclamation-triangle"></i> No pude copiar — selecciona y copia con Ctrl+C.', 'warning')
+        );
+      } else {
+        const r = document.createRange(); r.selectNodeContents(pre);
+        const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      }
+    });
+  }
+  const btnQuitar = $("#mesaQuitarImg");
+  if(btnQuitar && !btnQuitar.dataset.bound){
+    btnQuitar.dataset.bound = "1";
+    btnQuitar.addEventListener("click", quitarImagen);
+  }
+  const btnValidar = $("#mesaValidar");
+  if(btnValidar && !btnValidar.dataset.bound){
+    btnValidar.dataset.bound = "1";
+    btnValidar.addEventListener("click", validarMesa);
+  }
+  const btnCerrar = $("#mesaCerrar");
+  if(btnCerrar && !btnCerrar.dataset.bound){
+    btnCerrar.dataset.bound = "1";
+    btnCerrar.addEventListener("click", () => {
+      const mesa = $("#mesaAnalisis"); if(mesa) mesa.style.display = "none";
+      document.querySelectorAll(".carta.activa").forEach(c => c.classList.remove("activa"));
+      _mesaCartaActiva = null;
+    });
+  }
+  const ta = $("#mesaTextarea");
+  if(ta && !ta.dataset.bound){
+    ta.dataset.bound = "1";
+    ta.addEventListener("input", () => {
+      if(!_mesaCartaActiva) return;
+      const id = _mesaCartaActiva.c.id;
+      estadoCaso.cartasDatos[id] = estadoCaso.cartasDatos[id] || {};
+      estadoCaso.cartasDatos[id].texto = ta.value;
+    });
+  }
+}
+
+function abrirMesaAnalisis(c, carta){
+  _mesaCartaActiva = { c, carta };
+  document.querySelectorAll(".carta.activa").forEach(x => x.classList.remove("activa"));
+  carta.classList.add("activa");
+
+  $("#mesaEyebrow").textContent = `CARTA ${c.id} · ${c.tipo}`;
+  $("#mesaTitulo").textContent = c.titulo;
+  $("#mesaPregunta").innerHTML = `<strong>Consigna:</strong> ${c.prompt}`;
+  $("#mesaPromptIA").textContent = c.promptIA || "(Prompt de Gemini no definido para esta carta.)";
+  $("#mesaGemInstr").textContent = c.instrPI || "Antes de razonar, visualízalo.";
+  $("#mesaFeedback").className = "mesa-feedback";
+  $("#mesaFeedback").innerHTML = "";
+
+  // Restaurar estado guardado
+  const datos = estadoCaso.cartasDatos[c.id] || {};
+  $("#mesaTextarea").value = datos.texto || "";
+  mostrarPreview(datos.imagen, datos.imagenInfo);
+
+  // Desactiva edición si ya está resuelta
+  const resuelta = carta.classList.contains("resuelta");
+  $("#mesaTextarea").disabled = resuelta;
+  $("#mesaArchivo").disabled = resuelta;
+  $("#mesaValidar").disabled = resuelta;
+  if(resuelta){
+    $("#mesaFeedback").className = "mesa-feedback ok";
+    $("#mesaFeedback").innerHTML = `<i class="bi bi-check-circle"></i> ${c.fbOk}`;
+  }
+
+  const mesa = $("#mesaAnalisis");
+  mesa.style.display = "block";
+  setTimeout(()=>mesa.scrollIntoView({behavior:"smooth", block:"start"}), 80);
+}
+
+function manejarSubidaImagen(file){
+  if(!file || !_mesaCartaActiva) return;
+  const tipos = ["image/jpeg","image/jpg","image/png","image/webp"];
+  if(!tipos.includes(file.type)){
+    alerta('<i class="bi bi-exclamation-triangle"></i> Formato no admitido. Usa JPG, PNG o WebP.', 'warning');
+    return;
+  }
+  if(file.size > 1024 * 1024){
+    const kb = Math.round(file.size/1024);
+    alerta(`<i class="bi bi-exclamation-triangle"></i> Imagen demasiado pesada (${kb} KB). El máximo es 1024 KB. Reduce su resolución o calidad.`, 'warning');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const dataUrl = e.target.result;
+    const id = _mesaCartaActiva.c.id;
+    estadoCaso.cartasDatos[id] = estadoCaso.cartasDatos[id] || {};
+    estadoCaso.cartasDatos[id].imagen = dataUrl;
+    estadoCaso.cartasDatos[id].imagenInfo = { nombre: file.name, peso: file.size, tipo: file.type };
+    mostrarPreview(dataUrl, estadoCaso.cartasDatos[id].imagenInfo);
+  };
+  reader.readAsDataURL(file);
+}
+
+function mostrarPreview(dataUrl, info){
+  const label = document.querySelector(".mesa-upload-label");
+  const prev = $("#mesaPreview");
+  const img = $("#mesaPreviewImg");
+  const txt = $("#mesaPreviewInfo");
+  if(!dataUrl){
+    if(label){ label.classList.remove("con-imagen"); label.style.display = "flex"; }
+    if(prev) prev.style.display = "none";
+    return;
+  }
+  if(label){ label.classList.add("con-imagen"); label.style.display = "none"; }
+  if(img) img.src = dataUrl;
+  if(txt && info){
+    const kb = info.peso ? Math.round(info.peso/1024) : '?';
+    txt.innerHTML = `<strong>${(info.nombre||'imagen').replace(/[<>]/g,'')}</strong><br>${kb} KB · ${(info.tipo||'').replace('image/','').toUpperCase()}`;
+  }
+  if(prev) prev.style.display = "flex";
+  const input = $("#mesaArchivo"); if(input) input.value = "";
+}
+
+function quitarImagen(){
+  if(!_mesaCartaActiva) return;
+  const id = _mesaCartaActiva.c.id;
+  if(estadoCaso.cartasDatos[id]){
+    delete estadoCaso.cartasDatos[id].imagen;
+    delete estadoCaso.cartasDatos[id].imagenInfo;
+  }
+  mostrarPreview(null);
+}
+
+function validarMesa(){
+  if(!_mesaCartaActiva) return;
+  const { c, carta } = _mesaCartaActiva;
+  const ta = $("#mesaTextarea");
+  const fb = $("#mesaFeedback");
+  const datos = estadoCaso.cartasDatos[c.id] || {};
+  const txt = (ta.value || "").toLowerCase().trim();
+  const palabras = txt.split(/\s+/).filter(Boolean).length;
+  const aciertoClave = c.claves.some(k => txt.includes(k));
+  const tieneImagen = !!datos.imagen;
+
+  if(!tieneImagen){
+    fb.className = "mesa-feedback pista";
+    fb.innerHTML = '<i class="bi bi-image"></i> Te falta subir la <strong>imagen de referencia</strong> generada con Gemini. Copia el prompt, pégalo allá, descarga la imagen (≤ 1 MB) y súbela aquí.';
+    return;
+  }
+  if(palabras >= 5 && aciertoClave){
+    carta.classList.add("resuelta");
+    if(c.sospechoso) carta.classList.add("holo");
+    fb.className = "mesa-feedback ok";
+    fb.innerHTML = `<i class="bi bi-check-circle"></i> ${c.fbOk}`;
+    estadoCaso.cartasReveladas.add(c.id);
+    estadoCaso.indiciosReunidos.push({
+      id:c.id, tipo:c.tipo, titulo:c.titulo, texto: ta.value.trim(),
+      imagen: datos.imagen, imagenInfo: datos.imagenInfo
+    });
+    sumarPuntos(20, `Carta ${c.id} resuelta`);
+    desbloquearSiguiente(c.id);
+    actualizarExpediente();
+    pulsoExito(carta);
+    // Deshabilita la edición
+    ta.disabled = true; $("#mesaArchivo").disabled = true; $("#mesaValidar").disabled = true;
+  } else {
+    fb.className = "mesa-feedback pista";
+    let pista = c.fbPista;
+    if(palabras < 5) pista = "Pista: desarrolla más tu análisis (al menos una frase completa). " + c.fbPista;
+    fb.innerHTML = `<i class="bi bi-lightbulb"></i> ${pista}
+      <div class="refuerzo-flag mt-2"><i class="bi bi-controller"></i> Activando Campo de Indicios…</div>`;
+    setTimeout(()=>lanzarRefuerzo(
+      'buscaminas',
+      `Carta ${c.id} (${c.tipo}) sin clave decisiva — refuerza tu deducción en Campo de Indicios y vuelve a intentar.`
+    ), 1100);
+  }
+}
+
+function validarCarta(c, carta, ta, fb){
+  /* Compatibilidad: si algo externo aún llama validarCarta(...), redirige al
+     flujo nuevo. El argumento ta/fb se ignora porque ahora la entrada vive
+     en la Mesa de análisis. */
+  abrirMesaAnalisis(c, carta);
 }
 
 function validarCarta(c, carta, ta, fb){
